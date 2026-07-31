@@ -1,0 +1,319 @@
+{
+  "schema_version": "v1",
+  "slug": "geolyze",
+  "name_cn": {
+    "v": "GEO可见度诊断",
+    "src": [
+      "e1"
+    ],
+    "conf": "stated"
+  },
+  "name_en": {
+    "v": "GEO Visibility Diagnosis",
+    "src": [
+      "e1"
+    ],
+    "conf": "stated"
+  },
+  "homepage": {
+    "v": "https://geolyze.cn/",
+    "src": [
+      "e1"
+    ],
+    "conf": "stated"
+  },
+  "vendor_domains": [
+    "geolyze.cn"
+  ],
+  "market": "domestic",
+  "category": [
+    "品牌诊断",
+    "监测/可见性追踪"
+  ],
+  "delivery_form": {
+    "v": "Web Tool / service-provider workflow",
+    "src": [
+      "e1"
+    ],
+    "conf": "stated"
+  },
+  "openness": "closed",
+  "measurement": {
+    "capture_channel": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "samples_per_prompt": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "reports_confidence_interval": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "declares_noise_floor": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "model_version_pinning": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "sov_formula_public": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    }
+  },
+  "mechanism": {
+    "data_source": {
+      "v": "fixed-question-set observations from six named domestic AI platforms with raw-answer traceability",
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    }
+  },
+  "pricing": {
+    "has_public_pricing": {
+      "v": false,
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    },
+    "entry_engines": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "entry_seats": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "entry_prompts": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "min_commit": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "annual_only": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "trial": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "refund_terms": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "unit_inflation_risk": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    }
+  },
+  "entity": {
+    "registry_verifiable": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "team_public": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    }
+  },
+  "exit": {
+    "data_export": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "history_portable": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "content_hosted_by_vendor": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "contract_lock": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    }
+  },
+  "academic_anchor": {
+    "peer_reviewed": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "reproducible_experiments": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "benchmark": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    }
+  },
+  "evidence": [
+    {
+      "id": "e1",
+      "url": "https://geolyze.cn/",
+      "kind": "methodology_doc",
+      "fetched_at": "2026-07-31",
+      "sha256": "5d4bcf3fa707ed4a7ee0e2b7bcfb3cdf435281fe5dcb8a5da65946a586146d87",
+      "excerpt_path": "wiki/raw/geolyze/e1.txt",
+      "paid_placement_suspected": false
+    }
+  ],
+  "effect_claims": [],
+  "case_studies": [],
+  "oss_health": {
+    "stars": 0,
+    "created_at": null,
+    "age_months": 0,
+    "stars_per_month": 0,
+    "contributors_12mo": 0,
+    "commits_90d": 0,
+    "last_release": null,
+    "releases": 0,
+    "tests_cover_own_logic": false,
+    "license_spdx": "Proprietary",
+    "license_absent": false,
+    "commercial_restricted": false,
+    "self_described_demo": false,
+    "description_near_duplicate_of": [],
+    "absolutist_claim_in_name": false,
+    "upstream_vendor_confusable_name": false
+  },
+  "unknowns": [
+    "academic_anchor.benchmark",
+    "academic_anchor.peer_reviewed",
+    "academic_anchor.reproducible_experiments",
+    "entity.registry_verifiable",
+    "entity.team_public",
+    "exit.content_hosted_by_vendor",
+    "exit.contract_lock",
+    "exit.data_export",
+    "exit.history_portable",
+    "measurement.capture_channel",
+    "measurement.declares_noise_floor",
+    "measurement.model_version_pinning",
+    "measurement.reports_confidence_interval",
+    "measurement.samples_per_prompt",
+    "measurement.sov_formula_public",
+    "pricing.annual_only",
+    "pricing.entry_engines",
+    "pricing.entry_prompts",
+    "pricing.entry_seats",
+    "pricing.min_commit",
+    "pricing.refund_terms",
+    "pricing.trial",
+    "pricing.unit_inflation_risk"
+  ],
+  "unresolved": [],
+  "observations": [],
+  "scores": {
+    "transparency": 2,
+    "verifiability": 0,
+    "lock_in_risk": 0,
+    "measurement_rigor": 0,
+    "oss_health": 0
+  },
+  "risk_flags": [
+    {
+      "flag": "未披露每 prompt 采样次数",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "不报告置信区间或误差范围",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "未声明测量噪声下限",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "可见性份额口径未公开",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "采集通道未披露",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "模型版本未钉定,时间序列可能断裂",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "无公开定价 / 仅年付 / 无试用 / 退款条款未公开",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": [
+        "e1"
+      ]
+    },
+    {
+      "flag": "入门档引擎数未披露",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "入门档席位数未披露",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "团队信息未公开 / 客户案例未能交叉验证",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    }
+  ],
+  "audit": {
+    "rounds": 0,
+    "personas": [
+      "human-curated-public-source-catalog"
+    ],
+    "usage_tokens": {},
+    "generated_at": "2026-07-31"
+  }
+}

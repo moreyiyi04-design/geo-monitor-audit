@@ -259,6 +259,145 @@
       ]
     },
     {
+      "slug": "timus_geo",
+      "name_cn": "透镜GEO",
+      "name_en": "TIMUS GEO",
+      "homepage": "https://geo.timus.cn/",
+      "market": "domestic",
+      "category": ["一体化平台", "监测/可见性追踪", "品牌口碑"],
+      "delivery_form": "SaaS",
+      "openness": "closed",
+      "vendor_domains": ["geo.timus.cn", "timus.cn"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://geo.timus.cn/",
+          "kind": "methodology_doc",
+          "excerpt": "透镜GEO称以中立账号模拟访问 DeepSeek、豆包、文心一言、通义千问和元宝，按日追踪，并自动录制从提问到回答的完整屏幕操作；官网还展示多模型竞品看板、品牌口碑监控和策略助手。"
+        }
+      ],
+      "facts": {
+        "measurement.capture_channel": {"v": "screen-recorded user-interface interaction; exact web/app surface undisclosed", "src": ["e1"], "conf": "stated"},
+        "measurement.sampling_frequency": {"v": "daily", "src": ["e1"], "conf": "stated"},
+        "mechanism.data_source": {"v": "neutral-account simulated interactions with five domestic AI platforms, retained as full-screen recordings", "src": ["e1"], "conf": "stated"},
+        "pricing.trial": {"v": true, "src": ["e1"], "conf": "stated"}
+      }
+    },
+    {
+      "slug": "numseek",
+      "name_cn": "南云GEO",
+      "name_en": "NumSeek",
+      "homepage": "https://www.numseek.com/",
+      "market": "domestic",
+      "category": ["监测/可见性追踪", "竞品分析"],
+      "delivery_form": "SaaS",
+      "openness": "closed",
+      "vendor_domains": ["numseek.com"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://www.numseek.com/",
+          "kind": "vendor_pricing_page",
+          "excerpt": "南云GEO称定时向豆包、千问、Kimi、DeepSeek提问并解析品牌提及、排序和情感；免费方案含1个项目、每日50次查询和2个AI引擎，支持PDF报告，企业方案列出多账号与白标报告。"
+        }
+      ],
+      "facts": {
+        "measurement.sampling_frequency": {"v": "scheduled", "src": ["e1"], "conf": "stated"},
+        "mechanism.data_source": {"v": "scheduled queries to four named domestic AI engines", "src": ["e1"], "conf": "stated"},
+        "pricing.has_public_pricing": {"v": true, "src": ["e1"], "conf": "stated"},
+        "pricing.entry_engines": {"v": 2, "src": ["e1"], "conf": "stated"},
+        "pricing.unit": {"v": "daily engine queries", "src": ["e1"], "conf": "stated"},
+        "pricing.trial": {"v": true, "src": ["e1"], "conf": "stated"},
+        "exit.data_export": {"v": true, "src": ["e1"], "conf": "stated"}
+      }
+    },
+    {
+      "slug": "geolyze",
+      "name_cn": "GEO可见度诊断",
+      "name_en": "GEO Visibility Diagnosis",
+      "homepage": "https://geolyze.cn/",
+      "market": "domestic",
+      "category": ["品牌诊断", "监测/可见性追踪"],
+      "delivery_form": "Web Tool / service-provider workflow",
+      "openness": "closed",
+      "vendor_domains": ["geolyze.cn"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://geolyze.cn/",
+          "kind": "methodology_doc",
+          "excerpt": "GEO可见度诊断公开说明使用固定问题集合和指定平台范围，覆盖豆包、DeepSeek、元宝、千问、文心和Kimi；报告保留问题、平台回答、结构化分析与口径，并明确不制作无法解释的综合黑箱分。"
+        }
+      ],
+      "facts": {
+        "mechanism.data_source": {"v": "fixed-question-set observations from six named domestic AI platforms with raw-answer traceability", "src": ["e1"], "conf": "stated"},
+        "pricing.has_public_pricing": {"v": false, "src": ["e1"], "conf": "stated"}
+      }
+    },
+    {
+      "slug": "baiyuan_geo",
+      "name_cn": "百原GEO",
+      "name_en": "BaiYuan GEO",
+      "homepage": "https://geo.baiyuan.io/",
+      "market": "domestic",
+      "category": ["一体化平台", "监测/可见性追踪", "幻觉检测"],
+      "delivery_form": "SaaS",
+      "openness": "closed",
+      "vendor_domains": ["geo.baiyuan.io", "baiyuan.io"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://geo.baiyuan.io/",
+          "kind": "vendor_marketing",
+          "excerpt": "百原GEO称自动扫描 ChatGPT、Claude、Gemini、Perplexity、DeepSeek、Qwen、GLM、Kimi 等14个平台，提供每日扫描、竞品比较、7天试用，并为集团方案提供API和多品牌管理。"
+        },
+        {
+          "id": "e2",
+          "url": "https://geo.baiyuan.io/features",
+          "kind": "methodology_doc",
+          "excerpt": "功能说明公开了SoV口径：每个业务关键词在14个平台各使用5个变化问法，以品牌出现次数除以总提及次数；扫描快照保存带时间戳和平台版本的回答原文与PNG截图。"
+        }
+      ],
+      "facts": {
+        "measurement.sampling_frequency": {"v": "daily", "src": ["e1"], "conf": "stated"},
+        "measurement.sov_formula_public": {"v": true, "src": ["e2"], "conf": "stated"},
+        "mechanism.data_source": {"v": "automated queries to fourteen global and domestic AI platforms with answer and screenshot snapshots", "src": ["e1", "e2"], "conf": "stated"},
+        "pricing.trial": {"v": true, "src": ["e1"], "conf": "stated"},
+        "enterprise.api": {"v": true, "src": ["e1"], "conf": "stated"}
+      }
+    },
+    {
+      "slug": "geoly_ai",
+      "name_cn": "GEOly",
+      "name_en": "GEOly",
+      "homepage": "https://www.geoly.ai/zh",
+      "market": "domestic",
+      "category": ["电商/DTC", "监测/可见性追踪", "AI Shopping"],
+      "delivery_form": "SaaS / API / MCP",
+      "openness": "closed",
+      "vendor_domains": ["geoly.ai"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://www.geoly.ai/zh/docs/geoly-platform",
+          "kind": "methodology_doc",
+          "excerpt": "GEOly将能力分为品牌监控、行业洞察、AI Shopping与自动化执行，面向DTC和电商品牌追踪品牌提及、引用、情感、商品卡、SKU、价格与商品信息，并提供Agent、MCP和API接入。"
+        },
+        {
+          "id": "e2",
+          "url": "https://www.geoly.ai/zh",
+          "kind": "vendor_marketing",
+          "excerpt": "官网称按日追踪 ChatGPT、Gemini、Perplexity、Copilot、Google AI Mode 与 AI Overview，覆盖200多个国家和地区，并提供3天免费试用。"
+        }
+      ],
+      "facts": {
+        "measurement.sampling_frequency": {"v": "daily", "src": ["e2"], "conf": "stated"},
+        "mechanism.data_source": {"v": "daily observations from major global AI-search and AI-shopping surfaces", "src": ["e1", "e2"], "conf": "stated"},
+        "pricing.trial": {"v": true, "src": ["e2"], "conf": "stated"},
+        "enterprise.api": {"v": true, "src": ["e1"], "conf": "stated"}
+      }
+    },
+    {
       "slug": "geo_aeo_tracker",
       "name_cn": "GEO/AEO Tracker",
       "name_en": "GEO/AEO Tracker",

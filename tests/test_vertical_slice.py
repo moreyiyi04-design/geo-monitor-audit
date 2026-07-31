@@ -36,7 +36,7 @@ class PublicationDeliveryTests(unittest.TestCase):
         _, compiled = compile_readme(self.repo_root)
         (self.repo_root / "README.md").write_text(compiled, encoding="utf-8")
 
-        self.assertEqual(14, len(profiles))
+        self.assertEqual(19, len(profiles))
         self._assert_matching_tree(REPO_ROOT / "wiki" / "products", self.repo_root / "wiki" / "products")
         self._assert_matching_tree(REPO_ROOT / "wiki" / "raw", self.repo_root / "wiki" / "raw")
         for name in ("queue.json", "sources.json"):
@@ -77,14 +77,31 @@ class PublicationDeliveryTests(unittest.TestCase):
         self.assertGreaterEqual(len(products), 60)
         self.assertEqual(profile_slugs, deep_slugs)
         self.assertEqual(len(products), len({product["slug"] for product in products}))
+        domestic_products = {
+            product["slug"]
+            for product in products
+            if product["market"] == "domestic"
+        }
+        self.assertGreaterEqual(len(domestic_products), 27)
+        self.assertIn("timus_geo", domestic_products)
+        self.assertTrue(
+            {
+                "timus_geo",
+                "numseek",
+                "geolyze",
+                "baiyuan_geo",
+                "geoly_ai",
+            }.issubset(deep_slugs)
+        )
 
     def test_repository_docs_describe_real_report_reproduction_and_limits(self):
         readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
         methodology = (REPO_ROOT / "docs" / "METHODOLOGY.md").read_text(encoding="utf-8")
 
         for snippet in (
-            "102 个对象的市场地图",
-            "14 个深度档案",
+            "112 个对象的市场地图",
+            "19 个深度档案",
+            "国内 GEO 厂商专项分析",
             "Python 3.11+",
             "ARIS-Code v0.4.21+",
             "python3 tools/build_publication.py",
@@ -100,8 +117,8 @@ class PublicationDeliveryTests(unittest.TestCase):
             self.assertIn(snippet, readme)
 
         for snippet in (
-            "102-object dated discovery snapshot",
-            "Fourteen representative products",
+            "112-object dated discovery snapshot",
+            "Nineteen representative products",
             "synthetic Profound fixture",
             "「未披露」不等于「没有」",
             "self-referential selection bias",
@@ -110,6 +127,21 @@ class PublicationDeliveryTests(unittest.TestCase):
             "does not depend on transmitting the private repository",
         ):
             self.assertIn(snippet, methodology)
+
+        china_report = (REPO_ROOT / "docs" / "CHINA_MARKET.md").read_text(encoding="utf-8")
+        for snippet in (
+            "透镜GEO",
+            "平台覆盖不等于终端覆盖",
+            "移动端与 PC 端为什么会不同",
+            "国内厂商能力分层",
+            "按品牌类型选型",
+            "browser / web",
+            "iOS App",
+            "Android App",
+            "小程序",
+            "API",
+        ):
+            self.assertIn(snippet, china_report)
 
     def _assert_matching_tree(self, expected_dir: Path, actual_dir: Path) -> None:
         expected_files = sorted(

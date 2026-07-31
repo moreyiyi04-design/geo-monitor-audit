@@ -131,6 +131,97 @@
       ]
     },
     {
+      "slug": "timus_geo",
+      "name": "TIMUS GEO",
+      "market": "domestic",
+      "category": [
+        "一体化平台",
+        "监测/可见性追踪",
+        "品牌口碑"
+      ],
+      "openness": "closed",
+      "urls": [
+        {
+          "url": "https://geo.timus.cn/",
+          "kind": "methodology_doc"
+        }
+      ]
+    },
+    {
+      "slug": "numseek",
+      "name": "NumSeek",
+      "market": "domestic",
+      "category": [
+        "监测/可见性追踪",
+        "竞品分析"
+      ],
+      "openness": "closed",
+      "urls": [
+        {
+          "url": "https://www.numseek.com/",
+          "kind": "vendor_pricing_page"
+        }
+      ]
+    },
+    {
+      "slug": "geolyze",
+      "name": "GEO Visibility Diagnosis",
+      "market": "domestic",
+      "category": [
+        "品牌诊断",
+        "监测/可见性追踪"
+      ],
+      "openness": "closed",
+      "urls": [
+        {
+          "url": "https://geolyze.cn/",
+          "kind": "methodology_doc"
+        }
+      ]
+    },
+    {
+      "slug": "baiyuan_geo",
+      "name": "BaiYuan GEO",
+      "market": "domestic",
+      "category": [
+        "一体化平台",
+        "监测/可见性追踪",
+        "幻觉检测"
+      ],
+      "openness": "closed",
+      "urls": [
+        {
+          "url": "https://geo.baiyuan.io/",
+          "kind": "vendor_marketing"
+        },
+        {
+          "url": "https://geo.baiyuan.io/features",
+          "kind": "methodology_doc"
+        }
+      ]
+    },
+    {
+      "slug": "geoly_ai",
+      "name": "GEOly",
+      "market": "domestic",
+      "category": [
+        "电商/DTC",
+        "监测/可见性追踪",
+        "AI Shopping"
+      ],
+      "openness": "closed",
+      "urls": [
+        {
+          "url": "https://www.geoly.ai/zh/docs/geoly-platform",
+          "kind": "methodology_doc"
+        },
+        {
+          "url": "https://www.geoly.ai/zh",
+          "kind": "vendor_marketing"
+        }
+      ]
+    },
+    {
       "slug": "geo_aeo_tracker",
       "name": "GEO/AEO Tracker",
       "market": "overseas",

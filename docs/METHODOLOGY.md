@@ -7,10 +7,12 @@ agent skills, and reference research. It does not perform GEO on a brand and doe
 not test whether a vendor can change live answer-engine rankings.
 
 The 2026-07-31 publication separates breadth from depth. `wiki/market-map.json`
-is a 102-object dated discovery snapshot spanning dedicated GEO vendors, incumbent
+is a 112-object dated discovery snapshot spanning dedicated GEO vendors, incumbent
 SEO-suite modules, domestic China products, self-hosted projects, agent-skill
-packs, and academic testbeds. Fourteen representative products also have
-evidence-gated deep profiles. The synthetic Profound fixture under
+packs, and academic testbeds. Nineteen representative products, including eight
+domestic or Greater China products, also have evidence-gated deep profiles. The
+domestic-first decision analysis is published in `docs/CHINA_MARKET.md`; overseas
+products remain in the map as capability references. The synthetic Profound fixture under
 `tests/fixtures/` exists only for regression tests and is excluded from publication.
 
 ## Selection
@@ -51,6 +53,19 @@ The current report relies mainly on first-party pages and primary GitHub/paper
 records. That is sufficient for product shape, disclosed pricing, and stated
 methodology, but not for validating vendor outcome claims. Independent case-study
 and registry coverage is an explicit gap.
+
+## Platform and channel separation
+
+An engine name is not a collection channel. “Supports DeepSeek” does not establish
+whether observations came from browser/web, a desktop client, iOS, Android,
+mini-program, or API. The domestic analysis therefore reports channel coverage
+only when the public source says so and keeps undisclosed surfaces unknown.
+
+Mobile/PC comparisons require paired samples with the same prompt and time window.
+The comparison must record login state, region and location permission, search or
+reasoning mode, model/version, session-reset method, repeat count, and evidence
+retention. Results from consumer App surfaces and APIs must not share one SoV
+denominator unless the report explicitly labels and weights the channels.
 
 ## Confidence and effect grades
 
@@ -115,8 +130,8 @@ committed.
 
 ## Known v1 limitations
 
-1. 维度集由海外标杆归纳，国内适配性仍有限。
-2. `market: domestic | overseas` 的差异化必填字段集在 v1 只做粗分。
+1. 国内产品的逐模型 Web/App/小程序采集矩阵普遍未公开，本报告不能替厂商补全。
+2. 国内选型已按品牌类型分层，但尚未获得采购账号进行手机与 PC 配对实测。
 3. 公开页面可能随时变更；本报告只对 `fetched_at` 当日快照负责。
 4. 发现机制存在自指偏差，人工过闸只能缓解、不能消除。
 5. 同一供应商的定价单位可能按 prompt、问题、关键词、引擎或 credit 变化。
