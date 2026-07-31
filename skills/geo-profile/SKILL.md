@@ -27,6 +27,7 @@ Run `/geo-profile` after `evidence.md` exists and before any review persona star
 
 ## Must not
 
+- Do not request, read, use, write, or echo any API key, token, secret, password, or credential.
 - Do not network
 - Do not calculate `scores`, `risk_flags`, `oss_health`, or `audit`
 - Do not invent evidence ids or write unsupported fields

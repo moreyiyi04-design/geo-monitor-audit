@@ -181,6 +181,27 @@ class GateCliTests(unittest.TestCase):
         self.assertEqual(0, result.returncode, result.stderr)
         self.assertEqual(before, self.profile_path.read_text(encoding="utf-8"))
 
+    def test_verify_evidence_strict_returns_one_for_unknowns_mismatch_without_mutating(self):
+        broken = json.loads(self.profile_path.read_text(encoding="utf-8"))
+        broken["measurement"]["samples_per_prompt"] = envelope(None, confidence="unknown")
+        broken["unknowns"] = []
+        self._write_profile(broken)
+        before = self.profile_path.read_text(encoding="utf-8")
+
+        result = self._run(VERIFY_SCRIPT, "--strict")
+
+        self.assertEqual(1, result.returncode)
+        self.assertIn("unknowns[] mismatch", result.stderr)
+        self.assertEqual(before, self.profile_path.read_text(encoding="utf-8"))
+
+    def test_verify_evidence_returns_two_when_products_directory_is_missing(self):
+        shutil.rmtree(self.repo_root / "wiki" / "products")
+
+        result = self._run(VERIFY_SCRIPT, "--strict")
+
+        self.assertEqual(2, result.returncode)
+        self.assertIn("missing products directory", result.stderr)
+
     def test_score_check_returns_zero_when_scores_are_current(self):
         before = self.profile_path.read_text(encoding="utf-8")
 

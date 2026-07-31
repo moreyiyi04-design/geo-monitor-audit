@@ -26,7 +26,22 @@ Run one of the exact slash commands below and reason only from the files present
 
 - `vendor` writes `vendor.json`
 - `skeptic` writes `skeptic.json`
-- `arbiter` writes `patch.json` and any `unresolved` items needed by the driver
+- `arbiter` writes `patch.json` with a top-level `patch` array and a top-level `unresolved` array
+- `unresolved` may be empty but must never be omitted
+- Use this concrete shape:
+
+```json
+{
+  "patch": [
+    {
+      "op": "set",
+      "field": "pricing.has_public_pricing",
+      "value": {"v": true, "src": ["e3"], "conf": "stated"}
+    }
+  ],
+  "unresolved": []
+}
+```
 
 ## Allowed observations
 
@@ -37,6 +52,7 @@ Run one of the exact slash commands below and reason only from the files present
 ## Must not
 
 - must not assume hidden files exist
+- Do not request, read, use, write, or echo any API key, token, secret, password, or credential.
 - Do not network
 - Do not calculate scores or `oss_health`
 - Do not invent sources, observations, or persona messages not grounded in the visible files

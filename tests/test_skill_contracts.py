@@ -17,6 +17,7 @@ SKILL_EXPECTATIONS = {
             "wiki/queue.json",
             "Allowed observations",
             "Must not",
+            "Do not request, read, use, write, or echo any API key, token, secret, password, or credential.",
         ),
     },
     "geo-plan-queries": {
@@ -28,6 +29,7 @@ SKILL_EXPECTATIONS = {
             "queries.json",
             "Allowed observations",
             "Must not",
+            "Do not request, read, use, write, or echo any API key, token, secret, password, or credential.",
         ),
     },
     "geo-digest": {
@@ -39,6 +41,7 @@ SKILL_EXPECTATIONS = {
             "evidence.md",
             "Allowed observations",
             "Must not",
+            "Do not request, read, use, write, or echo any API key, token, secret, password, or credential.",
         ),
     },
     "geo-profile": {
@@ -50,6 +53,7 @@ SKILL_EXPECTATIONS = {
             "products/<slug>.json",
             "Allowed observations",
             "Must not",
+            "Do not request, read, use, write, or echo any API key, token, secret, password, or credential.",
         ),
     },
     "geo-review": {
@@ -64,15 +68,35 @@ SKILL_EXPECTATIONS = {
             "vendor.json",
             "skeptic.json",
             "patch.json",
+            '"patch": [',
+            '"unresolved": [',
             "Allowed observations",
             "Must not",
+            "Do not request, read, use, write, or echo any API key, token, secret, password, or credential.",
         ),
     },
 }
 
 SHARED_DOCS = {
     "SCHEMA.md": ("conf", "unknowns[]", "scores", "risk_flags"),
-    "EVIDENCE_RULES.md": ("paid_placement_suspected", "sha256", "fetched_at", "unknown"),
+    "EVIDENCE_RULES.md": (
+        "id",
+        "paid_placement_suspected",
+        "sha256",
+        "fetched_at",
+        "unknown",
+        "regulatory_authoritative",
+        "academic",
+        "methodology_doc",
+        "third_party_dataset",
+        "third_party_report",
+        "registry",
+        "repo",
+        "vendor_doc",
+        "vendor_pricing_page",
+        "vendor_marketing",
+        "community",
+    ),
     "GRADING.md": ("A", "B", "C", "D", "E", "claimed_change_pp"),
 }
 
@@ -142,6 +166,15 @@ class SkillContractTests(unittest.TestCase):
         self.assertIn("skeptic only sees", content)
         self.assertIn("arbiter sees", content)
         self.assertIn("must not assume hidden files exist", content)
+
+    def test_geo_review_declares_exact_arbiter_patch_shape(self):
+        content = (SKILLS_ROOT / "geo-review" / "SKILL.md").read_text(encoding="utf-8")
+        self.assertIn("top-level `patch` array", content)
+        self.assertIn("top-level `unresolved` array", content)
+        normalized = content.replace("`", "")
+        self.assertIn("unresolved may be empty but must never be omitted", normalized)
+        self.assertIn('"op": "set"', content)
+        self.assertIn('"field": "pricing.has_public_pricing"', content)
 
 
 if __name__ == "__main__":

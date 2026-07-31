@@ -25,6 +25,7 @@ Run `/geo-seed` in a staging directory that already contains the candidate notes
 
 ## Must not
 
+- Do not request, read, use, write, or echo any API key, token, secret, password, or credential.
 - Do not network
 - Do not calculate scores, grades, or `oss_health`
 - Do not invent sources, URLs, or fetched dates

@@ -26,6 +26,7 @@ Run `/geo-plan-queries` after the slug is known and before Python performs the o
 
 ## Must not
 
+- Do not request, read, use, write, or echo any API key, token, secret, password, or credential.
 - Do not network
 - Do not digest fetched pages into conclusions
 - Do not calculate scores or write computed fields

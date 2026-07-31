@@ -26,6 +26,7 @@ Run `/geo-digest` only after Python has already fetched and hashed the excerpts 
 
 ## Must not
 
+- Do not request, read, use, write, or echo any API key, token, secret, password, or credential.
 - Do not network
 - Do not invent evidence ids, URLs, source kinds, or hashes
 - Do not calculate grades or scores
