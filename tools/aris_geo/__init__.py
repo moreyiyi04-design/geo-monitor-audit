@@ -10,6 +10,8 @@ from .schema import (
 )
 from .scoring import calculate_scores, derive_auto_risk_flags
 from .staging import PERSONA_ALLOWLIST, stage_persona_inbox
+from .state import Phase, ProductState, evidence_fingerprint, load_state, save_state
+from .loop import GeoLoop, PhaseOutcome, RunOutcome
 from .compiler import (
     COMPILED_END_MARKER,
     COMPILED_START_MARKER,
@@ -27,22 +29,30 @@ __all__ = [
     "DEFAULT_ALLOWED_TOOLS",
     "EVIDENCE_KINDS",
     "Envelope",
+    "GeoLoop",
     "GRADE_WEIGHTS",
+    "Phase",
+    "PhaseOutcome",
     "PERSONA_ALLOWLIST",
+    "ProductState",
     "SCHEMA_VERSION",
+    "RunOutcome",
     "VALID_CONFIDENCE",
     "ValidationReport",
     "calculate_scores",
     "compile_readme",
     "derive_auto_risk_flags",
+    "evidence_fingerprint",
     "find_repo_root",
     "final_grade",
     "iter_envelopes",
+    "load_state",
     "load_profiles",
     "parse_aris_result",
     "render_compiled_block",
     "replace_compiled_block",
     "run_aris_phase",
+    "save_state",
     "sha256_file",
     "stage_persona_inbox",
     "validate_profile",
