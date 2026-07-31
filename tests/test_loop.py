@@ -21,7 +21,7 @@ class GeoLoopTests(unittest.TestCase):
         self.addCleanup(lambda: shutil.rmtree(self.tempdir))
         self.repo_root = self.tempdir / "repo"
         (self.repo_root / ".git").mkdir(parents=True)
-        (self.repo_root / "wiki" / "raw" / "demo").mkdir(parents=True)
+        (self.repo_root / "wiki" / "raw" / "demo").mkdir(parents=True, exist_ok=True)
         (self.repo_root / "wiki" / "raw" / "demo" / "evidence.md").write_text(
             "# Demo evidence\n",
             encoding="utf-8",
@@ -380,7 +380,7 @@ class GeoLoopCliTests(unittest.TestCase):
         self.addCleanup(lambda: shutil.rmtree(self.tempdir))
         self.repo_root = self.tempdir / "repo"
         (self.repo_root / ".git").mkdir(parents=True)
-        (self.repo_root / "wiki" / "raw" / "demo").mkdir(parents=True)
+        (self.repo_root / "wiki" / "raw" / "demo").mkdir(parents=True, exist_ok=True)
         (self.repo_root / "wiki" / "raw" / "demo" / "evidence.md").write_text(
             "# Demo evidence\n",
             encoding="utf-8",
@@ -404,6 +404,70 @@ class GeoLoopCliTests(unittest.TestCase):
         exit_code = main(["--repo-root", str(self.repo_root), "--parallel", "2"])
 
         self.assertEqual(2, exit_code)
+
+    def test_main_builds_live_handlers_from_cli_options(self):
+        # Break caught: --live ignores config/model/aris options and still runs the empty offline handler set.
+        seen = {}
+        (self.repo_root / "wiki" / "queue.json").write_text('["demo"]', encoding="utf-8")
+        (self.repo_root / "wiki" / "raw" / "demo").mkdir(parents=True, exist_ok=True)
+        (self.repo_root / "wiki" / "raw" / "demo" / "bootstrap.txt").write_text("seed\n", encoding="utf-8")
+        (self.repo_root / "wiki" / "sources.json").write_text(
+            json.dumps(
+                {
+                    "products": [
+                        {
+                            "slug": "demo",
+                            "name": "Demo Product",
+                            "market": "overseas",
+                            "category": ["监测/可见性追踪"],
+                            "openness": "closed",
+                            "urls": [],
+                        }
+                    ]
+                },
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+
+        def live_handler_builder(repo_root, **kwargs):
+            seen["repo_root"] = repo_root
+            seen["kwargs"] = kwargs
+            return {
+                phase: (lambda _slug, _state: PhaseOutcome(success=True, tokens=0))
+                for phase in (
+                    Phase.PLAN_QUERIES,
+                    Phase.FETCH,
+                    Phase.DIGEST,
+                    Phase.PROFILE,
+                    Phase.VENDOR_SKEPTIC,
+                    Phase.ARBITER,
+                    Phase.APPLY,
+                    Phase.VERIFY,
+                    Phase.COMPILE,
+                )
+            }
+
+        exit_code = main(
+            [
+                "--repo-root",
+                str(self.repo_root),
+                "--live",
+                "--config",
+                str(self.repo_root / "wiki" / "sources.json"),
+                "--model",
+                "deepseek-v4-flash",
+                "--aris-bin",
+                "/tmp/fake-aris",
+            ],
+            live_handler_builder=live_handler_builder,
+        )
+
+        self.assertEqual(0, exit_code)
+        self.assertEqual(self.repo_root, seen["repo_root"])
+        self.assertEqual(self.repo_root / "wiki" / "sources.json", seen["kwargs"]["config_path"])
+        self.assertEqual("deepseek-v4-flash", seen["kwargs"]["model"])
+        self.assertEqual("/tmp/fake-aris", seen["kwargs"]["aris_bin"])
 
     def test_geo_loop_script_returns_one_and_stderr_when_outcomes_fail(self):
         # Break caught: direct CLI runs with missing handlers exit 0 and look successful.

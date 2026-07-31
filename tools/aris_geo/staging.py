@@ -25,18 +25,21 @@ def stage_persona_inbox(repo_root: str | Path, slug: str, persona: str) -> Path:
         shutil.rmtree(inbox)
     inbox.mkdir(parents=True, exist_ok=True)
 
-    source_map = {
-        "evidence": _source_file(repo_root, "wiki", "raw", slug, "evidence.md"),
-        "profile": _source_file(repo_root, "wiki", "products", f"{slug}.json"),
-        "vendor": _source_file(repo_root, "wiki", "review", slug, "vendor.json"),
-        "skeptic": _source_file(repo_root, "wiki", "review", slug, "skeptic.json"),
-    }
-
     for key in PERSONA_ALLOWLIST[persona]:
-        source = source_map[key]
+        source = _persona_source(repo_root, slug, key)
         shutil.copyfile(source, inbox / source.name)
 
     return inbox
+
+
+def _persona_source(repo_root: Path, slug: str, key: str) -> Path:
+    source_parts = {
+        "evidence": ("wiki", "raw", slug, "evidence.md"),
+        "profile": ("wiki", "products", f"{slug}.json"),
+        "vendor": ("wiki", "review", slug, "vendor.json"),
+        "skeptic": ("wiki", "review", slug, "skeptic.json"),
+    }
+    return _source_file(repo_root, *source_parts[key])
 
 
 def _source_file(repo_root: Path, *relative_parts: str) -> Path:

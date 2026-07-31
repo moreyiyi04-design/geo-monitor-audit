@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from tools.aris_geo.live import DEFAULT_MODEL, build_live_phase_handlers
 from tools.aris_geo.loop import GeoLoop
 
 
@@ -18,16 +19,33 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--budget-tokens", type=_positive_int)
     parser.add_argument("--parallel", type=_positive_int, default=1)
     parser.add_argument("--refresh-stale", type=_positive_int)
+    parser.add_argument("--live", action="store_true", help="Run with the live ARIS/Tavily/GitHub phase handlers.")
+    parser.add_argument("--config", type=Path, help="Path to the live sources manifest. Defaults to wiki/sources.json.")
+    parser.add_argument("--model", default=DEFAULT_MODEL, help="ARIS model name for live phases.")
+    parser.add_argument("--aris-bin", default="aris", help="ARIS executable to use for live phases.")
     return parser
 
 
-def main(argv: list[str] | None = None) -> int:
+def main(
+    argv: list[str] | None = None,
+    *,
+    live_handler_builder=build_live_phase_handlers,
+) -> int:
     args = build_parser().parse_args(argv)
     if args.parallel > 1:
         print("parallel execution >1 is not implemented in this slice", file=sys.stderr)
         return 2
 
-    loop = GeoLoop(args.repo_root)
+    phase_handlers = None
+    if args.live:
+        phase_handlers = live_handler_builder(
+            args.repo_root,
+            config_path=args.config,
+            model=args.model,
+            aris_bin=args.aris_bin,
+        )
+
+    loop = GeoLoop(args.repo_root, phase_handlers=phase_handlers)
     outcomes = loop.run_queue(
         limit=args.limit,
         budget_tokens=args.budget_tokens,
