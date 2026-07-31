@@ -40,6 +40,56 @@ class CanonicalRequestTests(unittest.TestCase):
 
         self.assertEqual(canonical_request_sha256(first), canonical_request_sha256(second))
 
+    def test_canonical_request_sha256_redacts_url_userinfo_sensitive_query_keys_and_sensitive_headers(self):
+        # Break caught: credential-bearing URL parts and headers leak into cache-key material.
+        first = HttpRequest(
+            method="GET",
+            url=(
+                "https://user-one:secret-one@example.com/search?"
+                "query=geo&api_key=secret-a&TOKEN=secret-b&public=1"
+            ),
+            headers={
+                "X-API-Key": "secret-header-a",
+                "Cookie": "session=secret-cookie-a",
+                "X-Trace": "same",
+            },
+        )
+        second = HttpRequest(
+            method="GET",
+            url=(
+                "https://user-two:secret-two@example.com/search?"
+                "query=geo&api_key=secret-c&TOKEN=secret-d&public=1"
+            ),
+            headers={
+                "Api-Key": "secret-header-b",
+                "Set-Cookie": "session=secret-cookie-b",
+                "X-Trace": "same",
+            },
+        )
+
+        self.assertEqual(canonical_request_sha256(first), canonical_request_sha256(second))
+
+    def test_canonical_request_sha256_still_distinguishes_non_secret_query_and_headers(self):
+        # Break caught: over-redaction collapses distinct non-secret requests onto one cache key.
+        first = HttpRequest(
+            method="GET",
+            url="https://example.com/search?query=geo&public=1",
+            headers={"X-Trace": "same", "Accept": "application/json"},
+        )
+        second = HttpRequest(
+            method="GET",
+            url="https://example.com/search?query=geo&public=2",
+            headers={"X-Trace": "same", "Accept": "application/json"},
+        )
+        third = HttpRequest(
+            method="GET",
+            url="https://example.com/search?query=geo&public=1",
+            headers={"X-Trace": "different", "Accept": "application/json"},
+        )
+
+        self.assertNotEqual(canonical_request_sha256(first), canonical_request_sha256(second))
+        self.assertNotEqual(canonical_request_sha256(first), canonical_request_sha256(third))
+
 
 class TavilyClientTests(unittest.TestCase):
     def setUp(self):
@@ -251,6 +301,159 @@ class GitHubHealthClientTests(unittest.TestCase):
             client.repository_health("openai", "codex")
 
         self.assertFalse(self.cache_dir.exists() and any(self.cache_dir.iterdir()))
+
+    def test_repository_health_uses_aggregate_cache_hit_without_token_transport_or_clock_sensitive_key(self):
+        # Break caught: a warmed repo-health cache misses later because the key depends on moving request timestamps.
+        calls = []
+
+        def transport(_request):
+            calls.append("called")
+            raise AssertionError("transport should not be called on aggregate cache hit")
+
+        warmer = GitHubHealthClient(
+            self.cache_dir,
+            token="super-secret",
+            transport=self._github_transport,
+            clock=lambda: "2026-07-31T10:00:00Z",
+        )
+        expected = warmer.repository_health("OpenAI", "Codex")
+
+        reader = GitHubHealthClient(
+            self.cache_dir,
+            token=None,
+            transport=transport,
+            clock=lambda: "2026-08-01T10:00:00Z",
+        )
+        result = reader.repository_health("openai", "codex")
+
+        self.assertEqual(expected, result)
+        self.assertEqual([], calls)
+
+    def test_repository_health_requires_token_on_aggregate_cache_miss_before_transport(self):
+        # Break caught: GitHub live collection attempts transport even though a cache miss has no usable credentials.
+        calls = []
+
+        def transport(_request):
+            calls.append("called")
+            raise AssertionError("transport should not be called before token validation")
+
+        client = GitHubHealthClient(self.cache_dir, token="", transport=transport)
+
+        with self.assertRaisesRegex(ValueError, "GitHub token required for live request"):
+            client.repository_health("openai", "codex")
+
+        self.assertEqual([], calls)
+
+    def test_repository_health_ignores_tampered_aggregate_cache_and_refetches_with_token(self):
+        # Break caught: invalid aggregate repo-health snapshots are trusted instead of being replaced from live data.
+        warmer = GitHubHealthClient(
+            self.cache_dir,
+            token="super-secret",
+            transport=self._github_transport,
+            clock=lambda: "2026-07-31T10:00:00Z",
+        )
+        expected = warmer.repository_health("openai", "codex")
+        aggregate_path = warmer.aggregate_cache_path("openai", "codex")
+        tampered = json.loads(aggregate_path.read_text(encoding="utf-8"))
+        tampered["sha256"] = "0" * 64
+        aggregate_path.write_text(json.dumps(tampered, ensure_ascii=False), encoding="utf-8")
+
+        calls = []
+
+        def transport(request):
+            calls.append(request.url)
+            return self._github_transport(request)
+
+        reader = GitHubHealthClient(
+            self.cache_dir,
+            token="super-secret",
+            transport=transport,
+            clock=lambda: "2026-08-01T10:00:00Z",
+        )
+
+        result = reader.repository_health("openai", "codex")
+
+        self.assertEqual(expected, result)
+        self.assertEqual(4, len(calls))
+
+    def test_repository_health_rejects_tampered_aggregate_cache_without_token_or_secret_leak(self):
+        # Break caught: invalid aggregate cache is trusted or leaks credentials while failing over to a live miss.
+        warmer = GitHubHealthClient(
+            self.cache_dir,
+            token="super-secret",
+            transport=self._github_transport,
+            clock=lambda: "2026-07-31T10:00:00Z",
+        )
+        warmer.repository_health("openai", "codex")
+        aggregate_path = warmer.aggregate_cache_path("openai", "codex")
+        tampered = json.loads(aggregate_path.read_text(encoding="utf-8"))
+        tampered["sha256"] = "0" * 64
+        aggregate_path.write_text(json.dumps(tampered, ensure_ascii=False), encoding="utf-8")
+
+        client = GitHubHealthClient(self.cache_dir, token=None, transport=self._unexpected_transport)
+
+        with self.assertRaisesRegex(ValueError, "GitHub token required for live request") as ctx:
+            client.repository_health("openai", "codex")
+
+        self.assertNotIn("super-secret", str(ctx.exception))
+
+    @staticmethod
+    def _unexpected_transport(_request):
+        raise AssertionError("transport should not be called")
+
+    @staticmethod
+    def _github_transport(request):
+        if request.url.endswith("/repos/openai/codex"):
+            return HttpResponse(
+                status=200,
+                headers={"Content-Type": "application/json"},
+                body=json_bytes(
+                    {
+                        "full_name": "openai/codex",
+                        "html_url": "https://github.com/openai/codex",
+                        "description": "CLI agent",
+                        "topics": ["ai", "cli"],
+                        "archived": False,
+                        "fork": False,
+                        "stargazers_count": 120,
+                        "watchers_count": 120,
+                        "forks_count": 10,
+                        "open_issues_count": 5,
+                        "subscribers_count": 7,
+                        "network_count": 11,
+                        "size": 2048,
+                        "default_branch": "main",
+                        "created_at": "2025-01-01T00:00:00Z",
+                        "updated_at": "2026-07-30T00:00:00Z",
+                        "pushed_at": "2026-07-30T12:00:00Z",
+                        "license": {"spdx_id": "MIT"},
+                    }
+                ),
+            )
+        if "/contributors" in request.url:
+            return HttpResponse(
+                status=200,
+                headers={"Content-Type": "application/json"},
+                body=json_bytes([{"login": "a"}, {"login": "b"}, {"login": "c"}]),
+            )
+        if "/commits" in request.url:
+            return HttpResponse(
+                status=200,
+                headers={"Content-Type": "application/json"},
+                body=json_bytes([{"sha": "1"}, {"sha": "2"}]),
+            )
+        if "/releases" in request.url:
+            return HttpResponse(
+                status=200,
+                headers={"Content-Type": "application/json"},
+                body=json_bytes(
+                    [
+                        {"tag_name": "v1.2.0", "published_at": "2026-07-01T00:00:00Z"},
+                        {"tag_name": "v1.1.0", "published_at": "2026-06-01T00:00:00Z"},
+                    ]
+                ),
+            )
+        raise AssertionError(f"unexpected URL {request.url}")
 
 
 if __name__ == "__main__":

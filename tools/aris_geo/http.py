@@ -9,6 +9,29 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, Mapping
 from urllib import error, request
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
+
+
+SENSITIVE_HEADER_NAMES = {
+    "authorization",
+    "proxy-authorization",
+    "x-api-key",
+    "api-key",
+    "x-auth-token",
+    "cookie",
+    "set-cookie",
+}
+SENSITIVE_QUERY_KEYS = {
+    "api_key",
+    "apikey",
+    "key",
+    "token",
+    "access_token",
+    "auth",
+    "authorization",
+    "secret",
+    "signature",
+}
 
 
 @dataclass(frozen=True)
@@ -56,7 +79,7 @@ def default_transport(http_request: HttpRequest) -> HttpResponse:
 def canonical_request_sha256(http_request: HttpRequest) -> str:
     canonical = {
         "method": http_request.method.upper(),
-        "url": http_request.url,
+        "url": _canonical_url(http_request.url),
         "headers": _canonical_headers(http_request.headers),
         "body": _canonical_body(http_request.body, http_request.headers),
     }
@@ -135,10 +158,25 @@ def _canonical_headers(headers: Mapping[str, str]) -> dict[str, str]:
     canonical: dict[str, str] = {}
     for key, value in headers.items():
         lowered = key.strip().lower()
-        if lowered in {"authorization", "proxy-authorization"}:
+        if lowered in SENSITIVE_HEADER_NAMES:
             continue
         canonical[lowered] = value.strip()
     return canonical
+
+
+def _canonical_url(raw_url: str) -> str:
+    split = urlsplit(raw_url)
+    hostname = split.hostname or ""
+    netloc = hostname.lower()
+    if split.port is not None:
+        netloc = f"{netloc}:{split.port}"
+    query_items = []
+    for key, value in parse_qsl(split.query, keep_blank_values=True):
+        if key.strip().lower() in SENSITIVE_QUERY_KEYS:
+            continue
+        query_items.append((key, value))
+    query_items.sort()
+    return urlunsplit((split.scheme.lower(), netloc, split.path, urlencode(query_items, doseq=True), ""))
 
 
 def _canonical_body(body: bytes | None, headers: Mapping[str, str]) -> Any:

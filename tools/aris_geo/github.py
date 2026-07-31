@@ -8,12 +8,16 @@ from urllib.parse import urlencode
 from .http import (
     HttpRequest,
     Transport,
+    atomic_write_snapshot,
     cache_path,
+    content_sha256,
     default_transport,
     load_cached_json,
     parse_json_response,
     utc_now_iso,
 )
+
+AGGREGATE_SCHEMA_VERSION = "github-health-v1"
 
 
 class GitHubHealthClient:
@@ -31,14 +35,37 @@ class GitHubHealthClient:
         self.clock = clock
 
     def repository_health(self, owner: str, repo: str) -> dict[str, Any]:
+        return self.collect(owner, repo)
+
+    def collect(self, owner: str, repo: str) -> dict[str, Any]:
+        owner, repo = self._normalize_repository(owner, repo)
+        aggregate_path = self.aggregate_cache_path(owner, repo)
+        force_live_fetch = False
+        try:
+            cached = load_cached_json(aggregate_path)
+        except ValueError:
+            cached = None
+            if not self._has_live_token():
+                raise ValueError("GitHub token required for live request")
+            force_live_fetch = True
+        else:
+            if cached is not None:
+                self._validate_aggregate_health(cached)
+                return cached
+
+        if not self._has_live_token():
+            raise ValueError("GitHub token required for live request")
+
         repo_payload = self._fetch_json(
             self._request("GET", f"/repos/{owner}/{repo}"),
             validator=lambda payload: self._require_repo_field(payload, "full_name"),
+            force_live_fetch=force_live_fetch,
         )
 
         contributors = self._fetch_json(
             self._request("GET", f"/repos/{owner}/{repo}/contributors", {"per_page": "100"}),
             validator=self._require_list("contributors"),
+            force_live_fetch=force_live_fetch,
         )
         commits = self._fetch_json(
             self._request(
@@ -50,10 +77,12 @@ class GitHubHealthClient:
                 },
             ),
             validator=self._require_list("commits"),
+            force_live_fetch=force_live_fetch,
         )
         releases = self._fetch_json(
             self._request("GET", f"/repos/{owner}/{repo}/releases", {"per_page": "100"}),
             validator=self._require_list("releases"),
+            force_live_fetch=force_live_fetch,
         )
 
         license_payload = repo_payload.get("license")
@@ -63,7 +92,7 @@ class GitHubHealthClient:
         if license_spdx in {"NOASSERTION", ""}:
             license_spdx = None
 
-        return {
+        result = {
             "full_name": repo_payload["full_name"],
             "html_url": repo_payload.get("html_url"),
             "description": repo_payload.get("description"),
@@ -88,22 +117,37 @@ class GitHubHealthClient:
             "releases": len(releases),
             "last_release": releases[0].get("published_at") if releases else None,
         }
+        self._validate_aggregate_health(result)
+        atomic_write_snapshot(aggregate_path, result, self.clock())
+        return result
+
+    def aggregate_cache_path(self, owner: str, repo: str) -> Path:
+        owner, repo = self._normalize_repository(owner, repo)
+        key = content_sha256(
+            {
+                "schema_version": AGGREGATE_SCHEMA_VERSION,
+                "owner": owner,
+                "repo": repo,
+            }
+        )
+        return self.cache_dir / "aggregate" / f"{key}.json"
 
     def _fetch_json(
         self,
         http_request: HttpRequest,
         *,
         validator: Callable[[Any], None] | None = None,
+        force_live_fetch: bool = False,
     ) -> Any:
-        cached = load_cached_json(cache_path(self.cache_dir, http_request))
-        if cached is not None:
-            if validator is not None:
-                validator(cached)
-            return cached
+        if not force_live_fetch:
+            cached = load_cached_json(cache_path(self.cache_dir, http_request))
+            if cached is not None:
+                if validator is not None:
+                    validator(cached)
+                return cached
         payload = parse_json_response(self.transport(http_request), "GitHub")
         if validator is not None:
             validator(payload)
-        from .http import atomic_write_snapshot  # local import to keep the public surface small
 
         atomic_write_snapshot(cache_path(self.cache_dir, http_request), payload, self.clock())
         return payload
@@ -120,6 +164,9 @@ class GitHubHealthClient:
             headers["Authorization"] = f"Bearer {self.token}"
         return HttpRequest(method=method, url=url, headers=headers)
 
+    def _has_live_token(self) -> bool:
+        return isinstance(self.token, str) and bool(self.token.strip())
+
     @staticmethod
     def _require_repo_field(payload: Any, field_name: str) -> None:
         if not isinstance(payload, dict) or field_name not in payload:
@@ -132,6 +179,40 @@ class GitHubHealthClient:
                 raise ValueError(f"GitHub {name} response must be a list")
 
         return validate
+
+    @staticmethod
+    def _normalize_repository(owner: str, repo: str) -> tuple[str, str]:
+        return owner.strip().lower(), repo.strip().lower()
+
+    @staticmethod
+    def _validate_aggregate_health(payload: Any) -> None:
+        required_fields = (
+            "full_name",
+            "html_url",
+            "archived",
+            "fork",
+            "stars",
+            "watchers",
+            "forks",
+            "open_issues",
+            "subscribers",
+            "network_count",
+            "size_kb",
+            "default_branch",
+            "created_at",
+            "updated_at",
+            "pushed_at",
+            "license_absent",
+            "contributors_12mo",
+            "commits_90d",
+            "releases",
+            "last_release",
+        )
+        if not isinstance(payload, dict):
+            raise ValueError("GitHub aggregate cache content must be an object")
+        for field_name in required_fields:
+            if field_name not in payload:
+                raise ValueError(f"GitHub aggregate cache missing required field: {field_name}")
 
     @staticmethod
     def _commits_since_iso() -> str:

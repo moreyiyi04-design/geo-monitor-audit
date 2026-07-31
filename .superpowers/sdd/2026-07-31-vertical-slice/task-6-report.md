@@ -64,3 +64,38 @@ and validation behavior.
 - GitHub aggregation intentionally stays minimal in this task:
   request-level caching and raw metric extraction only; no pagination or
   rate-limit orchestration was added.
+
+## Fix Round 1
+
+- Added a GitHub aggregate repo-health snapshot keyed by normalized
+  `owner/repo` plus adapter schema version, independent of moving request
+  timestamps.
+- Added aggregate-cache-first collection behavior:
+  - cache hit succeeds without token or transport calls;
+  - aggregate cache miss requires a non-empty token before any transport call.
+- Strengthened canonical request redaction to remove:
+  - URL userinfo;
+  - sensitive query keys such as `api_key`, `token`, `access_token`,
+    `authorization`, `secret`, and `signature`;
+  - sensitive headers such as `x-api-key`, `api-key`, `x-auth-token`,
+    `cookie`, and `set-cookie`.
+- Ensured non-secret query params and headers still differentiate cache keys.
+- Ensured tampered aggregate snapshots are not trusted:
+  - without token, the adapter fails safely before transport;
+  - with token, the adapter bypasses endpoint caches and performs a fresh live
+    refetch before rewriting the aggregate snapshot.
+
+### Fix Round 1 Verification
+
+- RED:
+  - `python3 -m unittest tests.test_network_adapters -v`
+  - failed on missing aggregate cache contract and insufficient secret redaction
+- GREEN:
+  - `python3 -m unittest tests.test_network_adapters -v`
+  - passed (`13` tests)
+- Syntax:
+  - `python3 -m py_compile tools/aris_geo/http.py tools/aris_geo/github.py tools/aris_geo/tavily.py tools/tavily_client.py tools/gh_health.py tests/test_network_adapters.py`
+  - passed
+- Regression:
+  - `python3 -m unittest discover -s tests -v`
+  - passed (`80` tests)
