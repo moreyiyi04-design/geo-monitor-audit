@@ -9,18 +9,49 @@ COMPILED_START_MARKER = "<!-- ARIS-GEO:COMPILED:START -->"
 COMPILED_END_MARKER = "<!-- ARIS-GEO:COMPILED:END -->"
 README_FILENAME = "README.md"
 PRODUCTS_DIR = Path("wiki/products")
+MARKET_MAP_FILENAME = Path("wiki/market-map.json")
+MARKET_MAP_COVERAGE = frozenset({"market-map-only", "deep-profile"})
 
 
-def render_compiled_block(profiles: Iterable[dict[str, Any]]) -> str:
+def render_compiled_block(
+    profiles: Iterable[dict[str, Any]],
+    market_map: Iterable[dict[str, Any]] | None = None,
+) -> str:
     ordered = sorted(profiles, key=_profile_sort_key)
     lines = [
         f"> 数据截至 {_data_cutoff(ordered)}",
         "> 「未披露」≠「没有」；下表仅呈现已公开且有证据的字段。",
         "",
-        "### 选型矩阵",
-        "| 产品 | slug | 市场 | 形态 | 开放性 | 核心类别 |",
-        "| --- | --- | --- | --- | --- | --- |",
     ]
+    if market_map:
+        lines.extend(
+            [
+                "### 市场地图",
+                "| 产品 | 市场 | 类别 | 形态 | 开放性 | 覆盖级别 | 官网 |",
+                "| --- | --- | --- | --- | --- | --- | --- |",
+            ]
+        )
+        for entry in sorted(market_map, key=_market_map_sort_key):
+            lines.append(
+                "| {name} | {market} | {category} | {delivery_form} | {openness} | {coverage} | {homepage} |".format(
+                    name=_as_text(entry.get("name")),
+                    market=_as_text(entry.get("market")),
+                    category=_category_values(entry.get("category")),
+                    delivery_form=_as_text(entry.get("delivery_form")),
+                    openness=_as_text(entry.get("openness")),
+                    coverage=_as_text(entry.get("coverage")),
+                    homepage=_as_text(entry.get("homepage")),
+                )
+            )
+        lines.append("")
+
+    lines.extend(
+        [
+            "### 选型矩阵",
+            "| 产品 | slug | 市场 | 形态 | 开放性 | 核心类别 |",
+            "| --- | --- | --- | --- | --- | --- |",
+        ]
+    )
     for profile in ordered:
         lines.append(
             "| {name} | {slug} | {market} | {delivery_form} | {openness} | {category} |".format(
@@ -139,10 +170,36 @@ def load_profiles(repo_root: Path) -> list[dict[str, Any]]:
     return profiles
 
 
+def load_market_map(repo_root: Path) -> list[dict[str, Any]]:
+    market_map_path = repo_root / MARKET_MAP_FILENAME
+    if not market_map_path.exists():
+        return []
+    payload = json.loads(market_map_path.read_text(encoding="utf-8"))
+    products = payload.get("products")
+    if not isinstance(products, list):
+        raise ValueError("market-map products must be a list")
+
+    entries: list[dict[str, Any]] = []
+    seen_slugs: set[str] = set()
+    for item in products:
+        if not isinstance(item, dict):
+            raise ValueError("market-map products must contain objects")
+        slug = _as_text(item.get("slug"))
+        if slug in seen_slugs:
+            raise ValueError(f"duplicate market-map slug: {slug}")
+        seen_slugs.add(slug)
+
+        coverage = _as_text(item.get("coverage"))
+        if coverage not in MARKET_MAP_COVERAGE:
+            raise ValueError(f"invalid market-map coverage for {slug}: {coverage}")
+        entries.append(item)
+    return entries
+
+
 def compile_readme(repo_root: Path) -> tuple[str, str]:
     readme_path = repo_root / README_FILENAME
     readme = readme_path.read_text(encoding="utf-8")
-    block = render_compiled_block(load_profiles(repo_root))
+    block = render_compiled_block(load_profiles(repo_root), load_market_map(repo_root))
     return readme, replace_compiled_block(readme, block)
 
 
@@ -170,6 +227,10 @@ def _display_name(profile: dict[str, Any]) -> str:
     if name_en != "—":
         return name_en
     return _as_text(profile.get("slug"))
+
+
+def _market_map_sort_key(entry: dict[str, Any]) -> tuple[str, str]:
+    return (_as_text(entry.get("slug")), _as_text(entry.get("name")))
 
 
 def _field_value(profile: dict[str, Any], field: str) -> str:
@@ -200,6 +261,12 @@ def _primary_category(profile: dict[str, Any]) -> str:
 
 def _category_list(profile: dict[str, Any]) -> str:
     categories = profile.get("category")
+    if isinstance(categories, list) and categories:
+        return ", ".join(_as_text(item) for item in categories)
+    return "—"
+
+
+def _category_values(categories: Any) -> str:
     if isinstance(categories, list) and categories:
         return ", ".join(_as_text(item) for item in categories)
     return "—"

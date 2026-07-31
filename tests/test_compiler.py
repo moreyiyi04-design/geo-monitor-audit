@@ -9,6 +9,7 @@ from pathlib import Path
 from tools.aris_geo.compiler import (
     COMPILED_END_MARKER,
     COMPILED_START_MARKER,
+    compile_readme,
     render_compiled_block,
     replace_compiled_block,
 )
@@ -19,6 +20,66 @@ def envelope(value):
 
 
 class CompilerRenderingTests(unittest.TestCase):
+    def test_render_compiled_block_includes_market_map_when_present(self):
+        # Break caught: README omits the broad market-map layer even when a map file exists.
+        profiles = [
+            {
+                "slug": "alpha",
+                "name_cn": envelope("阿尔法"),
+                "name_en": envelope("Alpha"),
+                "market": "domestic",
+                "category": ["监测/可见性追踪", "品牌监测"],
+                "delivery_form": envelope("SaaS 面板"),
+                "openness": "closed",
+                "homepage": envelope("https://alpha.example"),
+                "pricing": {"has_public_pricing": envelope(False)},
+                "scores": {
+                    "transparency": 5,
+                    "verifiability": 4,
+                    "lock_in_risk": 2,
+                    "measurement_rigor": 3,
+                    "oss_health": 1,
+                },
+                "risk_flags": [],
+                "evidence": [{"id": "e1", "fetched_at": "2026-07-29"}],
+            }
+        ]
+        market_map = [
+            {
+                "slug": "beta",
+                "name": "贝塔 / Beta",
+                "market": "overseas",
+                "category": ["agent-skill/prompt-pack"],
+                "delivery_form": "API",
+                "openness": "open-source",
+                "coverage": "market-map-only",
+                "homepage": "https://beta.example",
+            },
+            {
+                "slug": "alpha",
+                "name": "阿尔法 / Alpha",
+                "market": "domestic",
+                "category": ["监测/可见性追踪", "品牌监测"],
+                "delivery_form": "SaaS 面板",
+                "openness": "closed",
+                "coverage": "deep-profile",
+                "homepage": "https://alpha.example",
+            },
+        ]
+
+        block = render_compiled_block(profiles, market_map)
+
+        self.assertIn("### 市场地图", block)
+        self.assertIn("| 产品 | 市场 | 类别 | 形态 | 开放性 | 覆盖级别 | 官网 |", block)
+        self.assertIn(
+            "| 阿尔法 / Alpha | domestic | 监测/可见性追踪, 品牌监测 | SaaS 面板 | closed | deep-profile | https://alpha.example |",
+            block,
+        )
+        self.assertIn(
+            "| 贝塔 / Beta | overseas | agent-skill/prompt-pack | API | open-source | market-map-only | https://beta.example |",
+            block,
+        )
+
     def test_render_compiled_block_sorts_profiles_and_flags_deterministically(self):
         # Break caught: README bytes depend on input order instead of stable profile/flag sorting.
         profiles = [
@@ -265,6 +326,13 @@ class CompileReadmeCliTests(unittest.TestCase):
             encoding="utf-8",
         )
 
+    def _write_market_map(self, products):
+        market_map_path = self.repo_root / "wiki" / "market-map.json"
+        market_map_path.write_text(
+            json.dumps({"products": products}, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+
     def test_check_mode_returns_nonzero_for_stale_compiled_content_without_rewriting(self):
         # Break caught: --check rewrites README or exits zero when compiled bytes are stale.
         original = """\
@@ -315,6 +383,91 @@ stale bytes
         self.assertEqual(2, result.returncode)
         self.assertIn("compiled end marker occurs before start marker", result.stderr)
         self.assertEqual(original, self.readme_path.read_text(encoding="utf-8"))
+
+    def test_compile_readme_allows_missing_market_map_file(self):
+        # Break caught: adding the market-map layer makes deep-profile-only test repos uncompilable.
+        self.readme_path.write_text(
+            """\
+<!-- ARIS-GEO:COMPILED:START -->
+stale bytes
+<!-- ARIS-GEO:COMPILED:END -->
+""",
+            encoding="utf-8",
+        )
+
+        _, compiled = compile_readme(self.repo_root)
+
+        self.assertNotIn("### 市场地图", compiled)
+        self.assertIn("### 产品档案表", compiled)
+
+    def test_compile_readme_rejects_duplicate_market_map_slug(self):
+        # Break caught: the market-map layer silently accepts ambiguous duplicate slugs.
+        self.readme_path.write_text(
+            """\
+<!-- ARIS-GEO:COMPILED:START -->
+stale bytes
+<!-- ARIS-GEO:COMPILED:END -->
+""",
+            encoding="utf-8",
+        )
+        self._write_market_map(
+            [
+                {
+                    "slug": "alpha",
+                    "name": "阿尔法 / Alpha",
+                    "market": "domestic",
+                    "category": ["监测/可见性追踪"],
+                    "delivery_form": "SaaS 面板",
+                    "openness": "closed",
+                    "coverage": "deep-profile",
+                    "homepage": "https://alpha.example",
+                },
+                {
+                    "slug": "alpha",
+                    "name": "Alpha Duplicate",
+                    "market": "overseas",
+                    "category": ["agent-skill/prompt-pack"],
+                    "delivery_form": "API",
+                    "openness": "open-source",
+                    "coverage": "market-map-only",
+                    "homepage": "https://duplicate.example",
+                },
+            ]
+        )
+
+        with self.assertRaisesRegex(ValueError, "duplicate market-map slug: alpha"):
+            compile_readme(self.repo_root)
+
+    def test_compile_readme_rejects_invalid_market_map_coverage(self):
+        # Break caught: the market-map layer accepts unsupported coverage labels and renders misleading output.
+        self.readme_path.write_text(
+            """\
+<!-- ARIS-GEO:COMPILED:START -->
+stale bytes
+<!-- ARIS-GEO:COMPILED:END -->
+""",
+            encoding="utf-8",
+        )
+        self._write_market_map(
+            [
+                {
+                    "slug": "alpha",
+                    "name": "阿尔法 / Alpha",
+                    "market": "domestic",
+                    "category": ["监测/可见性追踪"],
+                    "delivery_form": "SaaS 面板",
+                    "openness": "closed",
+                    "coverage": "unknown",
+                    "homepage": "https://alpha.example",
+                }
+            ]
+        )
+
+        with self.assertRaisesRegex(
+            ValueError,
+            "invalid market-map coverage for alpha: unknown",
+        ):
+            compile_readme(self.repo_root)
 
 
 if __name__ == "__main__":
