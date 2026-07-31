@@ -8,8 +8,19 @@ from .schema import (
     iter_envelopes,
 )
 from .scoring import calculate_scores, derive_auto_risk_flags
+from .compiler import (
+    COMPILED_END_MARKER,
+    COMPILED_START_MARKER,
+    compile_readme,
+    find_repo_root,
+    load_profiles,
+    render_compiled_block,
+    replace_compiled_block,
+)
 
 __all__ = [
+    "COMPILED_END_MARKER",
+    "COMPILED_START_MARKER",
     "EVIDENCE_KINDS",
     "Envelope",
     "GRADE_WEIGHTS",
@@ -17,9 +28,14 @@ __all__ = [
     "VALID_CONFIDENCE",
     "ValidationReport",
     "calculate_scores",
+    "compile_readme",
     "derive_auto_risk_flags",
+    "find_repo_root",
     "final_grade",
     "iter_envelopes",
+    "load_profiles",
+    "render_compiled_block",
+    "replace_compiled_block",
     "sha256_file",
     "validate_profile",
 ]
