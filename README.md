@@ -3,28 +3,36 @@
 
 一份带来源、证据等级、未知项和可复算分数的 GEO / AEO 工具横向报告。
 
-本版截至 **2026-07-31**，收录 14 个真实对象：
+本版截至 **2026-07-31**，由两层结果组成：
 
-- 4 个海外 SaaS：Profound、Scrunch AI、OtterlyAI、Rankscale
-- 3 个国内 SaaS：GEO AI搜索优化、独角兽GEO、GTark
-- 5 个开源工具或 Agent Skill
-- 2 个学术参考实现
+- **102 个对象的市场地图**：覆盖 85 个海外对象、17 个国内对象，包括商业平台、
+  传统 SEO 厂商 AI 模块、开源工具、Agent Skill 与学术基准；
+- **14 个深度档案**：对有足够公开材料的代表对象进行字段级证据、评分和风险审查。
 
-这不是总榜。不同产品解决的问题不同，下面只发布分维度结果，不把它们压成一个
+市场地图回答“有哪些”；深度档案回答“公开证据到底支持什么”。没有进入深度档案
+不等于产品较差，只表示本轮尚未完成字段级核验。这不是总榜，不把不同形态压成一个
 “第一名”。测试所用的合成 Profound 样本仍保留在 `tests/fixtures/`，但不参与报告。
 
 ## 结论先行
 
-1. **测量口径仍是市场最大短板。** 公开材料中，Profound 与独角兽GEO明确声称使用
+1. **GEO 已经不是十几个独立创业工具的小市场。** 本轮发现 102 个可识别对象，其中
+   67 个提供 AI 答案监测或可见度追踪，11 个属于传统企业搜索/SEO 套件的 AI 模块，
+   另有内容优化、品牌诊断、Agent Skill 与自托管工具。
+2. **测量口径仍是市场最大短板。** 公开材料中，Profound 与独角兽GEO明确声称使用
    浏览器端采集；GTark说明记录真实平台对话并重复采样。14 个对象均未公开可核验的
    每 prompt 样本数、置信区间和噪声下限完整组合。
-2. **公开定价不等于可横向比价。** 有的平台按 prompt，有的按问题/关键词，有的按
+3. **市场正在分成三层。** Profound、Scrunch、Bluefish、Adobe 等面向企业治理；
+   Peec AI、OtterlyAI、Rankscale 等面向自助监测与代理商；Ahrefs、Semrush、
+   Similarweb、Conductor、BrightEdge 等把 AI 可见度纳入既有搜索数据栈。
+4. **公开定价不等于可横向比价。** 有的平台按 prompt，有的按问题/关键词，有的按
    credit 和引擎次数计费；报告保留原始单位，不用伪精确换算制造可比性。
-3. **第一方效果数字不能当独立证据。** Scrunch 的 4x 与 GTark 的 32%→94.81%
+5. **第一方效果数字不能当独立证据。** Scrunch 的 4x 与 GTark 的 32%→94.81%
    均按 D 级处理；GEO 论文的“最高 40%”有公开论文与实验基准，但仍只代表其设定。
-4. **开源不自动等于成熟。** 本版把许可证、贡献者、近期提交、发布和业务测试分开
+6. **开源不自动等于成熟。** 本版把许可证、贡献者、近期提交、发布和业务测试分开
    记录；星标不进入总分，也不作为产品质量代理。
-5. **国内样本的优化闭环更靠近内容投放。** 独角兽GEO公开描述监测后直接连接媒体
+7. **国内市场可识别对象已达 17 个，但公开证据普遍更薄。** 多数产品同时销售内容
+   生产、媒体分发或代运营服务，不能直接与纯监测 SaaS 按同一价格口径比较。
+8. **国内样本的优化闭环更靠近内容投放。** 独角兽GEO公开描述监测后直接连接媒体
    投稿；这类机制与海外纯监测平台不同，采购时应额外审查品牌安全与平台规则风险。
 
 ## Requirements
@@ -86,6 +94,112 @@ score definitions and known limitations.
 <!-- ARIS-GEO:COMPILED:START -->
 > 数据截至 2026-07-31
 > 「未披露」≠「没有」；下表仅呈现已公开且有证据的字段。
+
+### 市场地图
+| 产品 | 市场 | 类别 | 形态 | 开放性 | 覆盖级别 | 官网 |
+| --- | --- | --- | --- | --- | --- | --- |
+| Adobe LLM Optimizer | overseas | 企业级一体化平台, 内容优化 | SaaS | closed | market-map-only | https://business.adobe.com/products/llm-optimizer.html |
+| AEO Mentions Crawler | overseas | 监测/可见性追踪 | 自托管应用 | open-source | market-map-only | https://github.com/federicodeponte/aeo-mentions-crawler |
+| AEO Platform | overseas | 监测/可见性追踪 | CLI | open-source | market-map-only | https://github.com/webappski/aeo-platform |
+| Agent Skills Marketing GEO | overseas | Agent Skill / Prompt Pack | Agent Skill Library | open-source | market-map-only | https://github.com/whyashthakker/agent-skills-marketing |
+| Ahrefs Brand Radar | overseas | 企业搜索套件, 监测/可见性追踪 | SaaS | closed | market-map-only | https://ahrefs.com/brand-radar |
+| AI Growth | domestic | 监测/可见性追踪, 内容优化 | SaaS | closed | market-map-only | https://zia.com.cn/ |
+| AI Monitor | overseas | 监测/可见性追踪 | SaaS / 开源核心 | hybrid | market-map-only | https://getaimonitor.com/ |
+| AI Rank Tracker by DEJAN | overseas | 监测/可见性追踪 | Web Tool | closed | market-map-only | https://airank.dejan.ai/ |
+| AiCarma | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://aicarma.com/ |
+| AirOps | overseas | 内容优化, 工作流自动化 | SaaS | closed | market-map-only | https://www.airops.com/ |
+| Am I on AI? | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://amionai.com/ |
+| Aperture | overseas | 监测/可见性追踪 | 自托管应用 | open-source | deep-profile | https://github.com/anyin-ai/aperture |
+| AppearOnAI | overseas | 技术审计, 内容优化 | SaaS | closed | market-map-only | https://appearonai.com/ |
+| AthenaHQ | overseas | 一体化平台, 监测/可见性追踪 | SaaS | closed | market-map-only | https://athenahq.ai/ |
+| Attensira | overseas | 一体化平台, 监测/可见性追踪 | SaaS | closed | market-map-only | https://attensira.com/ |
+| Bluefish AI | overseas | 企业级一体化平台, 品牌安全 | SaaS | closed | market-map-only | https://www.bluefishai.com/ |
+| Botify | overseas | 企业搜索套件, 技术审计 | SaaS | closed | market-map-only | https://www.botify.com/ |
+| BrandBeacon | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.brandbeacon.ai/ |
+| BrandInAI | overseas | 监测/可见性追踪, 品牌叙事 | SaaS | closed | market-map-only | https://brandinai.com/ |
+| Brandlight | overseas | 企业级一体化平台, 品牌叙事 | SaaS | closed | market-map-only | https://www.brandlight.ai/ |
+| BrightEdge AI Hyper Cube | overseas | 企业搜索套件, 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.brightedge.com/ |
+| ChatFeatured | overseas | 监测/可见性追踪, 内容优化 | SaaS | closed | market-map-only | https://chatfeatured.com/ |
+| Cognizo | overseas | 监测/可见性追踪, 客户旅程 | SaaS | closed | market-map-only | https://cognizo.ai/ |
+| Conductor | overseas | 企业搜索套件, 一体化平台 | SaaS | closed | market-map-only | https://www.conductor.com/ |
+| DeepSeekGEO | domestic | 品牌诊断, 监测/可见性追踪 | SaaS | closed | market-map-only | https://deepseekgeo.com/ |
+| 豆智语义科技 DZOS | domestic | 一体化平台, 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.dzgoogle.com/ |
+| E-GEO Testbed | overseas | 学术基准 | 论文与测试床 | hybrid | deep-profile | https://arxiv.org/abs/2511.20867 |
+| Evertune | overseas | 企业级一体化平台, 品牌叙事 | SaaS | closed | market-map-only | https://www.evertune.ai/ |
+| Exanimo.ai | overseas | 代理商白标, 监测/可见性追踪 | SaaS | closed | market-map-only | https://exanimo.ai/ |
+| FalconRank.ai | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://falconrank.ai/ |
+| Gauge | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.withgauge.com/ |
+| 极客GEO | domestic | 一体化平台, GEO 服务 | 平台 / 服务 | closed | market-map-only | https://geo.dso100.com/ |
+| GenRank | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://genrank.io/ |
+| GEO/AEO Tracker | overseas | 监测/可见性追踪 | 自托管应用 | open-source | deep-profile | https://github.com/danishashko/geo-aeo-tracker |
+| GEO: Generative Engine Optimization | overseas | 学术基准 | 论文与基准 | hybrid | deep-profile | https://arxiv.org/abs/2311.09735 |
+| GEO Optimizer Skill | overseas | 技术审计, Agent Skill / Prompt Pack | CLI / Agent Skill | open-source | deep-profile | https://github.com/Auriti-Labs/geo-optimizer-skill |
+| 中国GEO服务平台 | domestic | GEO 服务, 内容优化 | 平台 / 服务 | closed | market-map-only | https://geo.org.cn/ |
+| GEO-Star | domestic | GEO 服务, 内容优化 | 平台 / 服务 | closed | market-map-only | https://www.geo-star.com/ |
+| GEO AI搜索优化 | domestic | 一体化平台, 监测/可见性追踪 | SaaS | closed | deep-profile | https://www.geo-tool.cn/ |
+| Geometrika | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://geometrika.dev/ |
+| GEOROI | domestic | 一体化平台, 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.georoi.cn/ |
+| GEO Skills | overseas | Agent Skill / Prompt Pack | Agent Skill | open-source | deep-profile | https://github.com/Cognitic-Labs/geoskills |
+| 工蜂云 | domestic | 品牌诊断, 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.gongfengyun.com/ |
+| Goodie AI | overseas | 一体化平台, 内容优化 | SaaS | closed | market-map-only | https://higoodie.com/ |
+| Goose Skills AEO Visibility | overseas | Agent Skill / Prompt Pack | Agent Skill Library | open-source | market-map-only | https://github.com/gooseworks-ai/goose-skills |
+| GrackerAI | overseas | 内容优化, 监测/可见性追踪 | SaaS | closed | market-map-only | https://gracker.ai/ |
+| GTark | domestic | 一体化平台, 监测/可见性追踪 | SaaS | closed | deep-profile | https://www.gtark.com/ |
+| Heeb.ai | overseas | 监测 API, 可见性追踪 | API / SaaS | closed | market-map-only | https://heeb.ai/ |
+| Hikoo | overseas | 一体化平台, 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.tryhikoo.com/ |
+| Knowatoa | overseas | 监测/可见性追踪, 技术审计 | SaaS | closed | market-map-only | https://knowatoa.com/ |
+| 鲲擎AI | domestic | 监测/可见性追踪, 内容优化 | SaaS | closed | market-map-only | https://risingtec.cn/ |
+| LightSite AI | overseas | 内容优化, 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.lightsite.ai/ |
+| LLMO Metrics | overseas | 监测/可见性追踪, 优化建议 | SaaS | closed | market-map-only | https://llmometrics.com/ |
+| LLMrefs | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://llmrefs.com/ |
+| Lorelight | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://lorelight.ai/ |
+| Mangools AI Search Watcher | overseas | 企业搜索套件, 监测/可见性追踪 | SaaS | closed | market-map-only | https://mangools.com/ |
+| Marketing Skills AI SEO | overseas | Agent Skill / Prompt Pack | Agent Skill Library | open-source | market-map-only | https://github.com/coreyhaines31/marketingskills |
+| ModelMonitor | overseas | 监测 API, 品牌声誉 | API / SaaS | closed | market-map-only | https://modelmonitor.ai/ |
+| Monroya | overseas | 一体化平台, 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.monroya.ai/ |
+| Nightwatch | overseas | SEO 排名与 AI 追踪 | SaaS | closed | market-map-only | https://nightwatch.io/ |
+| Nuggt | overseas | 代理商平台, 生成式搜索分析 | SaaS | closed | market-map-only | https://beta.nuggt.io/ |
+| OneGlanse | overseas | 监测/可见性追踪 | 自托管应用 | open-source | market-map-only | https://github.com/aryamantodkar/oneglanse |
+| OtterlyAI | overseas | 监测/可见性追踪 | SaaS | closed | deep-profile | https://otterly.ai/ |
+| Peec AI | overseas | 监测/可见性追踪, 代理商报告 | SaaS | closed | market-map-only | https://peec.ai/ |
+| Peekaboo | overseas | 监测/可见性追踪, 竞品分析 | SaaS | closed | market-map-only | https://aipeekaboo.com/ |
+| Profound | overseas | 一体化平台, 监测/可见性追踪 | SaaS | closed | deep-profile | https://www.tryprofound.com/ |
+| Promptmonitor | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.promptmonitor.io/ |
+| Promptwatch | overseas | 监测 API, 可见性追踪 | API / SaaS | closed | market-map-only | https://promptwatch.com/ |
+| Quno.ai | overseas | 监测/可见性追踪, 内容优化 | SaaS | closed | market-map-only | https://quno.ai/ |
+| Qwairy | overseas | 一体化平台, 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.qwairy.co/ |
+| Ranketta | overseas | 监测/可见性追踪, 电商内容优化 | SaaS | closed | market-map-only | https://ranketta.com/ |
+| Rankscale | overseas | 监测/可见性追踪 | SaaS | closed | deep-profile | https://rankscale.ai/ |
+| RankTera | overseas | SEO 与 GEO 套件, 监测/可见性追踪 | SaaS | closed | market-map-only | https://ranktera.com/ |
+| Scalenut | overseas | 内容优化, 企业搜索套件 | SaaS | closed | market-map-only | https://www.scalenut.com/ |
+| Scrunch AI | overseas | 一体化平台, 监测/可见性追踪 | SaaS | closed | deep-profile | https://scrunch.com/ |
+| SE Ranking AI Visibility Tracker | overseas | 企业搜索套件, 监测/可见性追踪 | SaaS | closed | market-map-only | https://seranking.com/ |
+| Search Visibility | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://search-visibility.ai/ |
+| Searchify | overseas | 一体化平台, 中小企业 | SaaS | closed | market-map-only | https://searchify.ai/ |
+| Seerly AIRO | overseas | AI 搜索优化, 内容优化 | SaaS | closed | market-map-only | https://seerly.app/ |
+| Semrush AI Visibility Toolkit | overseas | 企业搜索套件, 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.semrush.com/kb/1496-getting-started-with-ai-visibility-toolkit |
+| Senso.ai | overseas | 内容优化, CMS 工作流 | SaaS | closed | market-map-only | https://senso.ai/ |
+| SEO & GEO Skills Library | overseas | Agent Skill / Prompt Pack | Agent Skill Library | open-source | deep-profile | https://github.com/aaron-he-zhu/seo-geo-claude-skills |
+| seoClarity | overseas | 企业搜索套件, 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.seoclarity.net/ |
+| 商脉通GEO | domestic | 一体化平台, GEO 服务 | 平台 / 服务 | closed | market-map-only | https://www.smt.wang/ |
+| Share of Model by Jellyfish | overseas | 监测/可见性追踪, 品牌研究 | 平台 / 服务 | closed | market-map-only | https://www.jellyfish.com/ |
+| Similarweb AI Search Intelligence | overseas | 企业搜索套件, 监测/可见性追踪 | SaaS | closed | market-map-only | https://aisearch.similarweb.com/ |
+| 搜搜果 | domestic | 监测/可见性追踪 | SaaS | closed | market-map-only | https://www.sousougeo.com/ |
+| Surfer AI Tracker | overseas | 内容优化, 监测/可见性追踪 | SaaS | closed | market-map-only | https://surferseo.com/ |
+| Tesseract by AdLift | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://tesseract.adlift.com/ |
+| Toprank GEO Optimizer Skill | overseas | Agent Skill / Prompt Pack | Agent Skill Library | open-source | market-map-only | https://github.com/nowork-studio/toprank |
+| Trackerly.ai | overseas | 监测/可见性追踪, 代理商报告 | SaaS | closed | market-map-only | https://trackerly.ai/ |
+| Trakkr.ai | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://trakkr.ai/ |
+| 独角兽GEO | domestic | 一体化平台, 监测/可见性追踪 | SaaS | closed | deep-profile | https://geo.yueyuezi.com/ |
+| Visalytica | overseas | 监测/可见性追踪, 内容优化 | SaaS | closed | market-map-only | https://www.visalytica.com/ |
+| Waikay | overseas | 监测/可见性追踪, 事实与声誉 | SaaS | closed | market-map-only | https://waikay.io/ |
+| Writesonic GEO Suite | overseas | 一体化平台, 内容优化 | SaaS | closed | market-map-only | https://writesonic.com/generative-engine-optimization-geo |
+| XFunnel | overseas | 一体化平台, 客户旅程 | SaaS | closed | market-map-only | https://xfunnel.ai/ |
+| 吸晶智能 | domestic | GEO 服务, 内容优化 | 平台 / 服务 | closed | market-map-only | https://www.xjgeo.com/ |
+| Yext | overseas | 企业搜索套件, 知识管理 | SaaS | closed | market-map-only | https://www.yext.com/ |
+| 嬴政GEO | domestic | 一体化平台, 监测/可见性追踪 | 平台 / 服务 | closed | market-map-only | https://www.geoc.cc/ |
+| 中科信枢GEO | domestic | 品牌诊断, 监测/可见性追踪 | SaaS | closed | market-map-only | https://zkxinshu.com/ |
+| ZipTie.dev | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://ziptie.dev/ |
 
 ### 选型矩阵
 | 产品 | slug | 市场 | 形态 | 开放性 | 核心类别 |

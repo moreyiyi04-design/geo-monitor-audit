@@ -6,11 +6,12 @@ ARIS-GEO evaluates public evidence about GEO/AIO/AEO software, open-source tools
 agent skills, and reference research. It does not perform GEO on a brand and does
 not test whether a vendor can change live answer-engine rankings.
 
-The 2026-07-31 publication contains 14 deliberately heterogeneous objects:
-overseas SaaS, domestic China SaaS, self-hosted projects, agent-skill packs, and
-academic testbeds. The set is a pressure sample, not an exhaustive market census.
-The synthetic Profound fixture under `tests/fixtures/` exists only for regression
-tests and is excluded from publication.
+The 2026-07-31 publication separates breadth from depth. `wiki/market-map.json`
+is a 102-object dated discovery snapshot spanning dedicated GEO vendors, incumbent
+SEO-suite modules, domestic China products, self-hosted projects, agent-skill
+packs, and academic testbeds. Fourteen representative products also have
+evidence-gated deep profiles. The synthetic Profound fixture under
+`tests/fixtures/` exists only for regression tests and is excluded from publication.
 
 ## Selection
 
@@ -20,8 +21,16 @@ source and enough material to classify their delivery form. This creates a
 self-referential selection bias: products already good at GEO are easier to discover.
 China-only products without accessible public documentation are underrepresented.
 
-`wiki/catalog.json` records the accepted source set. Products are never inserted
-automatically from a search result.
+`wiki/market-map.json` records identity-level discovery; `wiki/catalog.json`
+records the accepted deep-profile source set. Products are never promoted into
+deep scoring automatically from a search result.
+
+Market-map inclusion requires an identifiable public product or repository page
+and a direct GEO, AEO, LLM-visibility, AI-search optimization, or AI-citation use
+case. Consultancies without a distinct product, generic crawling infrastructure,
+dead domains, and conventional SEO tools without a specific AI-search module are
+excluded. A `market-map-only` entry has not passed the field-level evidence gate
+and must not be interpreted as an endorsement or full evaluation.
 
 ## Evidence capture
 

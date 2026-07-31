@@ -26,6 +26,11 @@ class PublicationDeliveryTests(unittest.TestCase):
             replace_compiled_block(readme, ""),
             encoding="utf-8",
         )
+        (self.repo_root / "wiki").mkdir(parents=True, exist_ok=True)
+        shutil.copy2(
+            REPO_ROOT / "wiki" / "market-map.json",
+            self.repo_root / "wiki" / "market-map.json",
+        )
 
         profiles = build_publication(self.repo_root, catalog)
         _, compiled = compile_readme(self.repo_root)
@@ -54,12 +59,32 @@ class PublicationDeliveryTests(unittest.TestCase):
         self.assertNotIn("example.invalid", published_profile["homepage"]["v"])
         self.assertNotEqual(fixture_profile, published_profile)
 
+    def test_market_map_is_broad_and_deep_coverage_matches_profiles(self):
+        market_map = json.loads(
+            (REPO_ROOT / "wiki" / "market-map.json").read_text(encoding="utf-8")
+        )
+        products = market_map["products"]
+        deep_slugs = {
+            product["slug"]
+            for product in products
+            if product["coverage"] == "deep-profile"
+        }
+        profile_slugs = {
+            path.stem
+            for path in (REPO_ROOT / "wiki" / "products").glob("*.json")
+        }
+
+        self.assertGreaterEqual(len(products), 60)
+        self.assertEqual(profile_slugs, deep_slugs)
+        self.assertEqual(len(products), len({product["slug"] for product in products}))
+
     def test_repository_docs_describe_real_report_reproduction_and_limits(self):
         readme = (REPO_ROOT / "README.md").read_text(encoding="utf-8")
         methodology = (REPO_ROOT / "docs" / "METHODOLOGY.md").read_text(encoding="utf-8")
 
         for snippet in (
-            "收录 14 个真实对象",
+            "102 个对象的市场地图",
+            "14 个深度档案",
             "Python 3.11+",
             "ARIS-Code v0.4.21+",
             "python3 tools/build_publication.py",
@@ -75,7 +100,8 @@ class PublicationDeliveryTests(unittest.TestCase):
             self.assertIn(snippet, readme)
 
         for snippet in (
-            "14 deliberately heterogeneous objects",
+            "102-object dated discovery snapshot",
+            "Fourteen representative products",
             "synthetic Profound fixture",
             "「未披露」不等于「没有」",
             "self-referential selection bias",
