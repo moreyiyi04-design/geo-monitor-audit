@@ -48,6 +48,12 @@ def _validate_iso_date(value: Any) -> bool:
     return True
 
 
+def _is_hex_sha256(value: Any) -> bool:
+    if not isinstance(value, str) or len(value) != 64:
+        return False
+    return all(character in "0123456789abcdefABCDEF" for character in value)
+
+
 def _resolve_excerpt_path(repo_root: Path, evidence_id: str, excerpt_path: Any, errors: list[str]) -> Path | None:
     if not isinstance(excerpt_path, str) or not excerpt_path.strip():
         errors.append(f"evidence {evidence_id}: missing excerpt_path")
@@ -73,6 +79,10 @@ def _validate_evidence_record(record: Any, repo_root: Path, report: ValidationRe
         report.errors.append("evidence entry missing id")
         return
 
+    if evidence_id in report.evidence_by_id:
+        report.errors.append(f"evidence {evidence_id}: duplicate id")
+        return
+
     report.evidence_by_id[evidence_id] = record
 
     if not isinstance(record.get("url"), str) or not record["url"].strip():
@@ -84,8 +94,11 @@ def _validate_evidence_record(record: Any, repo_root: Path, report: ValidationRe
     if not _validate_iso_date(record.get("fetched_at")):
         report.errors.append(f"evidence {evidence_id}: fetched_at must be ISO date")
 
-    if not isinstance(record.get("sha256"), str) or len(record["sha256"]) != 64:
-        report.errors.append(f"evidence {evidence_id}: sha256 must be 64 hex characters")
+    if not _is_hex_sha256(record.get("sha256")):
+        report.errors.append(f"evidence {evidence_id}: sha256 must be 64 hexadecimal characters")
+
+    if not isinstance(record.get("paid_placement_suspected"), bool):
+        report.errors.append(f"evidence {evidence_id}: paid_placement_suspected must be a bool")
 
     resolved_path = _resolve_excerpt_path(repo_root, evidence_id, record.get("excerpt_path"), report.errors)
     if resolved_path is None:
@@ -95,7 +108,7 @@ def _validate_evidence_record(record: Any, repo_root: Path, report: ValidationRe
         report.errors.append(f"evidence {evidence_id}: excerpt file missing at {record.get('excerpt_path')}")
         return
 
-    if sha256_file(resolved_path) != record.get("sha256"):
+    if _is_hex_sha256(record.get("sha256")) and sha256_file(resolved_path) != record.get("sha256"):
         report.errors.append(f"evidence {evidence_id}: sha256 mismatch for {record.get('excerpt_path')}")
 
 

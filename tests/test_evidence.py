@@ -114,6 +114,65 @@ class EvidenceValidationTests(unittest.TestCase):
             report.errors,
         )
 
+    def test_validate_profile_requires_paid_placement_flag(self):
+        # Break caught: evidence records can omit the paid-placement signal entirely.
+        profile = self._make_profile()
+        del profile["evidence"][0]["paid_placement_suspected"]
+
+        report = validate_profile(profile, self.repo_root)
+
+        self.assertFalse(report.ok)
+        self.assertIn(
+            "evidence e1: paid_placement_suspected must be a bool",
+            report.errors,
+        )
+
+    def test_validate_profile_requires_boolean_paid_placement_flag(self):
+        # Break caught: evidence records accept truthy non-bool values for paid placement.
+        profile = self._make_profile()
+        profile["evidence"][0]["paid_placement_suspected"] = "false"
+
+        report = validate_profile(profile, self.repo_root)
+
+        self.assertFalse(report.ok)
+        self.assertIn(
+            "evidence e1: paid_placement_suspected must be a bool",
+            report.errors,
+        )
+
+    def test_validate_profile_rejects_duplicate_evidence_ids(self):
+        # Break caught: duplicate evidence ids silently overwrite earlier records.
+        profile = self._make_profile()
+        profile["evidence"].append(
+            {
+                "id": "e1",
+                "url": "https://vendor.example/duplicate",
+                "kind": "vendor_doc",
+                "fetched_at": "2026-07-30",
+                "sha256": self._write_excerpt("wiki/raw/demo/e1b.txt", "Duplicate excerpt"),
+                "excerpt_path": "wiki/raw/demo/e1b.txt",
+                "paid_placement_suspected": False,
+            }
+        )
+
+        report = validate_profile(profile, self.repo_root)
+
+        self.assertFalse(report.ok)
+        self.assertIn("evidence e1: duplicate id", report.errors)
+
+    def test_validate_profile_rejects_non_hex_sha256(self):
+        # Break caught: non-hex sha256 values pass as long as they have length 64.
+        profile = self._make_profile()
+        profile["evidence"][0]["sha256"] = "g" * 64
+
+        report = validate_profile(profile, self.repo_root)
+
+        self.assertFalse(report.ok)
+        self.assertIn(
+            "evidence e1: sha256 must be 64 hexadecimal characters",
+            report.errors,
+        )
+
     def test_validate_profile_rejects_excerpt_paths_outside_repo_root(self):
         # Break caught: evidence excerpts can escape the repository root via relative paths.
         profile = self._make_profile()
