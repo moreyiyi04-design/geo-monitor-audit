@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import numbers
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
@@ -9,6 +10,12 @@ from typing import Any, Callable, Sequence
 
 DEFAULT_ALLOWED_TOOLS = ("read_file", "write_file", "glob_search", "grep_search", "Skill")
 DEFAULT_MAX_ITERATIONS = 8
+REQUIRED_USAGE_FIELDS = (
+    "input_tokens",
+    "output_tokens",
+    "cache_creation_input_tokens",
+    "cache_read_input_tokens",
+)
 
 
 @dataclass(frozen=True)
@@ -60,6 +67,7 @@ def parse_aris_result(
         raise ValueError("ARIS output rejected: auto-compaction is present")
     if iterations > max_iterations:
         raise ValueError(f"ARIS output rejected: iterations exceed {max_iterations}")
+    _validate_usage(usage)
     if _has_permission_denied_result(tool_results):
         raise ValueError("ARIS output rejected: permission-denied tool result")
 
@@ -126,7 +134,57 @@ def run_aris_phase(
 
 def _has_permission_denied_result(tool_results: list[Any]) -> bool:
     for result in tool_results:
-        haystack = _flatten_result_text(result)
+        if _result_has_structured_deny(result):
+            return True
+        if _result_error_text_has_deny(result):
+            return True
+    return False
+
+
+def _validate_usage(usage: dict[str, Any]) -> None:
+    for field_name in REQUIRED_USAGE_FIELDS:
+        if field_name not in usage:
+            raise ValueError(f"invalid ARIS JSON: missing usage field: {field_name}")
+        value = usage[field_name]
+        if isinstance(value, bool) or not isinstance(value, numbers.Real):
+            raise ValueError(f"invalid ARIS JSON: usage field {field_name} must be a non-bool number")
+        if value < 0:
+            raise ValueError(f"invalid ARIS JSON: usage field {field_name} must be non-negative")
+
+
+def _result_has_structured_deny(result: Any) -> bool:
+    if not isinstance(result, dict):
+        return False
+
+    status = result.get("status")
+    if isinstance(status, str) and status.strip().lower() in {"denied", "permission_denied"}:
+        return True
+
+    permission = result.get("permission")
+    if isinstance(permission, str) and permission.strip().lower() in {"denied", "permission_denied"}:
+        return True
+
+    denied = result.get("denied")
+    if isinstance(denied, bool) and denied:
+        return True
+
+    error = result.get("error")
+    if isinstance(error, dict):
+        error_type = error.get("type")
+        if isinstance(error_type, str) and error_type.strip().lower() in {"permission_denied", "denied"}:
+            return True
+
+    return False
+
+
+def _result_error_text_has_deny(result: Any) -> bool:
+    if not isinstance(result, dict):
+        return False
+    if result.get("is_error") is not True:
+        return False
+
+    for candidate in _iter_error_text_candidates(result):
+        haystack = candidate.lower()
         if "permission denied" in haystack:
             return True
         if "denied by policy" in haystack:
@@ -138,8 +196,24 @@ def _has_permission_denied_result(tool_results: list[Any]) -> bool:
     return False
 
 
-def _flatten_result_text(value: Any) -> str:
-    try:
-        return json.dumps(value, ensure_ascii=False, sort_keys=True).lower()
-    except TypeError:
-        return str(value).lower()
+def _iter_error_text_candidates(result: dict[str, Any]) -> list[str]:
+    texts: list[str] = []
+    for key in ("error", "message", "content"):
+        texts.extend(_extract_text(result.get(key)))
+    return texts
+
+
+def _extract_text(value: Any) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, dict):
+        texts: list[str] = []
+        for nested_value in value.values():
+            texts.extend(_extract_text(nested_value))
+        return texts
+    if isinstance(value, list):
+        texts: list[str] = []
+        for item in value:
+            texts.extend(_extract_text(item))
+        return texts
+    return []

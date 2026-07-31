@@ -61,6 +61,69 @@ class ParseArisResultTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "permission-denied tool result"):
             parse_aris_result(stdout)
 
+    def test_parse_aris_result_allows_successful_content_that_mentions_permission_denied(self):
+        # Break caught: successful file content that quotes denial text is falsely rejected as a denied tool result.
+        stdout = json.dumps(
+            aris_payload(
+                tool_results=[
+                    {
+                        "tool": "read_file",
+                        "is_error": False,
+                        "content": "Log excerpt: permission denied on a previous host.",
+                    }
+                ]
+            ),
+            ensure_ascii=False,
+        )
+
+        result = parse_aris_result(stdout)
+
+        self.assertEqual(
+            "Log excerpt: permission denied on a previous host.",
+            result.tool_results[0]["content"],
+        )
+
+    def test_parse_aris_result_rejects_structured_deny_status_without_free_text_scan(self):
+        # Break caught: deny-shaped tool results are missed unless the parser happens to substring-match human text.
+        stdout = json.dumps(
+            aris_payload(
+                tool_results=[
+                    {
+                        "tool": "write_file",
+                        "status": "denied",
+                        "permission": "workspace-write",
+                        "content": "noisy payload that should not matter",
+                    }
+                ]
+            ),
+            ensure_ascii=False,
+        )
+
+        with self.assertRaisesRegex(ValueError, "permission-denied tool result"):
+            parse_aris_result(stdout)
+
+    def test_parse_aris_result_rejects_structured_error_field_with_denied_payload(self):
+        # Break caught: explicit error payloads with deny metadata pass unless the parser inspects error-shaped fields.
+        stdout = json.dumps(
+            aris_payload(
+                tool_results=[
+                    {
+                        "tool": "write_file",
+                        "is_error": True,
+                        "error": {
+                            "type": "permission_denied",
+                            "message": "write_file refused",
+                        },
+                        "content": "ordinary content field",
+                    }
+                ]
+            ),
+            ensure_ascii=False,
+        )
+
+        with self.assertRaisesRegex(ValueError, "permission-denied tool result"):
+            parse_aris_result(stdout)
+
     def test_parse_aris_result_rejects_excessive_iterations(self):
         # Break caught: a looping ARIS turn is treated as successful instead of failing fast.
         stdout = json.dumps(aris_payload(iterations=9), ensure_ascii=False)
@@ -88,6 +151,25 @@ class ParseArisResultTests(unittest.TestCase):
         self.assertEqual(4, result.iterations)
         self.assertEqual(["Skill", "read_file", "write_file"], result.tool_uses)
         self.assertEqual(3, result.usage["cache_read_input_tokens"])
+
+    def test_parse_aris_result_requires_numeric_usage_fields(self):
+        # Break caught: control-signal usage fields accept missing, bool, negative, or non-numeric values.
+        bad_cases = [
+            ({}, "missing usage field: input_tokens"),
+            ({"input_tokens": True}, "usage field input_tokens must be a non-bool number"),
+            ({"input_tokens": -1}, "usage field input_tokens must be non-negative"),
+            ({"cache_read_input_tokens": "3"}, "usage field cache_read_input_tokens must be a non-bool number"),
+        ]
+
+        for patch, message in bad_cases:
+            with self.subTest(patch=patch):
+                usage = dict(aris_payload()["usage"])
+                usage.update(patch)
+                if patch == {}:
+                    usage.pop("input_tokens")
+                stdout = json.dumps(aris_payload(usage=usage), ensure_ascii=False)
+                with self.assertRaisesRegex(ValueError, message):
+                    parse_aris_result(stdout)
 
 
 class RunArisPhaseTests(unittest.TestCase):
