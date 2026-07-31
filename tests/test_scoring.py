@@ -293,9 +293,36 @@ class AutoRiskFlagTests(unittest.TestCase):
         self.assertEqual("yellow", by_name["模型版本未钉定,时间序列可能断裂"]["tier"])
         self.assertEqual("yellow", by_name["数据来源未披露"]["tier"])
         self.assertEqual("yellow", by_name["无公开定价 / 仅年付 / 无试用 / 退款条款未公开"]["tier"])
-        self.assertEqual("yellow", by_name["入门档仅覆盖单一引擎 / 仅 1 个席位"]["tier"])
+        self.assertEqual("yellow", by_name["入门档仅覆盖单一引擎"]["tier"])
+        self.assertEqual(["e-home"], by_name["入门档仅覆盖单一引擎"]["src"])
+        self.assertEqual("yellow", by_name["入门档仅 1 个席位"]["tier"])
+        self.assertEqual(["e-home"], by_name["入门档仅 1 个席位"]["src"])
         self.assertEqual("orange", by_name["计价单位随监测范围膨胀"]["tier"])
         self.assertEqual("orange", by_name["无数据导出 / 最低合约期 > 6 个月"]["tier"])
+
+    def test_derive_auto_risk_flags_splits_entry_engine_and_seat_labels(self):
+        # Break caught: the combined entry-tier label states a false seat constraint when only engines are limited.
+        profile = self._profile()
+        profile["pricing"]["entry_seats"] = envelope(2, ["e-seat"])
+
+        flags = derive_auto_risk_flags(profile)
+        by_name = {flag["flag"]: flag for flag in flags}
+
+        self.assertEqual("yellow", by_name["入门档仅覆盖单一引擎"]["tier"])
+        self.assertEqual(["e-home"], by_name["入门档仅覆盖单一引擎"]["src"])
+        self.assertNotIn("入门档仅 1 个席位", by_name)
+
+    def test_derive_auto_risk_flags_emits_seat_only_label_with_seat_specific_sources(self):
+        # Break caught: the seat limit either reuses the engine label or carries the wrong source IDs.
+        profile = self._profile()
+        profile["pricing"]["entry_engines"] = envelope(2, ["e-engine"])
+
+        flags = derive_auto_risk_flags(profile)
+        by_name = {flag["flag"]: flag for flag in flags}
+
+        self.assertEqual("yellow", by_name["入门档仅 1 个席位"]["tier"])
+        self.assertEqual(["e-home"], by_name["入门档仅 1 个席位"]["src"])
+        self.assertNotIn("入门档仅覆盖单一引擎", by_name)
 
     def test_derive_auto_risk_flags_emits_evidence_and_oss_concerns(self):
         # Break caught: low-verifiability and OSS hygiene signals are omitted from automatic labels.

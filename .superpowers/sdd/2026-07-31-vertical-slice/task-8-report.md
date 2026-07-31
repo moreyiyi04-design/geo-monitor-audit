@@ -53,3 +53,8 @@ documentation slice.
 - The fixture is intentionally minimal and synthetic; it should not be reused as
   evidence about the real Profound product without replacing every source with
   live research data.
+- Cross-task integration note on 2026-07-31: Task 2 split the combined pricing
+  label `入门档仅覆盖单一引擎 / 仅 1 个席位` into two deterministic labels
+  (`入门档仅覆盖单一引擎` and `入门档仅 1 个席位`). Until Task 8 regenerates
+  `wiki/products/profound.json`, `tests/test_vertical_slice.py` will fail on
+  stale committed fixture bytes rather than scoring logic.

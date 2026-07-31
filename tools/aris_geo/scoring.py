@@ -98,11 +98,17 @@ def derive_auto_risk_flags(profile: dict[str, Any]) -> list[dict[str, Any]]:
     if pricing_flag_sources:
         add_flag("无公开定价 / 仅年付 / 无试用 / 退款条款未公开", "yellow", pricing_flag_sources)
 
-    if _numeric_value(pricing.get("entry_engines"), default=0) <= 1 or _numeric_value(pricing.get("entry_seats"), default=0) <= 1:
+    if _numeric_value(pricing.get("entry_engines"), default=0) <= 1:
         add_flag(
-            "入门档仅覆盖单一引擎 / 仅 1 个席位",
+            "入门档仅覆盖单一引擎",
             "yellow",
-            _source_ids(pricing.get("entry_engines")) + _source_ids(pricing.get("entry_seats")),
+            _source_ids(pricing.get("entry_engines")),
+        )
+    if _numeric_value(pricing.get("entry_seats"), default=0) <= 1:
+        add_flag(
+            "入门档仅 1 个席位",
+            "yellow",
+            _source_ids(pricing.get("entry_seats")),
         )
 
     if _is_true(pricing.get("unit_inflation_risk")):
