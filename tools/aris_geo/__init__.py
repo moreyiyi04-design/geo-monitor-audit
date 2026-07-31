@@ -21,6 +21,9 @@ from .compiler import (
     render_compiled_block,
     replace_compiled_block,
 )
+from .github import GitHubHealthClient
+from .http import HttpRequest, HttpResponse, canonical_request_sha256
+from .tavily import TavilyClient
 
 __all__ = [
     "ArisResult",
@@ -30,7 +33,10 @@ __all__ = [
     "EVIDENCE_KINDS",
     "Envelope",
     "GeoLoop",
+    "GitHubHealthClient",
     "GRADE_WEIGHTS",
+    "HttpRequest",
+    "HttpResponse",
     "Phase",
     "PhaseOutcome",
     "PERSONA_ALLOWLIST",
@@ -49,11 +55,13 @@ __all__ = [
     "load_state",
     "load_profiles",
     "parse_aris_result",
+    "canonical_request_sha256",
     "render_compiled_block",
     "replace_compiled_block",
     "run_aris_phase",
     "save_state",
     "sha256_file",
     "stage_persona_inbox",
+    "TavilyClient",
     "validate_profile",
 ]
