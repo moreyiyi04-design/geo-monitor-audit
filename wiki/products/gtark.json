@@ -1,31 +1,31 @@
 {
   "schema_version": "v1",
-  "slug": "profound",
+  "slug": "gtark",
   "name_cn": {
-    "v": "Profound",
+    "v": "GTark",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "name_en": {
-    "v": "Profound",
+    "v": "GTark",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "homepage": {
-    "v": "https://www.tryprofound.com/",
+    "v": "https://www.gtark.com/",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "vendor_domains": [
-    "tryprofound.com"
+    "gtark.com"
   ],
-  "market": "overseas",
+  "market": "domestic",
   "category": [
     "一体化平台",
     "监测/可见性追踪"
@@ -40,7 +40,7 @@
   "openness": "closed",
   "measurement": {
     "capture_channel": {
-      "v": "browser",
+      "v": "platform conversation monitoring",
       "src": [
         "e2"
       ],
@@ -76,14 +76,14 @@
     "sampling_frequency": {
       "v": "daily",
       "src": [
-        "e2"
+        "e1"
       ],
       "conf": "stated"
     }
   },
   "mechanism": {
     "data_source": {
-      "v": "consumer browser answer-engine responses",
+      "v": "recorded conversations with six domestic AI platforms",
       "src": [
         "e2"
       ],
@@ -99,7 +99,7 @@
       "conf": "stated"
     },
     "entry_engines": {
-      "v": 1,
+      "v": 6,
       "src": [
         "e1"
       ],
@@ -111,21 +111,21 @@
       "conf": "unknown"
     },
     "entry_prompts": {
-      "v": 50,
+      "v": 10,
       "src": [
         "e1"
       ],
       "conf": "stated"
     },
     "min_commit": {
-      "v": "12 months",
+      "v": "first-use package",
       "src": [
         "e1"
       ],
       "conf": "stated"
     },
     "annual_only": {
-      "v": true,
+      "v": false,
       "src": [
         "e1"
       ],
@@ -139,9 +139,11 @@
       "conf": "stated"
     },
     "refund_terms": {
-      "v": null,
-      "src": [],
-      "conf": "unknown"
+      "v": "No refunds after activation",
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
     },
     "unit_inflation_risk": {
       "v": null,
@@ -163,11 +165,9 @@
   },
   "exit": {
     "data_export": {
-      "v": true,
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "history_portable": {
       "v": null,
@@ -205,24 +205,37 @@
   "evidence": [
     {
       "id": "e1",
-      "url": "https://www.tryprofound.com/pricing",
+      "url": "https://www.gtark.com/",
       "kind": "vendor_pricing_page",
       "fetched_at": "2026-07-31",
-      "sha256": "a9d11a3e9c03a9075701f34fbcea5172105835746037c92648f6f818b255f49a",
-      "excerpt_path": "wiki/raw/profound/e1.txt",
+      "sha256": "3d8fcfeadb24418f6597eac551124916d16d4005787998e4e90c676b200c8301",
+      "excerpt_path": "wiki/raw/gtark/e1.txt",
       "paid_placement_suspected": false
     },
     {
       "id": "e2",
-      "url": "https://www.tryprofound.com/features/answer-engine-insights",
+      "url": "https://www.gtark.com/",
       "kind": "methodology_doc",
       "fetched_at": "2026-07-31",
-      "sha256": "87511f21eacfe4d59b1ec58c7d3951bbe44f64d8aaed393e409cd232558a94ad",
-      "excerpt_path": "wiki/raw/profound/e2.txt",
+      "sha256": "f634a06c917d21d80ed4fae2409ed4e342cfccee82cfada972fadec5206d6a4e",
+      "excerpt_path": "wiki/raw/gtark/e2.txt",
       "paid_placement_suspected": false
     }
   ],
-  "effect_claims": [],
+  "effect_claims": [
+    {
+      "claim": "A vendor-published customer case reports brand mention rate rising from 32% to 94.81%.",
+      "has_number": true,
+      "has_denominator": false,
+      "has_timeframe": false,
+      "engine": "multiple domestic AI platforms",
+      "src": [
+        "e2"
+      ],
+      "grade_proposed": "D",
+      "grade_final": "D"
+    }
+  ],
   "case_studies": [],
   "oss_health": {
     "stars": 0,
@@ -250,22 +263,22 @@
     "entity.team_public",
     "exit.content_hosted_by_vendor",
     "exit.contract_lock",
+    "exit.data_export",
     "exit.history_portable",
     "measurement.declares_noise_floor",
     "measurement.model_version_pinning",
     "measurement.reports_confidence_interval",
     "measurement.samples_per_prompt",
     "pricing.entry_seats",
-    "pricing.refund_terms",
     "pricing.unit_inflation_risk"
   ],
   "unresolved": [],
   "observations": [],
   "scores": {
-    "transparency": 3,
-    "verifiability": 0,
-    "lock_in_risk": 2,
-    "measurement_rigor": 2,
+    "transparency": 4,
+    "verifiability": 1,
+    "lock_in_risk": 0,
+    "measurement_rigor": 1,
     "oss_health": 0
   },
   "risk_flags": [
@@ -294,41 +307,24 @@
       "src": []
     },
     {
-      "flag": "无公开定价 / 仅年付 / 无试用 / 退款条款未公开",
-      "tier": "yellow",
-      "origin": "auto",
-      "src": [
-        "e1"
-      ]
-    },
-    {
-      "flag": "入门档仅覆盖单一引擎",
-      "tier": "yellow",
-      "origin": "auto",
-      "src": [
-        "e1"
-      ]
-    },
-    {
       "flag": "入门档席位数未披露",
       "tier": "yellow",
       "origin": "auto",
       "src": []
     },
     {
-      "flag": "无数据导出 / 最低合约期 > 6 个月",
-      "tier": "orange",
-      "origin": "auto",
-      "src": [
-        "e2",
-        "e1"
-      ]
-    },
-    {
       "flag": "团队信息未公开 / 客户案例未能交叉验证",
       "tier": "yellow",
       "origin": "auto",
       "src": []
+    },
+    {
+      "flag": "效果声称以 D/E 级为主",
+      "tier": "orange",
+      "origin": "auto",
+      "src": [
+        "e2"
+      ]
     }
   ],
   "audit": {

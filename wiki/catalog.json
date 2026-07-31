@@ -1,0 +1,556 @@
+{
+  "fetched_at": "2026-07-31",
+  "products": [
+    {
+      "slug": "profound",
+      "name_cn": "Profound",
+      "name_en": "Profound",
+      "homepage": "https://www.tryprofound.com/",
+      "market": "overseas",
+      "category": ["一体化平台", "监测/可见性追踪"],
+      "delivery_form": "SaaS",
+      "openness": "closed",
+      "vendor_domains": ["tryprofound.com"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://www.tryprofound.com/pricing",
+          "kind": "vendor_pricing_page",
+          "excerpt": "Starter: $99/month, billed yearly; ChatGPT tracking only; 50 prompts tracked."
+        },
+        {
+          "id": "e2",
+          "url": "https://www.tryprofound.com/features/answer-engine-insights",
+          "kind": "methodology_doc",
+          "excerpt": "Profound says it captures answers from browser experiences, runs tracked prompts daily, and allows raw-data CSV export."
+        }
+      ],
+      "facts": {
+        "measurement.capture_channel": {"v": "browser", "src": ["e2"], "conf": "stated"},
+        "measurement.sampling_frequency": {"v": "daily", "src": ["e2"], "conf": "stated"},
+        "measurement.sov_formula_public": {"v": true, "src": ["e2"], "conf": "stated"},
+        "mechanism.data_source": {"v": "consumer browser answer-engine responses", "src": ["e2"], "conf": "stated"},
+        "pricing.has_public_pricing": {"v": true, "src": ["e1"], "conf": "stated"},
+        "pricing.entry_engines": {"v": 1, "src": ["e1"], "conf": "stated"},
+        "pricing.entry_prompts": {"v": 50, "src": ["e1"], "conf": "stated"},
+        "pricing.min_commit": {"v": "12 months", "src": ["e1"], "conf": "stated"},
+        "pricing.annual_only": {"v": true, "src": ["e1"], "conf": "stated"},
+        "pricing.trial": {"v": true, "src": ["e1"], "conf": "stated"},
+        "exit.data_export": {"v": true, "src": ["e2"], "conf": "stated"}
+      }
+    },
+    {
+      "slug": "scrunch_ai",
+      "name_cn": "Scrunch AI",
+      "name_en": "Scrunch AI",
+      "homepage": "https://scrunch.com/",
+      "market": "overseas",
+      "category": ["一体化平台", "监测/可见性追踪"],
+      "delivery_form": "SaaS",
+      "openness": "closed",
+      "vendor_domains": ["scrunch.com", "scrunchai.com"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://scrunch.com/",
+          "kind": "vendor_marketing",
+          "excerpt": "Scrunch describes enterprise AI visibility, insights and action, and presents a customer claim of 4x growth in new paying customers."
+        },
+        {
+          "id": "e2",
+          "url": "https://developers.scrunch.com/api-reference/query/overview",
+          "kind": "vendor_doc",
+          "excerpt": "The Query API provides aggregated access to Scrunch AI visibility metrics."
+        }
+      ],
+      "facts": {
+        "mechanism.data_source": {"v": "undisclosed AI-visibility dataset", "src": ["e1"], "conf": "inferred", "note": "The public pages describe metrics but not the collection channel."},
+        "pricing.has_public_pricing": {"v": null, "src": [], "conf": "unknown"},
+        "enterprise.api": {"v": true, "src": ["e2"], "conf": "stated"}
+      },
+      "effect_claims": [
+        {
+          "claim": "A named homepage testimonial reports 4x growth in new paying customers.",
+          "has_number": true,
+          "has_denominator": false,
+          "has_timeframe": false,
+          "engine": "undisclosed",
+          "src": ["e1"],
+          "grade_proposed": "D",
+          "grade_final": "D"
+        }
+      ]
+    },
+    {
+      "slug": "otterlyai",
+      "name_cn": "OtterlyAI",
+      "name_en": "OtterlyAI",
+      "homepage": "https://otterly.ai/",
+      "market": "overseas",
+      "category": ["监测/可见性追踪"],
+      "delivery_form": "SaaS",
+      "openness": "closed",
+      "vendor_domains": ["otterly.ai"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://otterly.ai/",
+          "kind": "vendor_marketing",
+          "excerpt": "OtterlyAI monitors brand presence across ChatGPT, Google AI Overviews, Perplexity and Copilot."
+        },
+        {
+          "id": "e2",
+          "url": "https://otterly.ai/pricing",
+          "kind": "vendor_pricing_page",
+          "excerpt": "Lite costs $29 monthly for 15 prompts and daily tracking; the page states a free trial and monthly cancellation."
+        }
+      ],
+      "facts": {
+        "measurement.sampling_frequency": {"v": "daily", "src": ["e2"], "conf": "stated"},
+        "mechanism.data_source": {"v": "automated AI-platform prompt monitoring", "src": ["e1"], "conf": "inferred", "note": "The homepage describes automatic monitoring but not its technical channel."},
+        "pricing.has_public_pricing": {"v": true, "src": ["e2"], "conf": "stated"},
+        "pricing.entry_engines": {"v": 4, "src": ["e2"], "conf": "stated"},
+        "pricing.entry_prompts": {"v": 15, "src": ["e2"], "conf": "stated"},
+        "pricing.min_commit": {"v": "1 month", "src": ["e2"], "conf": "stated"},
+        "pricing.annual_only": {"v": false, "src": ["e2"], "conf": "stated"},
+        "pricing.trial": {"v": true, "src": ["e2"], "conf": "stated"},
+        "exit.data_export": {"v": true, "src": ["e2"], "conf": "stated"}
+      }
+    },
+    {
+      "slug": "rankscale",
+      "name_cn": "Rankscale",
+      "name_en": "Rankscale",
+      "homepage": "https://rankscale.ai/",
+      "market": "overseas",
+      "category": ["监测/可见性追踪"],
+      "delivery_form": "SaaS",
+      "openness": "closed",
+      "vendor_domains": ["rankscale.ai"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://rankscale.ai/pricing",
+          "kind": "vendor_pricing_page",
+          "excerpt": "Pro costs $99 monthly for 1,200 credits; monitoring ranges hourly to monthly and exports include CSV, Sheets and Looker Studio."
+        },
+        {
+          "id": "e2",
+          "url": "https://rankscale.ai/",
+          "kind": "vendor_marketing",
+          "excerpt": "Rankscale presents AI visibility tracking, competitor benchmarking, citation analysis and sentiment analysis."
+        }
+      ],
+      "facts": {
+        "measurement.sampling_frequency": {"v": "hourly to monthly", "src": ["e1"], "conf": "stated"},
+        "mechanism.data_source": {"v": "queries to configured AI engines", "src": ["e1"], "conf": "stated"},
+        "pricing.has_public_pricing": {"v": true, "src": ["e1"], "conf": "stated"},
+        "pricing.unit": {"v": "credits per engine query", "src": ["e1"], "conf": "stated"},
+        "pricing.min_commit": {"v": "1 month", "src": ["e1"], "conf": "stated"},
+        "pricing.annual_only": {"v": false, "src": ["e1"], "conf": "stated"},
+        "pricing.trial": {"v": true, "src": ["e1"], "conf": "stated"},
+        "pricing.unit_inflation_risk": {"v": true, "src": ["e1"], "conf": "inferred", "note": "Each selected engine consumes credits for every prompt execution."},
+        "exit.data_export": {"v": true, "src": ["e1"], "conf": "stated"}
+      }
+    },
+    {
+      "slug": "geo_tool_cn",
+      "name_cn": "GEO AI搜索优化",
+      "name_en": "GEO AI Search Optimization",
+      "homepage": "https://www.geo-tool.cn/",
+      "market": "domestic",
+      "category": ["一体化平台", "监测/可见性追踪"],
+      "delivery_form": "SaaS",
+      "openness": "closed",
+      "vendor_domains": ["geo-tool.cn"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://www.geo-tool.cn/",
+          "kind": "vendor_pricing_page",
+          "excerpt": "体验版为每月100元，含AI可见度诊断、1个主关键词、8个AI平台和数据报表。"
+        }
+      ],
+      "facts": {
+        "mechanism.data_source": {"v": "AI platform monitoring", "src": ["e1"], "conf": "inferred", "note": "The page states monitoring but does not disclose the collection channel."},
+        "pricing.has_public_pricing": {"v": true, "src": ["e1"], "conf": "stated"},
+        "pricing.entry_engines": {"v": 8, "src": ["e1"], "conf": "stated"},
+        "pricing.entry_prompts": {"v": 1, "src": ["e1"], "conf": "inferred", "note": "The plan is expressed as one main keyword, not a comparable prompt quota."},
+        "pricing.min_commit": {"v": "1 month", "src": ["e1"], "conf": "stated"},
+        "pricing.annual_only": {"v": false, "src": ["e1"], "conf": "stated"}
+      }
+    },
+    {
+      "slug": "unicorn_geo",
+      "name_cn": "独角兽GEO",
+      "name_en": "Unicorn GEO",
+      "homepage": "https://geo.yueyuezi.com/",
+      "market": "domestic",
+      "category": ["一体化平台", "监测/可见性追踪"],
+      "delivery_form": "SaaS",
+      "openness": "closed",
+      "vendor_domains": ["yueyuezi.com"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://geo.yueyuezi.com/",
+          "kind": "methodology_doc",
+          "excerpt": "平台称使用真实账号、真实浏览器操作并全程录屏，免费方案覆盖1个品牌、2个话题和6个AI引擎。"
+        }
+      ],
+      "facts": {
+        "measurement.capture_channel": {"v": "browser", "src": ["e1"], "conf": "stated"},
+        "measurement.sampling_frequency": {"v": "daily", "src": ["e1"], "conf": "stated"},
+        "mechanism.data_source": {"v": "recorded browser interactions with six domestic AI engines", "src": ["e1"], "conf": "stated"},
+        "pricing.has_public_pricing": {"v": true, "src": ["e1"], "conf": "stated"},
+        "pricing.entry_engines": {"v": 6, "src": ["e1"], "conf": "stated"},
+        "pricing.entry_prompts": {"v": 2, "src": ["e1"], "conf": "inferred", "note": "The free plan publishes two topics rather than a prompt count."},
+        "pricing.trial": {"v": true, "src": ["e1"], "conf": "stated"}
+      }
+    },
+    {
+      "slug": "gtark",
+      "name_cn": "GTark",
+      "name_en": "GTark",
+      "homepage": "https://www.gtark.com/",
+      "market": "domestic",
+      "category": ["一体化平台", "监测/可见性追踪"],
+      "delivery_form": "SaaS",
+      "openness": "closed",
+      "vendor_domains": ["gtark.com"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://www.gtark.com/",
+          "kind": "vendor_pricing_page",
+          "excerpt": "体验版首次29.9元，含10个AI问题/日和6个平台；专业版699元/月，页面说明不支持退款。"
+        },
+        {
+          "id": "e2",
+          "url": "https://www.gtark.com/",
+          "kind": "methodology_doc",
+          "excerpt": "GTark称记录真实AI对话，采用标准化问题并多次重复采样取均值；页面案例报告提及率由32%升至94.81%。"
+        }
+      ],
+      "facts": {
+        "measurement.capture_channel": {"v": "platform conversation monitoring", "src": ["e2"], "conf": "stated"},
+        "measurement.sampling_frequency": {"v": "daily", "src": ["e1"], "conf": "stated"},
+        "measurement.sov_formula_public": {"v": true, "src": ["e2"], "conf": "stated"},
+        "mechanism.data_source": {"v": "recorded conversations with six domestic AI platforms", "src": ["e2"], "conf": "stated"},
+        "pricing.has_public_pricing": {"v": true, "src": ["e1"], "conf": "stated"},
+        "pricing.entry_engines": {"v": 6, "src": ["e1"], "conf": "stated"},
+        "pricing.entry_prompts": {"v": 10, "src": ["e1"], "conf": "stated"},
+        "pricing.min_commit": {"v": "first-use package", "src": ["e1"], "conf": "stated"},
+        "pricing.annual_only": {"v": false, "src": ["e1"], "conf": "stated"},
+        "pricing.trial": {"v": true, "src": ["e1"], "conf": "stated"},
+        "pricing.refund_terms": {"v": "No refunds after activation", "src": ["e1"], "conf": "stated"}
+      },
+      "effect_claims": [
+        {
+          "claim": "A vendor-published customer case reports brand mention rate rising from 32% to 94.81%.",
+          "has_number": true,
+          "has_denominator": false,
+          "has_timeframe": false,
+          "engine": "multiple domestic AI platforms",
+          "src": ["e2"],
+          "grade_proposed": "D",
+          "grade_final": "D"
+        }
+      ]
+    },
+    {
+      "slug": "geo_aeo_tracker",
+      "name_cn": "GEO/AEO Tracker",
+      "name_en": "GEO/AEO Tracker",
+      "homepage": "https://github.com/danishashko/geo-aeo-tracker",
+      "market": "overseas",
+      "category": ["监测/可见性追踪"],
+      "delivery_form": "Self-hosted web application",
+      "openness": "open-source",
+      "vendor_domains": ["github.com"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://github.com/danishashko/geo-aeo-tracker",
+          "kind": "repo",
+          "excerpt": "The repository describes a local-first dashboard tracking six AI models, using Bright Data’s AI Scraper API and supporting CSV export."
+        }
+      ],
+      "facts": {
+        "measurement.capture_channel": {"v": "api", "src": ["e1"], "conf": "stated"},
+        "mechanism.data_source": {"v": "Bright Data AI Scraper API", "src": ["e1"], "conf": "stated"},
+        "pricing.has_public_pricing": {"v": true, "src": ["e1"], "conf": "stated"},
+        "pricing.annual_only": {"v": false, "src": ["e1"], "conf": "stated"},
+        "exit.data_export": {"v": true, "src": ["e1"], "conf": "stated"},
+        "exit.content_hosted_by_vendor": {"v": false, "src": ["e1"], "conf": "stated"}
+      },
+      "oss_health": {
+        "stars": 214,
+        "created_at": "2026-02-14",
+        "age_months": 5,
+        "stars_per_month": 42.8,
+        "contributors_12mo": 1,
+        "commits_90d": 1,
+        "last_release": null,
+        "releases": 0,
+        "tests_cover_own_logic": false,
+        "license_spdx": "MIT"
+      }
+    },
+    {
+      "slug": "aperture",
+      "name_cn": "Aperture",
+      "name_en": "Aperture",
+      "homepage": "https://github.com/anyin-ai/aperture",
+      "market": "overseas",
+      "category": ["监测/可见性追踪"],
+      "delivery_form": "Self-hosted web application",
+      "openness": "open-source",
+      "vendor_domains": ["github.com"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://github.com/anyin-ai/aperture",
+          "kind": "repo",
+          "excerpt": "Aperture is self-hosted, BYOK AI visibility infrastructure; its README says API/export is available and warns the MVP has no authentication."
+        }
+      ],
+      "facts": {
+        "measurement.capture_channel": {"v": "api", "src": ["e1"], "conf": "stated"},
+        "mechanism.data_source": {"v": "user-supplied model APIs", "src": ["e1"], "conf": "stated"},
+        "pricing.has_public_pricing": {"v": true, "src": ["e1"], "conf": "stated"},
+        "pricing.annual_only": {"v": false, "src": ["e1"], "conf": "stated"},
+        "exit.data_export": {"v": true, "src": ["e1"], "conf": "stated"},
+        "exit.content_hosted_by_vendor": {"v": false, "src": ["e1"], "conf": "stated"}
+      },
+      "observations": [
+        {"note": "The README explicitly warns that the MVP stores API keys unencrypted and ships without authentication.", "src": ["e1"]}
+      ],
+      "oss_health": {
+        "stars": 22,
+        "created_at": "2026-03-09",
+        "age_months": 4,
+        "stars_per_month": 5.5,
+        "contributors_12mo": 3,
+        "commits_90d": 1,
+        "last_release": null,
+        "releases": 0,
+        "tests_cover_own_logic": false,
+        "license_spdx": "MIT"
+      }
+    },
+    {
+      "slug": "geoskills",
+      "name_cn": "GEO Skills",
+      "name_en": "GEO Skills",
+      "homepage": "https://github.com/Cognitic-Labs/geoskills",
+      "market": "overseas",
+      "category": ["agent-skill/prompt-pack"],
+      "delivery_form": "Agent skill suite",
+      "openness": "open-source",
+      "vendor_domains": ["github.com"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://github.com/Cognitic-Labs/geoskills",
+          "kind": "repo",
+          "excerpt": "The repository provides six agent skills to audit, fix and monitor website visibility across AI search engines."
+        }
+      ],
+      "facts": {
+        "mechanism.data_source": {"v": "website audit observations gathered by agent skills", "src": ["e1"], "conf": "stated"},
+        "pricing.has_public_pricing": {"v": true, "src": ["e1"], "conf": "inferred", "note": "The Apache-licensed repository is publicly installable without a listed fee."},
+        "pricing.annual_only": {"v": false, "src": ["e1"], "conf": "inferred", "note": "No vendor subscription is required for the repository."},
+        "exit.data_export": {"v": true, "src": ["e1"], "conf": "inferred", "note": "Outputs are repository files produced by the skills."},
+        "exit.content_hosted_by_vendor": {"v": false, "src": ["e1"], "conf": "inferred", "note": "The skill suite runs in the user's agent workspace."}
+      },
+      "oss_health": {
+        "stars": 20,
+        "created_at": "2026-03-12",
+        "age_months": 4,
+        "stars_per_month": 5,
+        "contributors_12mo": 1,
+        "commits_90d": 1,
+        "last_release": null,
+        "releases": 0,
+        "tests_cover_own_logic": false,
+        "license_spdx": "Apache-2.0"
+      }
+    },
+    {
+      "slug": "geo_generative_engine_optimization",
+      "name_cn": "生成式引擎优化（GEO）",
+      "name_en": "GEO: Generative Engine Optimization",
+      "homepage": "https://arxiv.org/abs/2311.09735",
+      "market": "overseas",
+      "category": ["学术参考实现"],
+      "delivery_form": "Research paper and benchmark",
+      "openness": "source-available",
+      "vendor_domains": [],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://arxiv.org/abs/2311.09735",
+          "kind": "academic",
+          "excerpt": "The paper introduces GEO and reports visibility improvements of up to 40% in its experimental setting."
+        },
+        {
+          "id": "e2",
+          "url": "https://doi.org/10.1145/3637528.3671900",
+          "kind": "registry",
+          "excerpt": "The DOI records the work in the ACM KDD 2024 proceedings."
+        }
+      ],
+      "facts": {
+        "mechanism.data_source": {"v": "GEO-Bench experimental benchmark", "src": ["e1"], "conf": "stated"},
+        "academic_anchor.paper": {"v": "10.1145/3637528.3671900", "src": ["e2"], "conf": "stated"},
+        "academic_anchor.peer_reviewed": {"v": true, "src": ["e2"], "conf": "stated"},
+        "academic_anchor.reproducible_experiments": {"v": true, "src": ["e1"], "conf": "stated"},
+        "academic_anchor.benchmark": {"v": true, "src": ["e1"], "conf": "stated"},
+        "pricing.has_public_pricing": {"v": true, "src": ["e1"], "conf": "inferred", "note": "The paper and benchmark are publicly accessible."},
+        "exit.data_export": {"v": true, "src": ["e1"], "conf": "inferred", "note": "The public benchmark artifacts can be downloaded."}
+      },
+      "effect_claims": [
+        {
+          "claim": "The paper reports source visibility improvements of up to 40% in GEO-Bench experiments.",
+          "has_number": true,
+          "has_denominator": true,
+          "has_timeframe": false,
+          "engine": "GEO-Bench",
+          "claimed_change_pp": 40,
+          "src": ["e1"],
+          "grade_proposed": "A",
+          "grade_final": "A"
+        }
+      ],
+      "oss_health": {
+        "stars": 0,
+        "contributors_12mo": 0,
+        "commits_90d": 0,
+        "last_release": "2024-08-25",
+        "releases": 1,
+        "tests_cover_own_logic": true,
+        "license_spdx": "Apache-2.0"
+      }
+    },
+    {
+      "slug": "e_geo_testbed",
+      "name_cn": "E-GEO 电商测试床",
+      "name_en": "E-GEO: A Testbed for Generative Engine Optimization in E-Commerce",
+      "homepage": "https://arxiv.org/abs/2511.20867",
+      "market": "overseas",
+      "category": ["学术参考实现"],
+      "delivery_form": "Research paper and testbed",
+      "openness": "source-available",
+      "vendor_domains": [],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://arxiv.org/abs/2511.20867",
+          "kind": "academic",
+          "excerpt": "E-GEO presents a testbed for studying generative engine optimization in e-commerce."
+        },
+        {
+          "id": "e2",
+          "url": "https://jglobal.jst.go.jp/en/detail?JGLOBAL_ID=202502220704083587",
+          "kind": "registry",
+          "excerpt": "J-GLOBAL indexes the E-GEO research record."
+        }
+      ],
+      "facts": {
+        "mechanism.data_source": {"v": "e-commerce GEO testbed", "src": ["e1"], "conf": "stated"},
+        "academic_anchor.paper": {"v": "arXiv:2511.20867", "src": ["e1"], "conf": "stated"},
+        "academic_anchor.peer_reviewed": {"v": null, "src": [], "conf": "unknown"},
+        "academic_anchor.reproducible_experiments": {"v": true, "src": ["e1"], "conf": "stated"},
+        "academic_anchor.benchmark": {"v": true, "src": ["e1"], "conf": "stated"},
+        "pricing.has_public_pricing": {"v": true, "src": ["e1"], "conf": "inferred", "note": "The research manuscript is publicly accessible."}
+      },
+      "oss_health": {
+        "stars": 0,
+        "contributors_12mo": 0,
+        "commits_90d": 0,
+        "last_release": "2025-11-26",
+        "releases": 1,
+        "tests_cover_own_logic": true,
+        "license_spdx": "NOASSERTION",
+        "license_absent": true
+      }
+    },
+    {
+      "slug": "geo_optimizer_skill",
+      "name_cn": "GEO Optimizer Skill",
+      "name_en": "GEO Optimizer Skill",
+      "homepage": "https://github.com/Auriti-Labs/geo-optimizer-skill",
+      "market": "overseas",
+      "category": ["agent-skill/prompt-pack"],
+      "delivery_form": "Agent skill and audit toolkit",
+      "openness": "open-source",
+      "vendor_domains": ["github.com"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://github.com/Auriti-Labs/geo-optimizer-skill",
+          "kind": "repo",
+          "excerpt": "The repository describes an open-source GEO audit engine for crawlability, understandability, citability and monitoring."
+        }
+      ],
+      "facts": {
+        "mechanism.data_source": {"v": "website audit observations", "src": ["e1"], "conf": "stated"},
+        "pricing.has_public_pricing": {"v": true, "src": ["e1"], "conf": "inferred", "note": "The MIT-licensed repository is publicly available."},
+        "pricing.annual_only": {"v": false, "src": ["e1"], "conf": "inferred", "note": "No repository subscription is required."},
+        "exit.data_export": {"v": true, "src": ["e1"], "conf": "inferred", "note": "Audit results are generated in the user's workspace."},
+        "exit.content_hosted_by_vendor": {"v": false, "src": ["e1"], "conf": "inferred", "note": "The skill runs locally in an agent workspace."}
+      },
+      "oss_health": {
+        "stars": 632,
+        "created_at": "2026-02-18",
+        "age_months": 5,
+        "stars_per_month": 126.4,
+        "contributors_12mo": 4,
+        "commits_90d": 1,
+        "last_release": null,
+        "releases": 0,
+        "tests_cover_own_logic": false,
+        "license_spdx": "MIT"
+      }
+    },
+    {
+      "slug": "seo_geo_claude_skills",
+      "name_cn": "SEO & GEO Skills Library",
+      "name_en": "SEO & GEO Skills Library",
+      "homepage": "https://github.com/aaron-he-zhu/seo-geo-claude-skills",
+      "market": "overseas",
+      "category": ["agent-skill/prompt-pack"],
+      "delivery_form": "Agent skill library",
+      "openness": "open-source",
+      "vendor_domains": ["github.com"],
+      "sources": [
+        {
+          "id": "e1",
+          "url": "https://github.com/aaron-he-zhu/seo-geo-claude-skills",
+          "kind": "repo",
+          "excerpt": "The repository is a signpost to 16 SEO/GEO agent skills and preserves its standalone 20-skill line at tag v9.9.12."
+        }
+      ],
+      "facts": {
+        "mechanism.data_source": {"v": "agent-driven SEO and GEO audits", "src": ["e1"], "conf": "stated"},
+        "pricing.has_public_pricing": {"v": true, "src": ["e1"], "conf": "inferred", "note": "The Apache-licensed repository is publicly available."},
+        "pricing.annual_only": {"v": false, "src": ["e1"], "conf": "inferred", "note": "No repository subscription is required."},
+        "exit.data_export": {"v": true, "src": ["e1"], "conf": "inferred", "note": "Skill outputs remain in the user's workspace."},
+        "exit.content_hosted_by_vendor": {"v": false, "src": ["e1"], "conf": "inferred", "note": "The skills run in the user's agent workspace."}
+      },
+      "oss_health": {
+        "stars": 123,
+        "created_at": "2026-06-28",
+        "age_months": 1,
+        "stars_per_month": 123,
+        "contributors_12mo": 9,
+        "commits_90d": 1,
+        "last_release": "2026-06-28",
+        "releases": 1,
+        "tests_cover_own_logic": false,
+        "license_spdx": "Apache-2.0"
+      }
+    }
+  ]
+}

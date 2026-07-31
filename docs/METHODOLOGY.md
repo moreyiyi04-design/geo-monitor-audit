@@ -1,46 +1,123 @@
 # Methodology
 
-## Synthetic Fixture Warning
+## Publication scope
 
-This repository currently publishes a **synthetic offline fixture** for the
-`profound` slug. All committed excerpts use synthetic `https://*.example.invalid/...`
-source domains and explicitly identify themselves as synthetic test fixtures. The
-fixture exists to exercise evidence validation, score recomputation, README
-compilation, and CI gates offline. It does **not** represent live research,
-vendor claims, or a product conclusion.
+ARIS-GEO evaluates public evidence about GEO/AIO/AEO software, open-source tools,
+agent skills, and reference research. It does not perform GEO on a brand and does
+not test whether a vendor can change live answer-engine rankings.
 
-## Scope
+The 2026-07-31 publication contains 14 deliberately heterogeneous objects:
+overseas SaaS, domestic China SaaS, self-hosted projects, agent-skill packs, and
+academic testbeds. The set is a pressure sample, not an exhaustive market census.
+The synthetic Profound fixture under `tests/fixtures/` exists only for regression
+tests and is excluded from publication.
 
-ARIS-GEO studies GEO/AIO/AEO software artifacts rather than performing GEO for
-its own brand. In this branch, the repository state is limited to one synthetic
-fixture so the deterministic pipeline can be verified end-to-end without
-credentials or network access.
+## Selection
 
-## Known v1 Limitations
+Candidates came from official product pages, public GitHub discovery, and academic
+indexes. A human inclusion gate retained products with an identifiable official
+source and enough material to classify their delivery form. This creates a
+self-referential selection bias: products already good at GEO are easier to discover.
+China-only products without accessible public documentation are underrepresented.
 
-The current methodology inherits the six limitations required by DESIGN §9:
+`wiki/catalog.json` records the accepted source set. Products are never inserted
+automatically from a search result.
 
-1. 维度集由海外标杆归纳,国内适配性未验证
-2. `market: domestic | overseas` 的差异化必填字段集在 v1 只做了粗分
-3. 「未披露」≠「没有」
-4. 发现机制存在自指偏差: 用搜索发现 GEO 产品,天然更容易收录本来就擅长 GEO 的公司
-5. 三个 persona 同模型,共享先验;补救依赖硬 checker 与公开 `unknowns[]` / `unresolved[]`
-6. 无综合总分排名
+## Evidence capture
 
-## Ranking Policy
+Each evidence record contains:
 
-No total ranking is published. The repository only permits dimension-level
-scores plus explicit labels because the system is designed to preserve
-uncertainty instead of compressing it into one ordinal list.
+- a stable local id;
+- the public URL and source kind;
+- the observation date;
+- a short attributed extract, not a full copied page;
+- the SHA-256 of that local extract;
+- a paid-placement suspicion bit.
 
-## Label Sunset
+The publication builder writes extracts and profiles from the reviewed catalog.
+`verify_evidence.py --strict` checks every non-unknown research envelope, source id,
+path, hash, confidence value, and the two-way `unknowns[]` inventory.
 
-标签必须能消失. Evidence carries `fetched_at`, and reruns are expected to update
-compiled outputs when a product later discloses pricing, methods, or export
-terms. Labels are observations tied to evidence dates, not permanent judgments.
+The current report relies mainly on first-party pages and primary GitHub/paper
+records. That is sufficient for product shape, disclosed pricing, and stated
+methodology, but not for validating vendor outcome claims. Independent case-study
+and registry coverage is an explicit gap.
 
-## Copyright and Citation Posture
+## Confidence and effect grades
 
-The committed `wiki/raw/` files store short synthetic excerpts only. Live
-research mode is expected to store attributed excerpts rather than source-page
-full text, and to keep all keys out of version control.
+Research fields use one of:
+
+- `stated`: directly supported by the cited public extract;
+- `inferred`: a bounded inference with a written note;
+- `unknown`: public evidence in this run did not support an answer.
+
+「未披露」不等于「没有」.
+
+Effect claims receive A–E grades:
+
+- A: authoritative/academic evidence or public methodology plus obtainable data;
+- B: qualifying independent third-party validation;
+- C: first-party claim with denominator or timeframe;
+- D: first-party number without enough measurement context;
+- E: no quantitative support.
+
+Python recomputes grades and downgrades claims when the source is vendor-hosted,
+suspected paid placement, or below a known measurement-noise floor. The report has
+only three quantified outcome claims: the GEO paper’s experimental result and two
+first-party commercial claims. It does not generalize any of them to the whole market.
+
+## Scores
+
+All scores are deterministic and reproducible:
+
+- `transparency`: public pricing, public methodology, verifiable entity, disclosed
+  data source, disclosed refund terms;
+- `verifiability`: weighted mean of recomputed A–E effect grades;
+- `lock_in_risk`: data export, vendor-hosted content, contract length, annual-only
+  billing, and history portability;
+- `measurement_rigor`: browser capture, disclosed repeated sampling, confidence
+  intervals, noise floor, and public share-of-voice formula;
+- `oss_health`: category-specific license, activity, contributor, release, test, and
+  academic-reproducibility checks.
+
+For closed products, `oss_health` is `0` as “not applicable in the numeric schema”,
+not as a quality judgment. No composite total or ordinal ranking is published.
+
+## GitHub snapshot
+
+GitHub repository counts were read from the public API on 2026-07-31. Repositories
+created within the preceding year use their visible contributor count as the
+12-month count. A recent `pushed_at` timestamp establishes at least one recent
+commit but is not expanded into an exact 90-day count. Test coverage is marked true
+only when the reviewed evidence supports tests of project-owned logic; otherwise it
+remains false rather than guessed.
+
+## Live orchestration and privacy
+
+The live driver supports direct-URL fetches, optional Tavily discovery, GitHub health
+collection, ARIS model phases, isolated vendor/skeptic/arbiter inboxes, deterministic
+patch application, and all publication gates.
+
+Model phases necessarily transmit their staged inputs to the configured model
+provider. The committed 2026-07-31 report was curated in the current Codex session and
+does not depend on transmitting the private repository or its skill files to DeepSeek.
+The ARIS 0.4.22 binary was checksum-verified in a temporary directory and is not
+committed.
+
+## Known v1 limitations
+
+1. 维度集由海外标杆归纳，国内适配性仍有限。
+2. `market: domestic | overseas` 的差异化必填字段集在 v1 只做粗分。
+3. 公开页面可能随时变更；本报告只对 `fetched_at` 当日快照负责。
+4. 发现机制存在自指偏差，人工过闸只能缓解、不能消除。
+5. 同一供应商的定价单位可能按 prompt、问题、关键词、引擎或 credit 变化。
+6. 第一方页面大量缺少样本数、误差范围和噪声下限，因而不能支持效果比较。
+7. 未登录产品、销售合同、真实导出质量、企业安全控制和售后体验均未实测。
+8. 无综合总分排名。
+
+## Label sunset
+
+标签必须能消失. When later evidence discloses a method, price, export option, or
+measurement control, refreshing the catalog and rerunning the deterministic builder
+changes the affected envelopes and labels. Labels are dated observations, not
+permanent judgments.

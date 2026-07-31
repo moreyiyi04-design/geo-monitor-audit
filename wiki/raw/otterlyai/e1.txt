@@ -1,0 +1,1 @@
+OtterlyAI monitors brand presence across ChatGPT, Google AI Overviews, Perplexity and Copilot.

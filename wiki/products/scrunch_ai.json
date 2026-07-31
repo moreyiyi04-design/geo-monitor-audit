@@ -1,29 +1,30 @@
 {
   "schema_version": "v1",
-  "slug": "profound",
+  "slug": "scrunch_ai",
   "name_cn": {
-    "v": "Profound",
+    "v": "Scrunch AI",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "name_en": {
-    "v": "Profound",
+    "v": "Scrunch AI",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "homepage": {
-    "v": "https://www.tryprofound.com/",
+    "v": "https://scrunch.com/",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "vendor_domains": [
-    "tryprofound.com"
+    "scrunch.com",
+    "scrunchai.com"
   ],
   "market": "overseas",
   "category": [
@@ -40,11 +41,9 @@
   "openness": "closed",
   "measurement": {
     "capture_channel": {
-      "v": "browser",
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "samples_per_prompt": {
       "v": null,
@@ -67,43 +66,31 @@
       "conf": "unknown"
     },
     "sov_formula_public": {
-      "v": true,
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
-    },
-    "sampling_frequency": {
-      "v": "daily",
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     }
   },
   "mechanism": {
     "data_source": {
-      "v": "consumer browser answer-engine responses",
+      "v": "undisclosed AI-visibility dataset",
       "src": [
-        "e2"
+        "e1"
       ],
-      "conf": "stated"
+      "conf": "inferred",
+      "note": "The public pages describe metrics but not the collection channel."
     }
   },
   "pricing": {
     "has_public_pricing": {
-      "v": true,
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "entry_engines": {
-      "v": 1,
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "entry_seats": {
       "v": null,
@@ -111,32 +98,24 @@
       "conf": "unknown"
     },
     "entry_prompts": {
-      "v": 50,
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "min_commit": {
-      "v": "12 months",
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "annual_only": {
-      "v": true,
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "trial": {
-      "v": true,
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "refund_terms": {
       "v": null,
@@ -163,11 +142,9 @@
   },
   "exit": {
     "data_export": {
-      "v": true,
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "history_portable": {
       "v": null,
@@ -202,27 +179,49 @@
       "conf": "unknown"
     }
   },
+  "enterprise": {
+    "api": {
+      "v": true,
+      "src": [
+        "e2"
+      ],
+      "conf": "stated"
+    }
+  },
   "evidence": [
     {
       "id": "e1",
-      "url": "https://www.tryprofound.com/pricing",
-      "kind": "vendor_pricing_page",
+      "url": "https://scrunch.com/",
+      "kind": "vendor_marketing",
       "fetched_at": "2026-07-31",
-      "sha256": "a9d11a3e9c03a9075701f34fbcea5172105835746037c92648f6f818b255f49a",
-      "excerpt_path": "wiki/raw/profound/e1.txt",
+      "sha256": "5dda50710d4ea1b5a0214831b5a163fc79f868a423aea65f0f75054a66d25a6c",
+      "excerpt_path": "wiki/raw/scrunch_ai/e1.txt",
       "paid_placement_suspected": false
     },
     {
       "id": "e2",
-      "url": "https://www.tryprofound.com/features/answer-engine-insights",
-      "kind": "methodology_doc",
+      "url": "https://developers.scrunch.com/api-reference/query/overview",
+      "kind": "vendor_doc",
       "fetched_at": "2026-07-31",
-      "sha256": "87511f21eacfe4d59b1ec58c7d3951bbe44f64d8aaed393e409cd232558a94ad",
-      "excerpt_path": "wiki/raw/profound/e2.txt",
+      "sha256": "6d131fd82c3789606adddd949f4411448df305d5bb548b97e58cbf6f7578141d",
+      "excerpt_path": "wiki/raw/scrunch_ai/e2.txt",
       "paid_placement_suspected": false
     }
   ],
-  "effect_claims": [],
+  "effect_claims": [
+    {
+      "claim": "A named homepage testimonial reports 4x growth in new paying customers.",
+      "has_number": true,
+      "has_denominator": false,
+      "has_timeframe": false,
+      "engine": "undisclosed",
+      "src": [
+        "e1"
+      ],
+      "grade_proposed": "D",
+      "grade_final": "D"
+    }
+  ],
   "case_studies": [],
   "oss_health": {
     "stars": 0,
@@ -250,22 +249,31 @@
     "entity.team_public",
     "exit.content_hosted_by_vendor",
     "exit.contract_lock",
+    "exit.data_export",
     "exit.history_portable",
+    "measurement.capture_channel",
     "measurement.declares_noise_floor",
     "measurement.model_version_pinning",
     "measurement.reports_confidence_interval",
     "measurement.samples_per_prompt",
+    "measurement.sov_formula_public",
+    "pricing.annual_only",
+    "pricing.entry_engines",
+    "pricing.entry_prompts",
     "pricing.entry_seats",
+    "pricing.has_public_pricing",
+    "pricing.min_commit",
     "pricing.refund_terms",
+    "pricing.trial",
     "pricing.unit_inflation_risk"
   ],
   "unresolved": [],
   "observations": [],
   "scores": {
-    "transparency": 3,
-    "verifiability": 0,
-    "lock_in_risk": 2,
-    "measurement_rigor": 2,
+    "transparency": 1,
+    "verifiability": 1,
+    "lock_in_risk": 0,
+    "measurement_rigor": 0,
     "oss_health": 0
   },
   "risk_flags": [
@@ -288,26 +296,28 @@
       "src": []
     },
     {
+      "flag": "可见性份额口径未公开",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "采集通道未披露",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
       "flag": "模型版本未钉定,时间序列可能断裂",
       "tier": "yellow",
       "origin": "auto",
       "src": []
     },
     {
-      "flag": "无公开定价 / 仅年付 / 无试用 / 退款条款未公开",
+      "flag": "入门档引擎数未披露",
       "tier": "yellow",
       "origin": "auto",
-      "src": [
-        "e1"
-      ]
-    },
-    {
-      "flag": "入门档仅覆盖单一引擎",
-      "tier": "yellow",
-      "origin": "auto",
-      "src": [
-        "e1"
-      ]
+      "src": []
     },
     {
       "flag": "入门档席位数未披露",
@@ -316,19 +326,18 @@
       "src": []
     },
     {
-      "flag": "无数据导出 / 最低合约期 > 6 个月",
-      "tier": "orange",
-      "origin": "auto",
-      "src": [
-        "e2",
-        "e1"
-      ]
-    },
-    {
       "flag": "团队信息未公开 / 客户案例未能交叉验证",
       "tier": "yellow",
       "origin": "auto",
       "src": []
+    },
+    {
+      "flag": "效果声称以 D/E 级为主",
+      "tier": "orange",
+      "origin": "auto",
+      "src": [
+        "e1"
+      ]
     }
   ],
   "audit": {

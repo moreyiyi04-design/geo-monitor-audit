@@ -1,0 +1,252 @@
+{
+  "products": [
+    {
+      "slug": "profound",
+      "name": "Profound",
+      "market": "overseas",
+      "category": [
+        "一体化平台",
+        "监测/可见性追踪"
+      ],
+      "openness": "closed",
+      "urls": [
+        {
+          "url": "https://www.tryprofound.com/pricing",
+          "kind": "vendor_pricing_page"
+        },
+        {
+          "url": "https://www.tryprofound.com/features/answer-engine-insights",
+          "kind": "methodology_doc"
+        }
+      ]
+    },
+    {
+      "slug": "scrunch_ai",
+      "name": "Scrunch AI",
+      "market": "overseas",
+      "category": [
+        "一体化平台",
+        "监测/可见性追踪"
+      ],
+      "openness": "closed",
+      "urls": [
+        {
+          "url": "https://scrunch.com/",
+          "kind": "vendor_marketing"
+        },
+        {
+          "url": "https://developers.scrunch.com/api-reference/query/overview",
+          "kind": "vendor_doc"
+        }
+      ]
+    },
+    {
+      "slug": "otterlyai",
+      "name": "OtterlyAI",
+      "market": "overseas",
+      "category": [
+        "监测/可见性追踪"
+      ],
+      "openness": "closed",
+      "urls": [
+        {
+          "url": "https://otterly.ai/",
+          "kind": "vendor_marketing"
+        },
+        {
+          "url": "https://otterly.ai/pricing",
+          "kind": "vendor_pricing_page"
+        }
+      ]
+    },
+    {
+      "slug": "rankscale",
+      "name": "Rankscale",
+      "market": "overseas",
+      "category": [
+        "监测/可见性追踪"
+      ],
+      "openness": "closed",
+      "urls": [
+        {
+          "url": "https://rankscale.ai/pricing",
+          "kind": "vendor_pricing_page"
+        },
+        {
+          "url": "https://rankscale.ai/",
+          "kind": "vendor_marketing"
+        }
+      ]
+    },
+    {
+      "slug": "geo_tool_cn",
+      "name": "GEO AI Search Optimization",
+      "market": "domestic",
+      "category": [
+        "一体化平台",
+        "监测/可见性追踪"
+      ],
+      "openness": "closed",
+      "urls": [
+        {
+          "url": "https://www.geo-tool.cn/",
+          "kind": "vendor_pricing_page"
+        }
+      ]
+    },
+    {
+      "slug": "unicorn_geo",
+      "name": "Unicorn GEO",
+      "market": "domestic",
+      "category": [
+        "一体化平台",
+        "监测/可见性追踪"
+      ],
+      "openness": "closed",
+      "urls": [
+        {
+          "url": "https://geo.yueyuezi.com/",
+          "kind": "methodology_doc"
+        }
+      ]
+    },
+    {
+      "slug": "gtark",
+      "name": "GTark",
+      "market": "domestic",
+      "category": [
+        "一体化平台",
+        "监测/可见性追踪"
+      ],
+      "openness": "closed",
+      "urls": [
+        {
+          "url": "https://www.gtark.com/",
+          "kind": "vendor_pricing_page"
+        },
+        {
+          "url": "https://www.gtark.com/",
+          "kind": "methodology_doc"
+        }
+      ]
+    },
+    {
+      "slug": "geo_aeo_tracker",
+      "name": "GEO/AEO Tracker",
+      "market": "overseas",
+      "category": [
+        "监测/可见性追踪"
+      ],
+      "openness": "open-source",
+      "urls": [
+        {
+          "url": "https://github.com/danishashko/geo-aeo-tracker",
+          "kind": "repo"
+        }
+      ],
+      "repo": "danishashko/geo-aeo-tracker"
+    },
+    {
+      "slug": "aperture",
+      "name": "Aperture",
+      "market": "overseas",
+      "category": [
+        "监测/可见性追踪"
+      ],
+      "openness": "open-source",
+      "urls": [
+        {
+          "url": "https://github.com/anyin-ai/aperture",
+          "kind": "repo"
+        }
+      ],
+      "repo": "anyin-ai/aperture"
+    },
+    {
+      "slug": "geoskills",
+      "name": "GEO Skills",
+      "market": "overseas",
+      "category": [
+        "agent-skill/prompt-pack"
+      ],
+      "openness": "open-source",
+      "urls": [
+        {
+          "url": "https://github.com/Cognitic-Labs/geoskills",
+          "kind": "repo"
+        }
+      ],
+      "repo": "Cognitic-Labs/geoskills"
+    },
+    {
+      "slug": "geo_generative_engine_optimization",
+      "name": "GEO: Generative Engine Optimization",
+      "market": "overseas",
+      "category": [
+        "学术参考实现"
+      ],
+      "openness": "source-available",
+      "urls": [
+        {
+          "url": "https://arxiv.org/abs/2311.09735",
+          "kind": "academic"
+        },
+        {
+          "url": "https://doi.org/10.1145/3637528.3671900",
+          "kind": "registry"
+        }
+      ]
+    },
+    {
+      "slug": "e_geo_testbed",
+      "name": "E-GEO: A Testbed for Generative Engine Optimization in E-Commerce",
+      "market": "overseas",
+      "category": [
+        "学术参考实现"
+      ],
+      "openness": "source-available",
+      "urls": [
+        {
+          "url": "https://arxiv.org/abs/2511.20867",
+          "kind": "academic"
+        },
+        {
+          "url": "https://jglobal.jst.go.jp/en/detail?JGLOBAL_ID=202502220704083587",
+          "kind": "registry"
+        }
+      ]
+    },
+    {
+      "slug": "geo_optimizer_skill",
+      "name": "GEO Optimizer Skill",
+      "market": "overseas",
+      "category": [
+        "agent-skill/prompt-pack"
+      ],
+      "openness": "open-source",
+      "urls": [
+        {
+          "url": "https://github.com/Auriti-Labs/geo-optimizer-skill",
+          "kind": "repo"
+        }
+      ],
+      "repo": "Auriti-Labs/geo-optimizer-skill"
+    },
+    {
+      "slug": "seo_geo_claude_skills",
+      "name": "SEO & GEO Skills Library",
+      "market": "overseas",
+      "category": [
+        "agent-skill/prompt-pack"
+      ],
+      "openness": "open-source",
+      "urls": [
+        {
+          "url": "https://github.com/aaron-he-zhu/seo-geo-claude-skills",
+          "kind": "repo"
+        }
+      ],
+      "repo": "aaron-he-zhu/seo-geo-claude-skills"
+    }
+  ]
+}

@@ -1,50 +1,45 @@
 {
   "schema_version": "v1",
-  "slug": "profound",
+  "slug": "e_geo_testbed",
   "name_cn": {
-    "v": "Profound",
+    "v": "E-GEO 电商测试床",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "name_en": {
-    "v": "Profound",
+    "v": "E-GEO: A Testbed for Generative Engine Optimization in E-Commerce",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "homepage": {
-    "v": "https://www.tryprofound.com/",
+    "v": "https://arxiv.org/abs/2511.20867",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
-  "vendor_domains": [
-    "tryprofound.com"
-  ],
+  "vendor_domains": [],
   "market": "overseas",
   "category": [
-    "一体化平台",
-    "监测/可见性追踪"
+    "学术参考实现"
   ],
   "delivery_form": {
-    "v": "SaaS",
+    "v": "Research paper and testbed",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
-  "openness": "closed",
+  "openness": "source-available",
   "measurement": {
     "capture_channel": {
-      "v": "browser",
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "samples_per_prompt": {
       "v": null,
@@ -67,25 +62,16 @@
       "conf": "unknown"
     },
     "sov_formula_public": {
-      "v": true,
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
-    },
-    "sampling_frequency": {
-      "v": "daily",
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     }
   },
   "mechanism": {
     "data_source": {
-      "v": "consumer browser answer-engine responses",
+      "v": "e-commerce GEO testbed",
       "src": [
-        "e2"
+        "e1"
       ],
       "conf": "stated"
     }
@@ -96,14 +82,13 @@
       "src": [
         "e1"
       ],
-      "conf": "stated"
+      "conf": "inferred",
+      "note": "The research manuscript is publicly accessible."
     },
     "entry_engines": {
-      "v": 1,
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "entry_seats": {
       "v": null,
@@ -111,32 +96,24 @@
       "conf": "unknown"
     },
     "entry_prompts": {
-      "v": 50,
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "min_commit": {
-      "v": "12 months",
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "annual_only": {
-      "v": true,
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "trial": {
-      "v": true,
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "refund_terms": {
       "v": null,
@@ -163,11 +140,9 @@
   },
   "exit": {
     "data_export": {
-      "v": true,
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "history_portable": {
       "v": null,
@@ -192,33 +167,44 @@
       "conf": "unknown"
     },
     "reproducible_experiments": {
-      "v": null,
-      "src": [],
-      "conf": "unknown"
+      "v": true,
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
     },
     "benchmark": {
-      "v": null,
-      "src": [],
-      "conf": "unknown"
+      "v": true,
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    },
+    "paper": {
+      "v": "arXiv:2511.20867",
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
     }
   },
   "evidence": [
     {
       "id": "e1",
-      "url": "https://www.tryprofound.com/pricing",
-      "kind": "vendor_pricing_page",
+      "url": "https://arxiv.org/abs/2511.20867",
+      "kind": "academic",
       "fetched_at": "2026-07-31",
-      "sha256": "a9d11a3e9c03a9075701f34fbcea5172105835746037c92648f6f818b255f49a",
-      "excerpt_path": "wiki/raw/profound/e1.txt",
+      "sha256": "b82895316d892d3c899fca8b9197f9ebb57d1dbc297238ee335d0fff2721127e",
+      "excerpt_path": "wiki/raw/e_geo_testbed/e1.txt",
       "paid_placement_suspected": false
     },
     {
       "id": "e2",
-      "url": "https://www.tryprofound.com/features/answer-engine-insights",
-      "kind": "methodology_doc",
+      "url": "https://jglobal.jst.go.jp/en/detail?JGLOBAL_ID=202502220704083587",
+      "kind": "registry",
       "fetched_at": "2026-07-31",
-      "sha256": "87511f21eacfe4d59b1ec58c7d3951bbe44f64d8aaed393e409cd232558a94ad",
-      "excerpt_path": "wiki/raw/profound/e2.txt",
+      "sha256": "c7d398e7f55d2c6ce992ee6c1aaec95d19272b42be9ad493d6527f756acfbd10",
+      "excerpt_path": "wiki/raw/e_geo_testbed/e2.txt",
       "paid_placement_suspected": false
     }
   ],
@@ -231,11 +217,11 @@
     "stars_per_month": 0,
     "contributors_12mo": 0,
     "commits_90d": 0,
-    "last_release": null,
-    "releases": 0,
-    "tests_cover_own_logic": false,
-    "license_spdx": "Proprietary",
-    "license_absent": false,
+    "last_release": "2025-11-26",
+    "releases": 1,
+    "tests_cover_own_logic": true,
+    "license_spdx": "NOASSERTION",
+    "license_absent": true,
     "commercial_restricted": false,
     "self_described_demo": false,
     "description_near_duplicate_of": [],
@@ -243,30 +229,36 @@
     "upstream_vendor_confusable_name": false
   },
   "unknowns": [
-    "academic_anchor.benchmark",
     "academic_anchor.peer_reviewed",
-    "academic_anchor.reproducible_experiments",
     "entity.registry_verifiable",
     "entity.team_public",
     "exit.content_hosted_by_vendor",
     "exit.contract_lock",
+    "exit.data_export",
     "exit.history_portable",
+    "measurement.capture_channel",
     "measurement.declares_noise_floor",
     "measurement.model_version_pinning",
     "measurement.reports_confidence_interval",
     "measurement.samples_per_prompt",
+    "measurement.sov_formula_public",
+    "pricing.annual_only",
+    "pricing.entry_engines",
+    "pricing.entry_prompts",
     "pricing.entry_seats",
+    "pricing.min_commit",
     "pricing.refund_terms",
+    "pricing.trial",
     "pricing.unit_inflation_risk"
   ],
   "unresolved": [],
   "observations": [],
   "scores": {
-    "transparency": 3,
+    "transparency": 2,
     "verifiability": 0,
-    "lock_in_risk": 2,
-    "measurement_rigor": 2,
-    "oss_health": 0
+    "lock_in_risk": 0,
+    "measurement_rigor": 0,
+    "oss_health": 3
   },
   "risk_flags": [
     {
@@ -288,41 +280,34 @@
       "src": []
     },
     {
+      "flag": "可见性份额口径未公开",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "采集通道未披露",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
       "flag": "模型版本未钉定,时间序列可能断裂",
       "tier": "yellow",
       "origin": "auto",
       "src": []
     },
     {
-      "flag": "无公开定价 / 仅年付 / 无试用 / 退款条款未公开",
+      "flag": "入门档引擎数未披露",
       "tier": "yellow",
       "origin": "auto",
-      "src": [
-        "e1"
-      ]
-    },
-    {
-      "flag": "入门档仅覆盖单一引擎",
-      "tier": "yellow",
-      "origin": "auto",
-      "src": [
-        "e1"
-      ]
+      "src": []
     },
     {
       "flag": "入门档席位数未披露",
       "tier": "yellow",
       "origin": "auto",
       "src": []
-    },
-    {
-      "flag": "无数据导出 / 最低合约期 > 6 个月",
-      "tier": "orange",
-      "origin": "auto",
-      "src": [
-        "e2",
-        "e1"
-      ]
     },
     {
       "flag": "团队信息未公开 / 客户案例未能交叉验证",

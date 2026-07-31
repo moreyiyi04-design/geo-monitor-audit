@@ -1,5 +1,0 @@
-Synthetic fixture excerpt for ARIS-GEO offline testing only.
-Source kind: registry.
-Canonical synthetic URL: https://registry.example.invalid/profound/company-registry
-This text is not a live registry record and must not be cited as a product finding.
-Observed synthetic notes: the fixture vendor entity is registry-verifiable for test purposes.

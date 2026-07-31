@@ -1,33 +1,32 @@
 {
   "schema_version": "v1",
-  "slug": "profound",
+  "slug": "otterlyai",
   "name_cn": {
-    "v": "Profound",
+    "v": "OtterlyAI",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "name_en": {
-    "v": "Profound",
+    "v": "OtterlyAI",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "homepage": {
-    "v": "https://www.tryprofound.com/",
+    "v": "https://otterly.ai/",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "vendor_domains": [
-    "tryprofound.com"
+    "otterly.ai"
   ],
   "market": "overseas",
   "category": [
-    "一体化平台",
     "监测/可见性追踪"
   ],
   "delivery_form": {
@@ -40,11 +39,9 @@
   "openness": "closed",
   "measurement": {
     "capture_channel": {
-      "v": "browser",
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "samples_per_prompt": {
       "v": null,
@@ -67,11 +64,9 @@
       "conf": "unknown"
     },
     "sov_formula_public": {
-      "v": true,
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "sampling_frequency": {
       "v": "daily",
@@ -83,25 +78,26 @@
   },
   "mechanism": {
     "data_source": {
-      "v": "consumer browser answer-engine responses",
+      "v": "automated AI-platform prompt monitoring",
       "src": [
-        "e2"
+        "e1"
       ],
-      "conf": "stated"
+      "conf": "inferred",
+      "note": "The homepage describes automatic monitoring but not its technical channel."
     }
   },
   "pricing": {
     "has_public_pricing": {
       "v": true,
       "src": [
-        "e1"
+        "e2"
       ],
       "conf": "stated"
     },
     "entry_engines": {
-      "v": 1,
+      "v": 4,
       "src": [
-        "e1"
+        "e2"
       ],
       "conf": "stated"
     },
@@ -111,30 +107,30 @@
       "conf": "unknown"
     },
     "entry_prompts": {
-      "v": 50,
+      "v": 15,
       "src": [
-        "e1"
+        "e2"
       ],
       "conf": "stated"
     },
     "min_commit": {
-      "v": "12 months",
+      "v": "1 month",
       "src": [
-        "e1"
+        "e2"
       ],
       "conf": "stated"
     },
     "annual_only": {
-      "v": true,
+      "v": false,
       "src": [
-        "e1"
+        "e2"
       ],
       "conf": "stated"
     },
     "trial": {
       "v": true,
       "src": [
-        "e1"
+        "e2"
       ],
       "conf": "stated"
     },
@@ -205,20 +201,20 @@
   "evidence": [
     {
       "id": "e1",
-      "url": "https://www.tryprofound.com/pricing",
-      "kind": "vendor_pricing_page",
+      "url": "https://otterly.ai/",
+      "kind": "vendor_marketing",
       "fetched_at": "2026-07-31",
-      "sha256": "a9d11a3e9c03a9075701f34fbcea5172105835746037c92648f6f818b255f49a",
-      "excerpt_path": "wiki/raw/profound/e1.txt",
+      "sha256": "66eae7d127a082ed25c773b7f60063f94e11df95b1ed05281ee18c24d7c4e56d",
+      "excerpt_path": "wiki/raw/otterlyai/e1.txt",
       "paid_placement_suspected": false
     },
     {
       "id": "e2",
-      "url": "https://www.tryprofound.com/features/answer-engine-insights",
-      "kind": "methodology_doc",
+      "url": "https://otterly.ai/pricing",
+      "kind": "vendor_pricing_page",
       "fetched_at": "2026-07-31",
-      "sha256": "87511f21eacfe4d59b1ec58c7d3951bbe44f64d8aaed393e409cd232558a94ad",
-      "excerpt_path": "wiki/raw/profound/e2.txt",
+      "sha256": "e2f4478797e939a64b6d4b8049ca41e526b1634240d0e2bf5deba0d7e61d0ae0",
+      "excerpt_path": "wiki/raw/otterlyai/e2.txt",
       "paid_placement_suspected": false
     }
   ],
@@ -251,10 +247,12 @@
     "exit.content_hosted_by_vendor",
     "exit.contract_lock",
     "exit.history_portable",
+    "measurement.capture_channel",
     "measurement.declares_noise_floor",
     "measurement.model_version_pinning",
     "measurement.reports_confidence_interval",
     "measurement.samples_per_prompt",
+    "measurement.sov_formula_public",
     "pricing.entry_seats",
     "pricing.refund_terms",
     "pricing.unit_inflation_risk"
@@ -262,10 +260,10 @@
   "unresolved": [],
   "observations": [],
   "scores": {
-    "transparency": 3,
+    "transparency": 2,
     "verifiability": 0,
-    "lock_in_risk": 2,
-    "measurement_rigor": 2,
+    "lock_in_risk": 0,
+    "measurement_rigor": 0,
     "oss_health": 0
   },
   "risk_flags": [
@@ -288,41 +286,28 @@
       "src": []
     },
     {
+      "flag": "可见性份额口径未公开",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "采集通道未披露",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
       "flag": "模型版本未钉定,时间序列可能断裂",
       "tier": "yellow",
       "origin": "auto",
       "src": []
     },
     {
-      "flag": "无公开定价 / 仅年付 / 无试用 / 退款条款未公开",
-      "tier": "yellow",
-      "origin": "auto",
-      "src": [
-        "e1"
-      ]
-    },
-    {
-      "flag": "入门档仅覆盖单一引擎",
-      "tier": "yellow",
-      "origin": "auto",
-      "src": [
-        "e1"
-      ]
-    },
-    {
       "flag": "入门档席位数未披露",
       "tier": "yellow",
       "origin": "auto",
       "src": []
-    },
-    {
-      "flag": "无数据导出 / 最低合约期 > 6 个月",
-      "tier": "orange",
-      "origin": "auto",
-      "src": [
-        "e2",
-        "e1"
-      ]
     },
     {
       "flag": "团队信息未公开 / 客户案例未能交叉验证",

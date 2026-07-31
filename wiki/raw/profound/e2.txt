@@ -1,6 +1,1 @@
-Synthetic fixture excerpt for ARIS-GEO offline testing only.
-Source kind: methodology_doc.
-Canonical synthetic URL: https://example.invalid/profound/methodology
-This text is not a live methodology page and must not be cited as a product finding.
-Observed synthetic notes: browser capture is disclosed, share-of-voice formula is
-described, confidence intervals are not reported, and the noise floor is not disclosed.
+Profound says it captures answers from browser experiences, runs tracked prompts daily, and allows raw-data CSV export.

@@ -1,0 +1,1 @@
+The repository describes a local-first dashboard tracking six AI models, using Bright Data’s AI Scraper API and supporting CSV export.

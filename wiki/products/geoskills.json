@@ -1,50 +1,47 @@
 {
   "schema_version": "v1",
-  "slug": "profound",
+  "slug": "geoskills",
   "name_cn": {
-    "v": "Profound",
+    "v": "GEO Skills",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "name_en": {
-    "v": "Profound",
+    "v": "GEO Skills",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "homepage": {
-    "v": "https://www.tryprofound.com/",
+    "v": "https://github.com/Cognitic-Labs/geoskills",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "vendor_domains": [
-    "tryprofound.com"
+    "github.com"
   ],
   "market": "overseas",
   "category": [
-    "一体化平台",
-    "监测/可见性追踪"
+    "agent-skill/prompt-pack"
   ],
   "delivery_form": {
-    "v": "SaaS",
+    "v": "Agent skill suite",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
-  "openness": "closed",
+  "openness": "open-source",
   "measurement": {
     "capture_channel": {
-      "v": "browser",
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "samples_per_prompt": {
       "v": null,
@@ -67,25 +64,16 @@
       "conf": "unknown"
     },
     "sov_formula_public": {
-      "v": true,
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
-    },
-    "sampling_frequency": {
-      "v": "daily",
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     }
   },
   "mechanism": {
     "data_source": {
-      "v": "consumer browser answer-engine responses",
+      "v": "website audit observations gathered by agent skills",
       "src": [
-        "e2"
+        "e1"
       ],
       "conf": "stated"
     }
@@ -96,14 +84,13 @@
       "src": [
         "e1"
       ],
-      "conf": "stated"
+      "conf": "inferred",
+      "note": "The Apache-licensed repository is publicly installable without a listed fee."
     },
     "entry_engines": {
-      "v": 1,
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "entry_seats": {
       "v": null,
@@ -111,32 +98,27 @@
       "conf": "unknown"
     },
     "entry_prompts": {
-      "v": 50,
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "min_commit": {
-      "v": "12 months",
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "annual_only": {
-      "v": true,
+      "v": false,
       "src": [
         "e1"
       ],
-      "conf": "stated"
+      "conf": "inferred",
+      "note": "No vendor subscription is required for the repository."
     },
     "trial": {
-      "v": true,
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "refund_terms": {
       "v": null,
@@ -165,9 +147,10 @@
     "data_export": {
       "v": true,
       "src": [
-        "e2"
+        "e1"
       ],
-      "conf": "stated"
+      "conf": "inferred",
+      "note": "Outputs are repository files produced by the skills."
     },
     "history_portable": {
       "v": null,
@@ -175,9 +158,12 @@
       "conf": "unknown"
     },
     "content_hosted_by_vendor": {
-      "v": null,
-      "src": [],
-      "conf": "unknown"
+      "v": false,
+      "src": [
+        "e1"
+      ],
+      "conf": "inferred",
+      "note": "The skill suite runs in the user's agent workspace."
     },
     "contract_lock": {
       "v": null,
@@ -205,36 +191,27 @@
   "evidence": [
     {
       "id": "e1",
-      "url": "https://www.tryprofound.com/pricing",
-      "kind": "vendor_pricing_page",
+      "url": "https://github.com/Cognitic-Labs/geoskills",
+      "kind": "repo",
       "fetched_at": "2026-07-31",
-      "sha256": "a9d11a3e9c03a9075701f34fbcea5172105835746037c92648f6f818b255f49a",
-      "excerpt_path": "wiki/raw/profound/e1.txt",
-      "paid_placement_suspected": false
-    },
-    {
-      "id": "e2",
-      "url": "https://www.tryprofound.com/features/answer-engine-insights",
-      "kind": "methodology_doc",
-      "fetched_at": "2026-07-31",
-      "sha256": "87511f21eacfe4d59b1ec58c7d3951bbe44f64d8aaed393e409cd232558a94ad",
-      "excerpt_path": "wiki/raw/profound/e2.txt",
+      "sha256": "794db55bb6a4e2a124ff7041f6cf50e0d5ad9275d25b3c0e17d17cc98f57caf3",
+      "excerpt_path": "wiki/raw/geoskills/e1.txt",
       "paid_placement_suspected": false
     }
   ],
   "effect_claims": [],
   "case_studies": [],
   "oss_health": {
-    "stars": 0,
-    "created_at": null,
-    "age_months": 0,
-    "stars_per_month": 0,
-    "contributors_12mo": 0,
-    "commits_90d": 0,
+    "stars": 20,
+    "created_at": "2026-03-12",
+    "age_months": 4,
+    "stars_per_month": 5,
+    "contributors_12mo": 1,
+    "commits_90d": 1,
     "last_release": null,
     "releases": 0,
     "tests_cover_own_logic": false,
-    "license_spdx": "Proprietary",
+    "license_spdx": "Apache-2.0",
     "license_absent": false,
     "commercial_restricted": false,
     "self_described_demo": false,
@@ -248,25 +225,30 @@
     "academic_anchor.reproducible_experiments",
     "entity.registry_verifiable",
     "entity.team_public",
-    "exit.content_hosted_by_vendor",
     "exit.contract_lock",
     "exit.history_portable",
+    "measurement.capture_channel",
     "measurement.declares_noise_floor",
     "measurement.model_version_pinning",
     "measurement.reports_confidence_interval",
     "measurement.samples_per_prompt",
+    "measurement.sov_formula_public",
+    "pricing.entry_engines",
+    "pricing.entry_prompts",
     "pricing.entry_seats",
+    "pricing.min_commit",
     "pricing.refund_terms",
+    "pricing.trial",
     "pricing.unit_inflation_risk"
   ],
   "unresolved": [],
   "observations": [],
   "scores": {
-    "transparency": 3,
+    "transparency": 2,
     "verifiability": 0,
-    "lock_in_risk": 2,
-    "measurement_rigor": 2,
-    "oss_health": 0
+    "lock_in_risk": 0,
+    "measurement_rigor": 0,
+    "oss_health": 3
   },
   "risk_flags": [
     {
@@ -288,26 +270,28 @@
       "src": []
     },
     {
+      "flag": "可见性份额口径未公开",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "采集通道未披露",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
       "flag": "模型版本未钉定,时间序列可能断裂",
       "tier": "yellow",
       "origin": "auto",
       "src": []
     },
     {
-      "flag": "无公开定价 / 仅年付 / 无试用 / 退款条款未公开",
+      "flag": "入门档引擎数未披露",
       "tier": "yellow",
       "origin": "auto",
-      "src": [
-        "e1"
-      ]
-    },
-    {
-      "flag": "入门档仅覆盖单一引擎",
-      "tier": "yellow",
-      "origin": "auto",
-      "src": [
-        "e1"
-      ]
+      "src": []
     },
     {
       "flag": "入门档席位数未披露",
@@ -316,16 +300,19 @@
       "src": []
     },
     {
-      "flag": "无数据导出 / 最低合约期 > 6 个月",
-      "tier": "orange",
+      "flag": "团队信息未公开 / 客户案例未能交叉验证",
+      "tier": "yellow",
       "origin": "auto",
-      "src": [
-        "e2",
-        "e1"
-      ]
+      "src": []
     },
     {
-      "flag": "团队信息未公开 / 客户案例未能交叉验证",
+      "flag": "贡献者集中于单人",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "无覆盖自身逻辑的测试",
       "tier": "yellow",
       "origin": "auto",
       "src": []

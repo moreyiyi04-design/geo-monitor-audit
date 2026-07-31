@@ -1,6 +1,0 @@
-Synthetic fixture excerpt for ARIS-GEO offline testing only.
-Source kind: academic.
-Canonical synthetic URL: https://research.example.invalid/profound/benchmark
-This text is not a live benchmark and must not be cited as a product finding.
-Observed synthetic benchmark notes: a controlled synthetic benchmark measured a
-4.0 percentage-point change over a 90-day synthetic observation window.

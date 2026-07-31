@@ -1,0 +1,1 @@
+The Query API provides aggregated access to Scrunch AI visibility metrics.

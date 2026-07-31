@@ -24,6 +24,7 @@ from .compiler import (
 from .github import GitHubHealthClient
 from .http import HttpRequest, HttpResponse, canonical_request_sha256
 from .tavily import TavilyClient
+from .publication import build_publication
 
 __all__ = [
     "ArisResult",
@@ -63,5 +64,6 @@ __all__ = [
     "sha256_file",
     "stage_persona_inbox",
     "TavilyClient",
+    "build_publication",
     "validate_profile",
 ]

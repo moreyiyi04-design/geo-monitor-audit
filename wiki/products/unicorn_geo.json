@@ -1,31 +1,31 @@
 {
   "schema_version": "v1",
-  "slug": "profound",
+  "slug": "unicorn_geo",
   "name_cn": {
-    "v": "Profound",
+    "v": "独角兽GEO",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "name_en": {
-    "v": "Profound",
+    "v": "Unicorn GEO",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "homepage": {
-    "v": "https://www.tryprofound.com/",
+    "v": "https://geo.yueyuezi.com/",
     "src": [
       "e1"
     ],
     "conf": "stated"
   },
   "vendor_domains": [
-    "tryprofound.com"
+    "yueyuezi.com"
   ],
-  "market": "overseas",
+  "market": "domestic",
   "category": [
     "一体化平台",
     "监测/可见性追踪"
@@ -42,7 +42,7 @@
     "capture_channel": {
       "v": "browser",
       "src": [
-        "e2"
+        "e1"
       ],
       "conf": "stated"
     },
@@ -67,25 +67,23 @@
       "conf": "unknown"
     },
     "sov_formula_public": {
-      "v": true,
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "sampling_frequency": {
       "v": "daily",
       "src": [
-        "e2"
+        "e1"
       ],
       "conf": "stated"
     }
   },
   "mechanism": {
     "data_source": {
-      "v": "consumer browser answer-engine responses",
+      "v": "recorded browser interactions with six domestic AI engines",
       "src": [
-        "e2"
+        "e1"
       ],
       "conf": "stated"
     }
@@ -99,7 +97,7 @@
       "conf": "stated"
     },
     "entry_engines": {
-      "v": 1,
+      "v": 6,
       "src": [
         "e1"
       ],
@@ -111,25 +109,22 @@
       "conf": "unknown"
     },
     "entry_prompts": {
-      "v": 50,
+      "v": 2,
       "src": [
         "e1"
       ],
-      "conf": "stated"
+      "conf": "inferred",
+      "note": "The free plan publishes two topics rather than a prompt count."
     },
     "min_commit": {
-      "v": "12 months",
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "annual_only": {
-      "v": true,
-      "src": [
-        "e1"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "trial": {
       "v": true,
@@ -163,11 +158,9 @@
   },
   "exit": {
     "data_export": {
-      "v": true,
-      "src": [
-        "e2"
-      ],
-      "conf": "stated"
+      "v": null,
+      "src": [],
+      "conf": "unknown"
     },
     "history_portable": {
       "v": null,
@@ -205,20 +198,11 @@
   "evidence": [
     {
       "id": "e1",
-      "url": "https://www.tryprofound.com/pricing",
-      "kind": "vendor_pricing_page",
-      "fetched_at": "2026-07-31",
-      "sha256": "a9d11a3e9c03a9075701f34fbcea5172105835746037c92648f6f818b255f49a",
-      "excerpt_path": "wiki/raw/profound/e1.txt",
-      "paid_placement_suspected": false
-    },
-    {
-      "id": "e2",
-      "url": "https://www.tryprofound.com/features/answer-engine-insights",
+      "url": "https://geo.yueyuezi.com/",
       "kind": "methodology_doc",
       "fetched_at": "2026-07-31",
-      "sha256": "87511f21eacfe4d59b1ec58c7d3951bbe44f64d8aaed393e409cd232558a94ad",
-      "excerpt_path": "wiki/raw/profound/e2.txt",
+      "sha256": "4344eac40188bc44d4d459ad093e4b853e6d32251507d93c5c08c3771e882500",
+      "excerpt_path": "wiki/raw/unicorn_geo/e1.txt",
       "paid_placement_suspected": false
     }
   ],
@@ -250,12 +234,16 @@
     "entity.team_public",
     "exit.content_hosted_by_vendor",
     "exit.contract_lock",
+    "exit.data_export",
     "exit.history_portable",
     "measurement.declares_noise_floor",
     "measurement.model_version_pinning",
     "measurement.reports_confidence_interval",
     "measurement.samples_per_prompt",
+    "measurement.sov_formula_public",
+    "pricing.annual_only",
     "pricing.entry_seats",
+    "pricing.min_commit",
     "pricing.refund_terms",
     "pricing.unit_inflation_risk"
   ],
@@ -264,8 +252,8 @@
   "scores": {
     "transparency": 3,
     "verifiability": 0,
-    "lock_in_risk": 2,
-    "measurement_rigor": 2,
+    "lock_in_risk": 0,
+    "measurement_rigor": 1,
     "oss_health": 0
   },
   "risk_flags": [
@@ -288,41 +276,22 @@
       "src": []
     },
     {
+      "flag": "可见性份额口径未公开",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
       "flag": "模型版本未钉定,时间序列可能断裂",
       "tier": "yellow",
       "origin": "auto",
       "src": []
     },
     {
-      "flag": "无公开定价 / 仅年付 / 无试用 / 退款条款未公开",
-      "tier": "yellow",
-      "origin": "auto",
-      "src": [
-        "e1"
-      ]
-    },
-    {
-      "flag": "入门档仅覆盖单一引擎",
-      "tier": "yellow",
-      "origin": "auto",
-      "src": [
-        "e1"
-      ]
-    },
-    {
       "flag": "入门档席位数未披露",
       "tier": "yellow",
       "origin": "auto",
       "src": []
-    },
-    {
-      "flag": "无数据导出 / 最低合约期 > 6 个月",
-      "tier": "orange",
-      "origin": "auto",
-      "src": [
-        "e2",
-        "e1"
-      ]
     },
     {
       "flag": "团队信息未公开 / 客户案例未能交叉验证",

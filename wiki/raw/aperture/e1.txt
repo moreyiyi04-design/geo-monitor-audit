@@ -1,0 +1,1 @@
+Aperture is self-hosted, BYOK AI visibility infrastructure; its README says API/export is available and warns the MVP has no authentication.

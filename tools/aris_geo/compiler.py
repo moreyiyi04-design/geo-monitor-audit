@@ -206,6 +206,10 @@ def _category_list(profile: dict[str, Any]) -> str:
 
 
 def _pricing_label(profile: dict[str, Any]) -> str:
+    if "学术参考实现" in (profile.get("category") or []):
+        return "不适用"
+    if profile.get("openness") == "open-source":
+        return "开源 / 自托管"
     pricing = profile.get("pricing")
     if not isinstance(pricing, dict):
         return "—"

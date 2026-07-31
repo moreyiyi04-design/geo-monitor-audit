@@ -98,13 +98,17 @@ def derive_auto_risk_flags(profile: dict[str, Any]) -> list[dict[str, Any]]:
     if pricing_flag_sources:
         add_flag("无公开定价 / 仅年付 / 无试用 / 退款条款未公开", "yellow", pricing_flag_sources)
 
-    if _numeric_value(pricing.get("entry_engines"), default=0) <= 1:
+    if _is_unknown(pricing.get("entry_engines")):
+        add_flag("入门档引擎数未披露", "yellow")
+    elif _numeric_value(pricing.get("entry_engines"), default=0) <= 1:
         add_flag(
             "入门档仅覆盖单一引擎",
             "yellow",
             _source_ids(pricing.get("entry_engines")),
         )
-    if _numeric_value(pricing.get("entry_seats"), default=0) <= 1:
+    if _is_unknown(pricing.get("entry_seats")):
+        add_flag("入门档席位数未披露", "yellow")
+    elif _numeric_value(pricing.get("entry_seats"), default=0) <= 1:
         add_flag(
             "入门档仅 1 个席位",
             "yellow",
@@ -152,24 +156,25 @@ def derive_auto_risk_flags(profile: dict[str, Any]) -> list[dict[str, Any]]:
     if len(fingerprints) >= 3:
         add_flag("投毒指纹命中 ≥3 项", "orange")
 
-    if bool(oss_health.get("license_absent")) or oss_health.get("license_spdx") == "NOASSERTION":
-        add_flag("无 license 或 NOASSERTION", "yellow")
-    if bool(oss_health.get("commercial_restricted")):
-        add_flag("license 含商用限制", "yellow")
-    if _is_stale(profile):
-        add_flag("停更(按 category 判定)", "yellow")
-    if int(oss_health.get("contributors_12mo") or 0) <= 1:
-        add_flag("贡献者集中于单人", "yellow")
-    if not bool(oss_health.get("tests_cover_own_logic")):
-        add_flag("无覆盖自身逻辑的测试", "yellow")
-    if bool(oss_health.get("self_described_demo")):
-        add_flag("自述为 Demo", "yellow")
-    if bool(oss_health.get("absolutist_claim_in_name")):
-        add_flag("仓库名含绝对化宣称", "yellow")
-    if bool(oss_health.get("upstream_vendor_confusable_name")):
-        add_flag("命名易与上游模型厂商混淆", "yellow")
-    if oss_health.get("description_near_duplicate_of"):
-        add_flag("描述与其他仓库高度相似", "yellow")
+    if profile.get("openness") == "open-source":
+        if bool(oss_health.get("license_absent")) or oss_health.get("license_spdx") == "NOASSERTION":
+            add_flag("无 license 或 NOASSERTION", "yellow")
+        if bool(oss_health.get("commercial_restricted")):
+            add_flag("license 含商用限制", "yellow")
+        if _is_stale(profile):
+            add_flag("停更(按 category 判定)", "yellow")
+        if int(oss_health.get("contributors_12mo") or 0) <= 1:
+            add_flag("贡献者集中于单人", "yellow")
+        if not bool(oss_health.get("tests_cover_own_logic")):
+            add_flag("无覆盖自身逻辑的测试", "yellow")
+        if bool(oss_health.get("self_described_demo")):
+            add_flag("自述为 Demo", "yellow")
+        if bool(oss_health.get("absolutist_claim_in_name")):
+            add_flag("仓库名含绝对化宣称", "yellow")
+        if bool(oss_health.get("upstream_vendor_confusable_name")):
+            add_flag("命名易与上游模型厂商混淆", "yellow")
+        if oss_health.get("description_near_duplicate_of"):
+            add_flag("描述与其他仓库高度相似", "yellow")
 
     return flags
 
@@ -231,6 +236,8 @@ def _measurement_rigor_score(profile: dict[str, Any]) -> int:
 
 
 def _oss_health_score(profile: dict[str, Any]) -> int:
+    if profile.get("openness") == "closed":
+        return 0
     oss_health = profile.get("oss_health") or {}
     categories = set(profile.get("category") or [])
     license_good = not bool(oss_health.get("license_absent")) and oss_health.get("license_spdx") != "NOASSERTION"
@@ -302,15 +309,17 @@ def _evidence_by_id(profile: dict[str, Any]) -> dict[str, dict[str, Any]]:
 
 def _vendor_domains(profile: dict[str, Any]) -> set[str]:
     domains = set()
-    for domain in profile.get("vendor_domains") or []:
+    explicit_domains = profile.get("vendor_domains") or []
+    for domain in explicit_domains:
         normalized = _normalize_domain(domain)
         if normalized:
             domains.add(normalized)
-    homepage = _value(profile.get("homepage"))
-    if isinstance(homepage, str):
-        normalized = _normalize_domain(urlparse(homepage).netloc or homepage)
-        if normalized:
-            domains.add(normalized)
+    if "vendor_domains" not in profile:
+        homepage = _value(profile.get("homepage"))
+        if isinstance(homepage, str):
+            normalized = _normalize_domain(urlparse(homepage).netloc or homepage)
+            if normalized:
+                domains.add(normalized)
     return domains
 
 

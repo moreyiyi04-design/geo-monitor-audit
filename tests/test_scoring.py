@@ -16,6 +16,7 @@ class ScoreCalculationTests(unittest.TestCase):
         return {
             "schema_version": "v1",
             "slug": "demo",
+            "openness": "open-source",
             "homepage": envelope("https://vendor.example"),
             "category": ["监测/可见性追踪"],
             "evidence": [
@@ -158,12 +159,50 @@ class ScoreCalculationTests(unittest.TestCase):
 
         self.assertEqual(5, scores["oss_health"])
 
+    def test_calculate_scores_does_not_treat_proprietary_products_as_repositories(self):
+        profile = self._base_profile()
+        profile["openness"] = "closed"
+
+        self.assertEqual(0, calculate_scores(profile)["oss_health"])
+
 
 class AutoRiskFlagTests(unittest.TestCase):
+    def test_derive_auto_risk_flags_skips_repository_health_labels_for_closed_products(self) -> None:
+        profile = self._profile()
+        profile["openness"] = "closed"
+        profile["oss_health"] = {
+            "contributors_12mo": 0,
+            "commits_90d": 0,
+            "releases": 0,
+            "tests_cover_own_logic": False,
+            "license_absent": True,
+            "license_spdx": "NOASSERTION",
+        }
+
+        labels = {flag["flag"] for flag in derive_auto_risk_flags(profile)}
+
+        self.assertNotIn("停更(按 category 判定)", labels)
+        self.assertNotIn("贡献者集中于单人", labels)
+        self.assertNotIn("无覆盖自身逻辑的测试", labels)
+        self.assertNotIn("无 license 或 NOASSERTION", labels)
+
+    def test_derive_auto_risk_flags_labels_unknown_entry_limits_as_undisclosed(self) -> None:
+        profile = self._profile()
+        profile["pricing"]["entry_engines"] = envelope(None, confidence="unknown")
+        profile["pricing"]["entry_seats"] = envelope(None, confidence="unknown")
+
+        labels = {flag["flag"] for flag in derive_auto_risk_flags(profile)}
+
+        self.assertIn("入门档引擎数未披露", labels)
+        self.assertIn("入门档席位数未披露", labels)
+        self.assertNotIn("入门档仅覆盖单一引擎", labels)
+        self.assertNotIn("入门档仅 1 个席位", labels)
+
     def _profile(self):
         return {
             "schema_version": "v1",
             "slug": "risky",
+            "openness": "open-source",
             "homepage": envelope("https://vendor.example", ["e-home"]),
             "category": ["监测/可见性追踪"],
             "evidence": [

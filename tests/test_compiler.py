@@ -95,7 +95,7 @@ class CompilerRenderingTests(unittest.TestCase):
 | 产品 | 官网 | 类别 | 公开定价 |
 | --- | --- | --- | --- |
 | 阿尔法 / Alpha | https://alpha.example | 监测/可见性追踪, 品牌监测 | 未公开 |
-| 贝塔 / Beta | https://beta.example | agent-skill/prompt-pack | 已公开 |
+| 贝塔 / Beta | https://beta.example | agent-skill/prompt-pack | 开源 / 自托管 |
 
 ### 标签清单
 #### 阿尔法 / Alpha
