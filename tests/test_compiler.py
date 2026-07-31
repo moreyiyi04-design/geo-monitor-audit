@@ -155,6 +155,52 @@ Fresh block.
         ):
             replace_compiled_block(readme, "ignored")
 
+    def test_replace_compiled_block_rejects_duplicate_start_marker(self):
+        # Break caught: duplicate compiled start markers let the compiler rewrite an ambiguous block.
+        readme = """\
+<!-- ARIS-GEO:COMPILED:START -->
+first
+<!-- ARIS-GEO:COMPILED:START -->
+second
+<!-- ARIS-GEO:COMPILED:END -->
+"""
+
+        with self.assertRaisesRegex(
+            ValueError,
+            rf"duplicate compiled start marker: {COMPILED_START_MARKER}",
+        ):
+            replace_compiled_block(readme, "ignored")
+
+    def test_replace_compiled_block_rejects_duplicate_end_marker(self):
+        # Break caught: duplicate compiled end markers let the compiler leave trailing stale bytes behind.
+        readme = """\
+<!-- ARIS-GEO:COMPILED:START -->
+block
+<!-- ARIS-GEO:COMPILED:END -->
+<!-- ARIS-GEO:COMPILED:END -->
+"""
+
+        with self.assertRaisesRegex(
+            ValueError,
+            rf"duplicate compiled end marker: {COMPILED_END_MARKER}",
+        ):
+            replace_compiled_block(readme, "ignored")
+
+    def test_replace_compiled_block_rejects_end_marker_before_start_marker(self):
+        # Break caught: an end marker before the start marker still allows the compiler to rewrite bytes.
+        readme = """\
+<!-- ARIS-GEO:COMPILED:END -->
+orphan
+<!-- ARIS-GEO:COMPILED:START -->
+block
+"""
+
+        with self.assertRaisesRegex(
+            ValueError,
+            "compiled end marker occurs before start marker",
+        ):
+            replace_compiled_block(readme, "ignored")
+
 
 class CompileReadmeCliTests(unittest.TestCase):
     def setUp(self):
@@ -242,6 +288,32 @@ stale bytes
 
         self.assertEqual(1, result.returncode)
         self.assertIn("README compiled block is stale", result.stderr)
+        self.assertEqual(original, self.readme_path.read_text(encoding="utf-8"))
+
+    def test_check_mode_rejects_malformed_compiled_markers_without_rewriting(self):
+        # Break caught: --check normalizes malformed compiled markers instead of failing and preserving bytes.
+        original = """\
+<!-- ARIS-GEO:HANDWRITTEN:START -->
+Handwritten intro.
+<!-- ARIS-GEO:HANDWRITTEN:END -->
+
+<!-- ARIS-GEO:COMPILED:END -->
+orphan
+<!-- ARIS-GEO:COMPILED:START -->
+stale bytes
+"""
+        self.readme_path.write_text(original, encoding="utf-8")
+
+        result = subprocess.run(
+            [sys.executable, str(self.script_path), "--check"],
+            cwd=self.repo_root / "wiki",
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+
+        self.assertEqual(2, result.returncode)
+        self.assertIn("compiled end marker occurs before start marker", result.stderr)
         self.assertEqual(original, self.readme_path.read_text(encoding="utf-8"))
 
 

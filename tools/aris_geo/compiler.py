@@ -89,13 +89,20 @@ def render_compiled_block(profiles: Iterable[dict[str, Any]]) -> str:
 
 
 def replace_compiled_block(readme: str, block: str) -> str:
-    start_index = readme.find(COMPILED_START_MARKER)
-    if start_index == -1:
-        raise ValueError(f"missing compiled start marker: {COMPILED_START_MARKER}")
-
-    end_index = readme.find(COMPILED_END_MARKER, start_index + len(COMPILED_START_MARKER))
-    if end_index == -1:
-        raise ValueError(f"missing compiled end marker: {COMPILED_END_MARKER}")
+    start_index = _find_unique_marker(
+        readme,
+        COMPILED_START_MARKER,
+        missing_message=f"missing compiled start marker: {COMPILED_START_MARKER}",
+        duplicate_message=f"duplicate compiled start marker: {COMPILED_START_MARKER}",
+    )
+    end_index = _find_unique_marker(
+        readme,
+        COMPILED_END_MARKER,
+        missing_message=f"missing compiled end marker: {COMPILED_END_MARKER}",
+        duplicate_message=f"duplicate compiled end marker: {COMPILED_END_MARKER}",
+    )
+    if end_index < start_index:
+        raise ValueError("compiled end marker occurs before start marker")
 
     prefix = readme[: start_index + len(COMPILED_START_MARKER)]
     suffix = readme[end_index:]
@@ -103,6 +110,24 @@ def replace_compiled_block(readme: str, block: str) -> str:
     if normalized:
         return f"{prefix}\n{normalized}\n{suffix}"
     return f"{prefix}\n{suffix}"
+
+
+def _find_unique_marker(
+    readme: str,
+    marker: str,
+    *,
+    missing_message: str,
+    duplicate_message: str,
+) -> int:
+    first_index = readme.find(marker)
+    if first_index == -1:
+        raise ValueError(missing_message)
+
+    second_index = readme.find(marker, first_index + len(marker))
+    if second_index != -1:
+        raise ValueError(duplicate_message)
+
+    return first_index
 
 
 def load_profiles(repo_root: Path) -> list[dict[str, Any]]:
