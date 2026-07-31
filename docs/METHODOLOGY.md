@@ -3,8 +3,8 @@
 ## Synthetic Fixture Warning
 
 This repository currently publishes a **synthetic offline fixture** for the
-`profound` slug. All committed excerpts use `https://example.invalid/...`
-sources and explicitly identify themselves as synthetic test fixtures. The
+`profound` slug. All committed excerpts use synthetic `https://*.example.invalid/...`
+source domains and explicitly identify themselves as synthetic test fixtures. The
 fixture exists to exercise evidence validation, score recomputation, README
 compilation, and CI gates offline. It does **not** represent live research,
 vendor claims, or a product conclusion.

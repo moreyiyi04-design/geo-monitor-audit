@@ -53,8 +53,28 @@ documentation slice.
 - The fixture is intentionally minimal and synthetic; it should not be reused as
   evidence about the real Profound product without replacing every source with
   live research data.
-- Cross-task integration note on 2026-07-31: Task 2 split the combined pricing
-  label `入门档仅覆盖单一引擎 / 仅 1 个席位` into two deterministic labels
-  (`入门档仅覆盖单一引擎` and `入门档仅 1 个席位`). Until Task 8 regenerates
-  `wiki/products/profound.json`, `tests/test_vertical_slice.py` will fail on
-  stale committed fixture bytes rather than scoring logic.
+
+## Fix Round 1 (2026-07-31)
+
+- Regenerated `wiki/products/profound.json` with the production score CLI after
+  the pricing-label split from commit `8bf3e63`.
+- Copied the exact regenerated product profile into
+  `tests/fixtures/profound/wiki/products/profound.json`.
+- Regenerated the README compiled block so the committed output now matches the
+  current scoring semantics.
+- Updated `docs/METHODOLOGY.md` from exact `https://example.invalid/...`
+  wording to synthetic wildcard-domain wording: `https://*.example.invalid/...`.
+- Tightened `tests/test_vertical_slice.py` to assert the semantic pricing-label
+  contract: `entry_engines = 1` emits `入门档仅覆盖单一引擎`, while `entry_seats = 2`
+  must not emit the stale `仅 1 个席位` claim.
+
+Fix round 1 verification:
+
+- `python3 -m unittest tests.test_vertical_slice -v` → `Ran 2 tests ... OK`
+- `python3 tools/verify_evidence.py --strict` → exit 0
+- `python3 tools/score.py --check` → exit 0
+- `python3 tools/compile_readme.py --check` → exit 0
+- `python3 -m unittest discover -s tests -v` → `Ran 96 tests ... OK`
+- `python3 -m py_compile tests/test_vertical_slice.py tools/freshness.py tools/compile_readme.py tools/score.py tools/verify_evidence.py`
+  → exit 0
+- `git diff --check` → exit 0

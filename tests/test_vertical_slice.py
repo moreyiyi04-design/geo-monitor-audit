@@ -62,10 +62,15 @@ class OfflineVerticalSliceTests(unittest.TestCase):
 
         score_result = self._run(SCORE_SCRIPT)
         self.assertEqual(0, score_result.returncode, score_result.stderr)
+        regenerated_profile_text = (self.repo_root / "wiki" / "products" / "profound.json").read_text(encoding="utf-8")
         self.assertEqual(
             committed_profile.read_text(encoding="utf-8"),
-            (self.repo_root / "wiki" / "products" / "profound.json").read_text(encoding="utf-8"),
+            regenerated_profile_text,
         )
+        regenerated_profile = json.loads(regenerated_profile_text)
+        flags = [flag["flag"] for flag in regenerated_profile.get("risk_flags", []) if isinstance(flag, dict)]
+        self.assertIn("入门档仅覆盖单一引擎", flags)
+        self.assertNotIn("入门档仅覆盖单一引擎 / 仅 1 个席位", flags)
 
         verify_result = self._run(VERIFY_SCRIPT, "--strict")
         self.assertEqual(0, verify_result.returncode, verify_result.stderr)
@@ -76,6 +81,9 @@ class OfflineVerticalSliceTests(unittest.TestCase):
             committed_readme_text,
             (self.repo_root / "README.md").read_text(encoding="utf-8"),
         )
+        regenerated_readme = (self.repo_root / "README.md").read_text(encoding="utf-8")
+        self.assertIn("- 🟡 入门档仅覆盖单一引擎", regenerated_readme)
+        self.assertNotIn("仅 1 个席位", regenerated_readme)
 
         score_check = self._run(SCORE_SCRIPT, "--check")
         self.assertEqual(0, score_check.returncode, score_check.stderr)

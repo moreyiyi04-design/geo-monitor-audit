@@ -74,7 +74,7 @@ the committed Profound profile is explicitly synthetic.
 ### 标签清单
 #### Profound（合成离线样本） / Profound (Synthetic Offline Fixture)
 - 🟡 不报告置信区间或误差范围
-- 🟡 入门档仅覆盖单一引擎 / 仅 1 个席位
+- 🟡 入门档仅覆盖单一引擎
 - 🟡 无公开定价 / 仅年付 / 无试用 / 退款条款未公开
 - 🟡 未声明测量噪声下限
 - 🟡 未披露每 prompt 采样次数
