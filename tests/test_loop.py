@@ -1,5 +1,7 @@
 import json
 import shutil
+import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -7,6 +9,10 @@ from pathlib import Path
 from tools.aris_geo.loop import GeoLoop, Phase, PhaseOutcome
 from tools.aris_geo.state import load_state
 from tools.geo_loop import main
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+GEO_LOOP_SCRIPT = REPO_ROOT / "tools" / "geo_loop.py"
 
 
 class GeoLoopTests(unittest.TestCase):
@@ -374,8 +380,12 @@ class GeoLoopCliTests(unittest.TestCase):
         self.addCleanup(lambda: shutil.rmtree(self.tempdir))
         self.repo_root = self.tempdir / "repo"
         (self.repo_root / ".git").mkdir(parents=True)
-        (self.repo_root / "wiki").mkdir(parents=True)
-        (self.repo_root / "wiki" / "queue.json").write_text("[]", encoding="utf-8")
+        (self.repo_root / "wiki" / "raw" / "demo").mkdir(parents=True)
+        (self.repo_root / "wiki" / "raw" / "demo" / "evidence.md").write_text(
+            "# Demo evidence\n",
+            encoding="utf-8",
+        )
+        (self.repo_root / "wiki" / "queue.json").write_text('["broken", "demo"]', encoding="utf-8")
 
     def test_main_rejects_non_positive_bounds(self):
         # Break caught: invalid zero/negative driver bounds are silently accepted and misconfigure the loop.
@@ -394,6 +404,34 @@ class GeoLoopCliTests(unittest.TestCase):
         exit_code = main(["--repo-root", str(self.repo_root), "--parallel", "2"])
 
         self.assertEqual(2, exit_code)
+
+    def test_geo_loop_script_returns_one_and_stderr_when_outcomes_fail(self):
+        # Break caught: direct CLI runs with missing handlers exit 0 and look successful.
+        result = subprocess.run(
+            [sys.executable, str(GEO_LOOP_SCRIPT), "--repo-root", str(self.repo_root)],
+            cwd=REPO_ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+
+        self.assertEqual(1, result.returncode)
+        self.assertEqual("", result.stdout)
+        self.assertIn("broken: failed", result.stderr)
+        self.assertIn("demo: failed", result.stderr)
+
+    def test_geo_loop_script_help_runs_from_repo_root(self):
+        # Break caught: running the script directly from the repo root crashes before argparse help.
+        result = subprocess.run(
+            [sys.executable, str(GEO_LOOP_SCRIPT), "--help"],
+            cwd=REPO_ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertIn("usage:", result.stdout)
 
 
 if __name__ == "__main__":

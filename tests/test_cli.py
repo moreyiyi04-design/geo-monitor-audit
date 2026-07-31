@@ -239,5 +239,32 @@ class GateCliTests(unittest.TestCase):
         self.assertEqual(derive_auto_risk_flags(rewritten), rewritten["risk_flags"])
 
 
+class ToolHelpTests(unittest.TestCase):
+    def test_every_executable_tool_supports_help_from_repo_root(self):
+        # Break caught: direct script execution fails import/bootstrap before argparse can answer --help.
+        for script_name in (
+            "compile_readme.py",
+            "freshness.py",
+            "geo_loop.py",
+            "gh_health.py",
+            "score.py",
+            "stage_inbox.py",
+            "tavily_client.py",
+            "verify_evidence.py",
+        ):
+            with self.subTest(script=script_name):
+                result = subprocess.run(
+                    [sys.executable, str(REPO_ROOT / "tools" / script_name), "--help"],
+                    cwd=REPO_ROOT,
+                    text=True,
+                    capture_output=True,
+                    check=False,
+                )
+
+                self.assertEqual(0, result.returncode, result.stderr)
+                self.assertIn("usage:", result.stdout)
+                self.assertNotIn("ModuleNotFoundError", result.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -6,7 +6,14 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-from .schema import EVIDENCE_KINDS, SCHEMA_VERSION, VALID_CONFIDENCE, Envelope, iter_envelopes
+from .schema import (
+    EVIDENCE_KINDS,
+    SCHEMA_VERSION,
+    VALID_CONFIDENCE,
+    Envelope,
+    iter_envelopes,
+    validate_plain_structure,
+)
 
 
 @dataclass
@@ -113,13 +120,14 @@ def _validate_evidence_record(record: Any, repo_root: Path, report: ValidationRe
 
 
 def validate_profile(profile: dict[str, Any], repo_root: str | Path, strict: bool = True) -> ValidationReport:
-    del strict  # Reserved for future gating modes; the vertical slice uses strict validation only.
-
     report = ValidationReport()
     repo_root = Path(repo_root)
 
     if profile.get("schema_version") != SCHEMA_VERSION:
         report.errors.append(f"schema_version must be {SCHEMA_VERSION}")
+
+    if strict:
+        report.errors.extend(validate_plain_structure(profile))
 
     evidence = profile.get("evidence")
     if not isinstance(evidence, list):

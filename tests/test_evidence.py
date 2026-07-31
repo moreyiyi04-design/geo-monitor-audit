@@ -1,3 +1,5 @@
+import copy
+import json
 import hashlib
 import shutil
 import tempfile
@@ -46,6 +48,13 @@ class EvidenceValidationTests(unittest.TestCase):
             "oss_health": {"stars": 99},
             "unknowns": ["measurement.samples_per_prompt"],
         }
+
+    def _load_profound_fixture(self):
+        fixture_root = Path(__file__).resolve().parent / "fixtures" / "profound"
+        profile = json.loads(
+            (fixture_root / "wiki" / "products" / "profound.json").read_text(encoding="utf-8")
+        )
+        return fixture_root, profile
 
     def test_iter_envelopes_discovers_leaf_envelopes_and_skips_computed_subtrees(self):
         # Break caught: descending into scores/risk_flags/audit/oss_health or missing real envelopes.
@@ -185,6 +194,51 @@ class EvidenceValidationTests(unittest.TestCase):
             "evidence e1: excerpt_path escapes repository root",
             report.errors,
         )
+
+    def test_validate_profile_accepts_committed_fixture_with_allowed_structural_fields(self):
+        # Break caught: strict structure validation rejects supported plain-field profile contracts.
+        fixture_root, profile = self._load_profound_fixture()
+        profile["features"] = [{"name": "Synthetic export", "src": ["e1"]}]
+        profile["tactics"] = {
+            "spectrum": "white",
+            "poisoning_fingerprints": ["none observed"],
+        }
+        profile["pricing"]["cost_per_prompt_month"] = 12.5
+        profile["case_studies"] = [{"brand": "Synthetic Brand", "cross_verified": True, "src": ["e1"]}]
+        profile["effect_claims"][0]["grade_proposed"] = "A"
+
+        report = validate_profile(profile, fixture_root)
+
+        self.assertTrue(report.ok, report.errors)
+
+    def test_validate_profile_rejects_raw_scalar_research_leaves(self):
+        # Break caught: raw research scalars bypass strict envelope validation entirely.
+        profile = self._make_profile()
+        profile["measurement"]["samples_per_prompt"] = 3
+
+        report = validate_profile(profile, self.repo_root)
+
+        self.assertFalse(report.ok)
+        self.assertIn(
+            "measurement.samples_per_prompt: expected envelope, found raw int",
+            report.errors,
+        )
+
+    def test_validate_profile_rejects_empty_research_containers(self):
+        # Break caught: empty dict/list research nodes are silently skipped as if they were absent.
+        fixture_root, profile = self._load_profound_fixture()
+        dict_profile = copy.deepcopy(profile)
+        dict_profile["measurement"] = {}
+        list_profile = copy.deepcopy(profile)
+        list_profile["fit"] = []
+
+        dict_report = validate_profile(dict_profile, fixture_root)
+        list_report = validate_profile(list_profile, fixture_root)
+
+        self.assertFalse(dict_report.ok)
+        self.assertIn("measurement: empty object is not allowed", dict_report.errors)
+        self.assertFalse(list_report.ok)
+        self.assertIn("fit: empty list is not allowed", list_report.errors)
 
 
 if __name__ == "__main__":

@@ -104,12 +104,12 @@ class OfflineVerticalSliceTests(unittest.TestCase):
             "python3 tools/verify_evidence.py --strict",
             "python3 tools/score.py --check",
             "python3 tools/compile_readme.py --check",
-            "TAVILY_API_KEY",
-            "EXECUTOR_API_KEY",
-            "OPENAI_API_KEY",
-            "ARIS_DISABLE_KEYCHAIN=1",
-            "python3 tools/geo_loop.py --limit 1",
-            "live smoke is not run here",
+            "does not wire the full live orchestration loop",
+            "python3 tools/geo_loop.py --help",
+            "python3 tools/stage_inbox.py --help",
+            "python3 tools/tavily_client.py --help",
+            "python3 tools/gh_health.py --help",
+            "Real networked runs require credentials",
             "Do not commit API keys",
         ):
             self.assertIn(snippet, readme)

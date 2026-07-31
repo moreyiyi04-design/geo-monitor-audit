@@ -640,13 +640,18 @@ ARIS-GEO/
 
 ### 8.2 运行方式
 
+以下命令是**未来接入真实 handler 后**的目标运行形态,不是当前 vertical
+slice 已接线并可宣称支持的 live orchestration 指令。
+
 ```bash
-python3 tools/geo_loop.py --limit 1                          # 冒烟
-python3 tools/geo_loop.py --budget-tokens 2000000 --parallel 2  # 批量
-python3 tools/geo_loop.py --refresh-stale 90                  # 增量
+python3 tools/geo_loop.py --limit 1                              # 未来冒烟目标
+python3 tools/geo_loop.py --budget-tokens 2000000 --parallel 2  # 未来批量目标
+python3 tools/geo_loop.py --refresh-stale 90                    # 未来增量目标
 ```
 
-- 起步 `--parallel 2`:Tavily / DeepSeek 速率限制是瓶颈,且早期需肉眼看结果
+- 当前 vertical slice 仅交付 deterministic loop contract、state machine 与
+  CLI/handler wiring surface; `--parallel > 1` 仍明确返回未实现
+- 起步 `--parallel 2` 依然是未来 live 版本的预期起点:Tavily / DeepSeek 速率限制是瓶颈,且早期需肉眼看结果
 - **cron 定的是队列轮次,不是审查轮次** —— 内层 review 循环由 `geo_loop.py` 自己拥有,符合 ARIS 自己那条「调度它前面的等待,不要调度裁决本身」
 
 ### 8.3 首跑计划(四阶,每阶间有人工闸门)

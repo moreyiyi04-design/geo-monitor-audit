@@ -4,6 +4,10 @@ import argparse
 import sys
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from tools.aris_geo.loop import GeoLoop
 
 
@@ -24,12 +28,15 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     loop = GeoLoop(args.repo_root)
-    loop.run_queue(
+    outcomes = loop.run_queue(
         limit=args.limit,
         budget_tokens=args.budget_tokens,
         refresh_stale=args.refresh_stale,
     )
-    return 0
+    failures = [outcome for outcome in outcomes if not outcome.ok]
+    for outcome in failures:
+        print(f"{outcome.slug}: {outcome.status}", file=sys.stderr)
+    return 1 if failures else 0
 
 
 def _positive_int(value: str) -> int:

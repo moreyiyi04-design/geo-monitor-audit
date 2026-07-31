@@ -30,18 +30,19 @@ python3 tools/compile_readme.py
 ## Optional Live Run
 
 Live execution is intentionally separate from the committed offline fixture.
-The live smoke is not run here, and no credentials or ARIS installation are
-bundled with this repository.
+This vertical slice does not wire the full live orchestration loop, and no
+credentials or ARIS installation are bundled with this repository.
 
 ```bash
-export TAVILY_API_KEY=replace-me
-export EXECUTOR_API_KEY=replace-me
-# or: export OPENAI_API_KEY=replace-me
-export ARIS_DISABLE_KEYCHAIN=1
-
-python3 tools/geo_loop.py --limit 1
-python3 tools/geo_loop.py --refresh-stale 90
+python3 tools/geo_loop.py --help
+python3 tools/stage_inbox.py --help
+python3 tools/tavily_client.py --help
+python3 tools/gh_health.py --help
 ```
+
+The `tavily_client.py` and `gh_health.py` shims are standalone component
+surfaces. Real networked runs require credentials and are intentionally outside
+the committed offline verification path.
 
 ## Security
 
