@@ -1,0 +1,18 @@
+name: freshness
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 12 * * 1"
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check evidence freshness (non-blocking)
+        continue-on-error: true
+        run: python3 tools/freshness.py --days 90

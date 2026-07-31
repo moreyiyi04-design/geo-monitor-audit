@@ -1,0 +1,6 @@
+Synthetic fixture excerpt for ARIS-GEO offline testing only.
+Source kind: vendor_pricing_page.
+Canonical synthetic URL: https://example.invalid/profound/pricing
+This text is not a live pricing page and must not be cited as a product finding.
+Observed synthetic contract notes: annual billing only, entry plan covers 1 engine,
+2 seats, no public refund terms, and no self-serve export guarantee.

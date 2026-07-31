@@ -1,0 +1,352 @@
+{
+  "schema_version": "v1",
+  "slug": "profound",
+  "name_cn": {
+    "v": "Profound（合成离线样本）",
+    "src": [
+      "e2"
+    ],
+    "conf": "stated"
+  },
+  "name_en": {
+    "v": "Profound (Synthetic Offline Fixture)",
+    "src": [
+      "e2"
+    ],
+    "conf": "stated"
+  },
+  "homepage": {
+    "v": "https://example.invalid/profound",
+    "src": [
+      "e2"
+    ],
+    "conf": "stated"
+  },
+  "vendor_domains": [
+    "example.invalid"
+  ],
+  "market": "overseas",
+  "category": [
+    "监测/可见性追踪"
+  ],
+  "delivery_form": {
+    "v": "Synthetic SaaS fixture",
+    "src": [
+      "e2"
+    ],
+    "conf": "stated"
+  },
+  "openness": "closed",
+  "measurement": {
+    "capture_channel": {
+      "v": "browser",
+      "src": [
+        "e2"
+      ],
+      "conf": "stated"
+    },
+    "samples_per_prompt": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "reports_confidence_interval": {
+      "v": false,
+      "src": [
+        "e2"
+      ],
+      "conf": "stated"
+    },
+    "declares_noise_floor": {
+      "v": false,
+      "src": [
+        "e2"
+      ],
+      "conf": "stated"
+    },
+    "model_version_pinning": {
+      "v": true,
+      "src": [
+        "e2"
+      ],
+      "conf": "stated"
+    },
+    "sov_formula_public": {
+      "v": true,
+      "src": [
+        "e2"
+      ],
+      "conf": "stated"
+    }
+  },
+  "mechanism": {
+    "data_source": {
+      "v": "synthetic browser panel",
+      "src": [
+        "e2"
+      ],
+      "conf": "stated"
+    }
+  },
+  "pricing": {
+    "has_public_pricing": {
+      "v": false,
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    },
+    "entry_engines": {
+      "v": 1,
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    },
+    "entry_seats": {
+      "v": 2,
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    },
+    "min_commit": {
+      "v": "12 months",
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    },
+    "annual_only": {
+      "v": true,
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    },
+    "trial": {
+      "v": false,
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    },
+    "refund_terms": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "unit_inflation_risk": {
+      "v": true,
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    }
+  },
+  "entity": {
+    "registry_verifiable": {
+      "v": true,
+      "src": [
+        "e3"
+      ],
+      "conf": "stated"
+    },
+    "team_public": {
+      "v": true,
+      "src": [
+        "e3"
+      ],
+      "conf": "stated"
+    }
+  },
+  "exit": {
+    "data_export": {
+      "v": false,
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    },
+    "history_portable": {
+      "v": false,
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    },
+    "content_hosted_by_vendor": {
+      "v": false,
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    },
+    "contract_lock": {
+      "v": "12 months",
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    }
+  },
+  "evidence": [
+    {
+      "id": "e1",
+      "url": "https://example.invalid/profound/pricing",
+      "kind": "vendor_pricing_page",
+      "fetched_at": "2026-07-31",
+      "sha256": "9c1960a32a97b3811728f6fb887fb83c67076323a32d828bb01ae8fa7f582c76",
+      "excerpt_path": "wiki/raw/profound/e1.txt",
+      "paid_placement_suspected": false
+    },
+    {
+      "id": "e2",
+      "url": "https://example.invalid/profound/methodology",
+      "kind": "methodology_doc",
+      "fetched_at": "2026-07-31",
+      "sha256": "e2a0a7170bc456f7bbc49b1d0c9a9470690c9c660ef25095381550ed53fbdce0",
+      "excerpt_path": "wiki/raw/profound/e2.txt",
+      "paid_placement_suspected": false
+    },
+    {
+      "id": "e3",
+      "url": "https://registry.example.invalid/profound/company-registry",
+      "kind": "registry",
+      "fetched_at": "2026-07-31",
+      "sha256": "8a974c6303b72a1fe0aaac646f691f6b2066772c69837e44de2083a160199552",
+      "excerpt_path": "wiki/raw/profound/e3.txt",
+      "paid_placement_suspected": false
+    },
+    {
+      "id": "e4",
+      "url": "https://research.example.invalid/profound/benchmark",
+      "kind": "academic",
+      "fetched_at": "2026-07-31",
+      "sha256": "b1bcdd1ad4594a25839ce4635cfbbb5296d7e04b42890d98b4907aa654c958d0",
+      "excerpt_path": "wiki/raw/profound/e4.txt",
+      "paid_placement_suspected": false
+    }
+  ],
+  "effect_claims": [
+    {
+      "claim": "Synthetic offline benchmark measured a 4.0 percentage-point change over a 90-day synthetic window.",
+      "has_number": true,
+      "has_denominator": true,
+      "has_timeframe": true,
+      "engine": "SearchGPT",
+      "claimed_change_pp": 4.0,
+      "src": [
+        "e4"
+      ],
+      "grade_final": "A"
+    }
+  ],
+  "oss_health": {
+    "contributors_12mo": 3,
+    "commits_90d": 5,
+    "last_release": "2026-07-15",
+    "releases": 1,
+    "tests_cover_own_logic": true,
+    "license_spdx": "Proprietary",
+    "license_absent": false,
+    "commercial_restricted": false,
+    "self_described_demo": false,
+    "absolutist_claim_in_name": false,
+    "upstream_vendor_confusable_name": false,
+    "description_near_duplicate_of": [],
+    "stars": 0,
+    "stars_per_month": 0
+  },
+  "academic_anchor": {
+    "peer_reviewed": {
+      "v": true,
+      "src": [
+        "e4"
+      ],
+      "conf": "stated"
+    },
+    "reproducible_experiments": {
+      "v": true,
+      "src": [
+        "e4"
+      ],
+      "conf": "stated"
+    },
+    "benchmark": {
+      "v": true,
+      "src": [
+        "e4"
+      ],
+      "conf": "stated"
+    }
+  },
+  "case_studies": [],
+  "scores": {
+    "transparency": 3,
+    "verifiability": 5,
+    "lock_in_risk": 4,
+    "measurement_rigor": 2,
+    "oss_health": 5
+  },
+  "risk_flags": [
+    {
+      "flag": "未披露每 prompt 采样次数",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "不报告置信区间或误差范围",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": [
+        "e2"
+      ]
+    },
+    {
+      "flag": "未声明测量噪声下限",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": [
+        "e2"
+      ]
+    },
+    {
+      "flag": "无公开定价 / 仅年付 / 无试用 / 退款条款未公开",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": [
+        "e1"
+      ]
+    },
+    {
+      "flag": "入门档仅覆盖单一引擎 / 仅 1 个席位",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": [
+        "e1"
+      ]
+    },
+    {
+      "flag": "计价单位随监测范围膨胀",
+      "tier": "orange",
+      "origin": "auto",
+      "src": [
+        "e1"
+      ]
+    },
+    {
+      "flag": "无数据导出 / 最低合约期 > 6 个月",
+      "tier": "orange",
+      "origin": "auto",
+      "src": [
+        "e1"
+      ]
+    }
+  ],
+  "unknowns": [
+    "measurement.samples_per_prompt",
+    "pricing.refund_terms"
+  ]
+}

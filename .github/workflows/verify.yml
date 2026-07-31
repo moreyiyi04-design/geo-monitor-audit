@@ -1,0 +1,24 @@
+name: verify
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run offline test suite
+        run: python3 -m unittest discover -s tests -v
+      - name: Verify evidence gate
+        run: python3 tools/verify_evidence.py --strict
+      - name: Verify deterministic scores
+        run: python3 tools/score.py --check
+      - name: Verify compiled README
+        run: python3 tools/compile_readme.py --check
