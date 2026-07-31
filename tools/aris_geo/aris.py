@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import numbers
 import subprocess
 from dataclasses import dataclass
@@ -36,7 +37,7 @@ def parse_aris_result(
     max_iterations: int = DEFAULT_MAX_ITERATIONS,
 ) -> ArisResult:
     try:
-        payload = json.loads(stdout)
+        payload = json.loads(stdout, parse_constant=_reject_non_finite_constant)
     except json.JSONDecodeError as exc:
         raise ValueError("invalid ARIS JSON") from exc
 
@@ -54,8 +55,8 @@ def parse_aris_result(
         raise ValueError("invalid ARIS JSON: message must be a string")
     if not isinstance(model, str):
         raise ValueError("invalid ARIS JSON: model must be a string")
-    if not isinstance(iterations, int):
-        raise ValueError("invalid ARIS JSON: iterations must be an integer")
+    if isinstance(iterations, bool) or not isinstance(iterations, int):
+        raise ValueError("invalid ARIS JSON: iterations must be a non-bool integer")
     if not isinstance(tool_uses, list):
         raise ValueError("invalid ARIS JSON: tool_uses must be a list")
     if not isinstance(tool_results, list):
@@ -148,6 +149,8 @@ def _validate_usage(usage: dict[str, Any]) -> None:
         value = usage[field_name]
         if isinstance(value, bool) or not isinstance(value, numbers.Real):
             raise ValueError(f"invalid ARIS JSON: usage field {field_name} must be a non-bool number")
+        if not math.isfinite(value):
+            raise ValueError(f"invalid ARIS JSON: usage field {field_name} must be finite")
         if value < 0:
             raise ValueError(f"invalid ARIS JSON: usage field {field_name} must be non-negative")
 
@@ -217,3 +220,7 @@ def _extract_text(value: Any) -> list[str]:
             texts.extend(_extract_text(item))
         return texts
     return []
+
+
+def _reject_non_finite_constant(value: str) -> Any:
+    raise ValueError(f"invalid ARIS JSON: non-finite numeric constant {value}")

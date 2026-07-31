@@ -131,6 +131,14 @@ class ParseArisResultTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "iterations exceed 8"):
             parse_aris_result(stdout)
 
+    def test_parse_aris_result_rejects_boolean_iterations(self):
+        # Break caught: bool values pass the int check and are accepted as iteration counts.
+        for value in (True, False):
+            with self.subTest(value=value):
+                stdout = json.dumps(aris_payload(iterations=value), ensure_ascii=False)
+                with self.assertRaisesRegex(ValueError, "iterations must be a non-bool integer"):
+                    parse_aris_result(stdout)
+
     def test_parse_aris_result_requires_declared_tools(self):
         # Break caught: phases that never read staged files still pass contract validation.
         stdout = json.dumps(aris_payload(tool_uses=["Skill", "write_file"]), ensure_ascii=False)
@@ -169,6 +177,38 @@ class ParseArisResultTests(unittest.TestCase):
                     usage.pop("input_tokens")
                 stdout = json.dumps(aris_payload(usage=usage), ensure_ascii=False)
                 with self.assertRaisesRegex(ValueError, message):
+                    parse_aris_result(stdout)
+
+    def test_parse_aris_result_rejects_non_finite_usage_values_in_json(self):
+        # Break caught: non-finite JSON constants slip through token accounting and corrupt control signals.
+        stdout = (
+            '{"message":"{\\"ok\\":true}","model":"deepseek-v4-flash","iterations":4,'
+            '"auto_compaction":null,"tool_uses":["Skill","read_file","write_file"],'
+            '"tool_results":[{"tool":"read_file","is_error":false,"content":"ok"}],'
+            '"usage":{"input_tokens":NaN,"output_tokens":20,'
+            '"cache_creation_input_tokens":0,"cache_read_input_tokens":3}}'
+        )
+
+        with self.assertRaisesRegex(ValueError, "invalid ARIS JSON: non-finite numeric constant"):
+            parse_aris_result(stdout)
+
+    def test_parse_aris_result_rejects_non_finite_usage_values_after_json_number_parsing(self):
+        # Break caught: huge JSON numbers parse into infinities and bypass parse_constant unless usage validation checks finiteness.
+        for field_name, token_literal in (
+            ("input_tokens", "1e309"),
+            ("output_tokens", "1e309"),
+            ("cache_read_input_tokens", "-1e309"),
+        ):
+            with self.subTest(field_name=field_name, token_literal=token_literal):
+                stdout = """
+{"message":"{\\"ok\\":true}","model":"deepseek-v4-flash","iterations":4,
+"auto_compaction":null,"tool_uses":["Skill","read_file","write_file"],
+"tool_results":[{"tool":"read_file","is_error":false,"content":"ok"}],
+"usage":{"input_tokens":10,"output_tokens":20,
+"cache_creation_input_tokens":0,"cache_read_input_tokens":3,
+"%(field_name)s":%(token_literal)s}}
+""".strip() % {"field_name": field_name, "token_literal": token_literal}
+                with self.assertRaisesRegex(ValueError, f"usage field {field_name} must be finite"):
                     parse_aris_result(stdout)
 
 

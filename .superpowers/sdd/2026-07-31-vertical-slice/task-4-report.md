@@ -78,9 +78,8 @@ Result: passed.
   framework.
 - Used an injected runner for `run_aris_phase(...)` so unit tests stay fully
   offline and avoid subprocess mocking libraries.
-- Kept permission-denial detection text-based over the full structured result
-  payload so the parser tolerates minor ARIS shape differences while still
-  enforcing the deny contract.
+- Kept permission-denial detection focused on structured deny metadata plus
+  error-shaped text fields so successful evidence content is not misclassified.
 
 ## Remaining risks
 
@@ -145,4 +144,58 @@ Results:
 
 - focused ARIS tests: `12` passed;
 - full suite: `50` passed;
+- syntax check: passed.
+
+## Fix round 2
+
+### Contract tightened
+
+- `json.loads(...)` now rejects `NaN`, `Infinity`, and `-Infinity` via a strict
+  `parse_constant` hook instead of accepting them as floats;
+- `usage` validation now requires each token counter to be finite before the
+  non-negative check;
+- `iterations` now rejects `True` / `False` explicitly instead of letting Python
+  bools pass the integer check.
+
+### RED
+
+Ran:
+
+```bash
+python3 -m unittest tests.test_aris -v
+```
+
+Observed expected failures:
+
+- boolean `iterations` values were accepted;
+- JSON `NaN` / `Infinity` usage counters were accepted;
+- defensive finite checking was missing or happened after the sign check.
+
+### GREEN
+
+Implemented:
+
+- strict `parse_constant` rejection for non-finite JSON constants anywhere in
+  ARIS stdout;
+- explicit `bool` rejection before integer acceptance for `iterations`;
+- `math.isfinite(...)` validation for required usage counters before
+  non-negative validation.
+
+### Verification
+
+```bash
+python3 -m unittest tests.test_aris -v
+python3 -m unittest discover -s tests -v
+python3 -m py_compile \
+  tools/aris_geo/staging.py \
+  tools/aris_geo/aris.py \
+  tools/stage_inbox.py \
+  tests/test_staging.py \
+  tests/test_aris.py
+```
+
+Results:
+
+- focused ARIS tests: `15` passed;
+- full suite: `53` passed;
 - syntax check: passed.
