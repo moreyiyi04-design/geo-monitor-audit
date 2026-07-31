@@ -216,6 +216,42 @@ class GeoLoopTests(unittest.TestCase):
         self.assertEqual(3, state.round)
         self.assertEqual("verification failed", state.last_error)
 
+    def test_run_product_stops_before_next_phase_when_budget_is_exhausted(self):
+        # Break caught: a product keeps invoking later phase handlers even after consuming the remaining token budget.
+        seen = []
+
+        def make_handler(phase, tokens):
+            def handler(slug, state):
+                seen.append(phase.value)
+                return PhaseOutcome(success=True, tokens=tokens)
+
+            return handler
+
+        loop = GeoLoop(
+            self.repo_root,
+            phase_handlers={
+                Phase.PLAN_QUERIES: make_handler(Phase.PLAN_QUERIES, 3),
+                Phase.FETCH: make_handler(Phase.FETCH, 2),
+                Phase.DIGEST: make_handler(Phase.DIGEST, 1),
+                Phase.PROFILE: make_handler(Phase.PROFILE, 1),
+                Phase.VENDOR_SKEPTIC: make_handler(Phase.VENDOR_SKEPTIC, 1),
+                Phase.ARBITER: make_handler(Phase.ARBITER, 1),
+                Phase.APPLY: make_handler(Phase.APPLY, 1),
+                Phase.VERIFY: make_handler(Phase.VERIFY, 1),
+                Phase.COMPILE: make_handler(Phase.COMPILE, 1),
+            },
+        )
+
+        result = loop.run_product("demo", budget_tokens=5)
+
+        self.assertFalse(result.ok)
+        self.assertEqual("budget_exhausted", result.status)
+        self.assertEqual(5, result.tokens)
+        self.assertEqual(["plan_queries", "fetch"], seen)
+        state = load_state(self.repo_root, "demo")
+        self.assertEqual(Phase.DIGEST, state.phase)
+        self.assertEqual("budget exhausted before phase: digest", state.last_error)
+
     def test_run_queue_continues_to_next_slug_after_a_failure(self):
         # Break caught: one broken product blocks the rest of the queue instead of recording the error and continuing.
         seen = []
@@ -269,6 +305,67 @@ class GeoLoopTests(unittest.TestCase):
             ],
             seen,
         )
+
+    def test_run_queue_continues_after_missing_raw_evidence_directory(self):
+        # Break caught: a missing evidence tree crashes the queue before later valid products can run.
+        shutil.rmtree(self.repo_root / "wiki" / "raw" / "broken")
+        seen = []
+
+        def handler(slug, state):
+            seen.append((slug, state.phase.value))
+            return PhaseOutcome(success=True, tokens=1)
+
+        loop = GeoLoop(
+            self.repo_root,
+            phase_handlers={phase: handler for phase in (
+                Phase.PLAN_QUERIES,
+                Phase.FETCH,
+                Phase.DIGEST,
+                Phase.PROFILE,
+                Phase.VENDOR_SKEPTIC,
+                Phase.ARBITER,
+                Phase.APPLY,
+                Phase.VERIFY,
+                Phase.COMPILE,
+            )},
+        )
+
+        outcomes = loop.run_queue()
+
+        self.assertEqual(["failed", "passed"], [outcome.status for outcome in outcomes])
+        self.assertEqual("missing raw evidence directory", load_state(self.repo_root, "broken").last_error)
+        self.assertTrue(any(slug == "demo" for slug, _phase in seen))
+
+    def test_run_queue_continues_after_corrupt_state_file(self):
+        # Break caught: invalid persisted state JSON aborts the queue instead of isolating the failure to that slug.
+        (self.repo_root / "wiki" / "state").mkdir(parents=True, exist_ok=True)
+        (self.repo_root / "wiki" / "state" / "broken.json").write_text("{not json", encoding="utf-8")
+        seen = []
+
+        def handler(slug, state):
+            seen.append((slug, state.phase.value))
+            return PhaseOutcome(success=True, tokens=1)
+
+        loop = GeoLoop(
+            self.repo_root,
+            phase_handlers={phase: handler for phase in (
+                Phase.PLAN_QUERIES,
+                Phase.FETCH,
+                Phase.DIGEST,
+                Phase.PROFILE,
+                Phase.VENDOR_SKEPTIC,
+                Phase.ARBITER,
+                Phase.APPLY,
+                Phase.VERIFY,
+                Phase.COMPILE,
+            )},
+        )
+
+        outcomes = loop.run_queue()
+
+        self.assertEqual(["failed", "passed"], [outcome.status for outcome in outcomes])
+        self.assertEqual("invalid state JSON for broken", load_state(self.repo_root, "broken").last_error)
+        self.assertTrue(any(slug == "demo" for slug, _phase in seen))
 
 
 class GeoLoopCliTests(unittest.TestCase):

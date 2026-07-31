@@ -65,12 +65,26 @@ class GeoLoop:
                 break
             if budget_tokens is not None and spent >= budget_tokens:
                 break
-            outcome = self.run_product(slug, refresh_stale=refresh_stale)
+            remaining_budget = None if budget_tokens is None else budget_tokens - spent
+            try:
+                outcome = self.run_product(
+                    slug,
+                    refresh_stale=refresh_stale,
+                    budget_tokens=remaining_budget,
+                )
+            except Exception as exc:
+                outcome = self._persist_prephase_failure(slug, str(exc))
             outcomes.append(outcome)
             spent += outcome.tokens
         return outcomes
 
-    def run_product(self, slug: str, *, refresh_stale: int | None = None) -> RunOutcome:
+    def run_product(
+        self,
+        slug: str,
+        *,
+        refresh_stale: int | None = None,
+        budget_tokens: int | None = None,
+    ) -> RunOutcome:
         current_fingerprint = evidence_fingerprint(self.repo_root, slug)
         state = load_state(self.repo_root, slug)
 
@@ -94,6 +108,15 @@ class GeoLoop:
         while state.phase is not Phase.PASS:
             if state.phase is Phase.VENDOR_SKEPTIC and state.round == 0:
                 state = self._replace(state, round=1)
+            if budget_tokens is not None and produced_tokens >= budget_tokens:
+                state = self._replace(state, last_error=f"budget exhausted before phase: {state.phase.value}")
+                save_state(self.repo_root, state)
+                return RunOutcome(
+                    slug=slug,
+                    status="budget_exhausted",
+                    ok=False,
+                    tokens=produced_tokens,
+                )
 
             outcome = self._run_phase(slug, state)
             produced_tokens += outcome.tokens
@@ -190,3 +213,27 @@ class GeoLoop:
         }
         payload.update(changes)
         return ProductState(**payload)
+
+    def _persist_prephase_failure(self, slug: str, error_message: str) -> RunOutcome:
+        normalized = self._normalize_prephase_error(error_message)
+        try:
+            save_state(
+                self.repo_root,
+                ProductState(
+                    slug=slug,
+                    phase=Phase.PLAN_QUERIES,
+                    round=0,
+                    cost_so_far=0,
+                    last_error=normalized,
+                    evidence_fingerprint=None,
+                ),
+            )
+        except Exception:
+            pass
+        return RunOutcome(slug=slug, status="failed", ok=False, tokens=0)
+
+    @staticmethod
+    def _normalize_prephase_error(error_message: str) -> str:
+        if "wiki/raw" in error_message:
+            return "missing raw evidence directory"
+        return error_message

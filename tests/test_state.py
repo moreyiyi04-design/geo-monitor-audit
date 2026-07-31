@@ -72,6 +72,27 @@ class StatePersistenceTests(unittest.TestCase):
         )
         self.assertEqual([], list(state_path.parent.glob(".demo.json.*.tmp")))
 
+    def test_load_state_rejects_persisted_slug_mismatch(self):
+        # Break caught: a state file for one slug is silently loaded for another and can later overwrite the wrong product state.
+        state_path = self.repo_root / "wiki" / "state" / "demo.json"
+        state_path.write_text(
+            json.dumps(
+                {
+                    "slug": "other",
+                    "phase": "profile",
+                    "round": 1,
+                    "cost_so_far": 8,
+                    "last_error": None,
+                    "evidence_fingerprint": "fp-1",
+                },
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+
+        with self.assertRaisesRegex(ValueError, "state slug mismatch for demo"):
+            load_state(self.repo_root, "demo")
+
 
 class EvidenceFingerprintTests(unittest.TestCase):
     def setUp(self):

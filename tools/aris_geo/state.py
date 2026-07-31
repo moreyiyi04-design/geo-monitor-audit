@@ -38,9 +38,16 @@ def load_state(repo_root: str | Path, slug: str) -> ProductState:
     if not path.exists():
         return ProductState(slug=slug)
 
-    payload = json.loads(path.read_text(encoding="utf-8"))
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"invalid state JSON for {slug}") from exc
     if not isinstance(payload, dict):
         raise ValueError(f"invalid state payload for {slug}")
+
+    persisted_slug = payload.get("slug")
+    if persisted_slug not in {None, slug}:
+        raise ValueError(f"state slug mismatch for {slug}")
 
     phase = Phase(payload.get("phase", Phase.PLAN_QUERIES.value))
     round_value = payload.get("round", 0)
@@ -59,7 +66,7 @@ def load_state(repo_root: str | Path, slug: str) -> ProductState:
         raise ValueError(f"invalid evidence_fingerprint for {slug}")
 
     return ProductState(
-        slug=str(payload.get("slug") or slug),
+        slug=slug,
         phase=phase,
         round=round_value,
         cost_so_far=cost_value,
