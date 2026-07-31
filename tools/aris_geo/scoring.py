@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
 
-from .grading import GRADE_WEIGHTS, final_grade
+from .grading import GRADE_WEIGHTS, assess_claim, final_grade
 
 
 def calculate_scores(profile: dict[str, Any]) -> dict[str, int]:
@@ -64,15 +64,27 @@ def derive_auto_risk_flags(profile: dict[str, Any]) -> list[dict[str, Any]]:
         add_flag("数据来源未披露", "yellow", _source_ids(mechanism.get("data_source")))
 
     below_floor_sources: list[str] = []
+    vendor_hosted_downgrade_sources: list[str] = []
+    suspected_paid_sources: list[str] = []
+    claim_assessments = []
     for claim in profile.get("effect_claims") or []:
         claimed_change_pp = claim.get("claimed_change_pp")
         if "claimed_change_pp" in claim and (isinstance(claimed_change_pp, bool) or not isinstance(claimed_change_pp, (int, float))):
             raise TypeError("claimed_change_pp must be an int or float when present")
-        grade = final_grade(claim, evidence, vendor_domains, noise_floors)
-        if grade == "D" and "claimed_change_pp" in claim:
+        assessment = assess_claim(claim, evidence, vendor_domains, noise_floors)
+        claim_assessments.append((claim, assessment))
+        if "below_noise_floor" in assessment.downgrade_reasons:
             below_floor_sources.extend(_claim_source_ids(claim))
+        if "vendor_hosted" in assessment.downgrade_reasons:
+            vendor_hosted_downgrade_sources.extend(_claim_source_ids(claim))
+        if "suspected_paid_placement" in assessment.downgrade_reasons:
+            suspected_paid_sources.extend(_claim_source_ids(claim))
     if below_floor_sources:
         add_flag("效果声称幅度低于该引擎测量噪声下限", "orange", below_floor_sources)
+    if vendor_hosted_downgrade_sources:
+        add_flag("A/B 候选声称仅由供应商域名来源支撑", "orange", vendor_hosted_downgrade_sources)
+    if suspected_paid_sources:
+        add_flag("A/B 候选声称的第三方报告来源均标记为疑似投放内容", "orange", suspected_paid_sources)
 
     pricing_flag_sources = []
     if not _is_true(pricing.get("has_public_pricing")):
@@ -118,8 +130,8 @@ def derive_auto_risk_flags(profile: dict[str, Any]) -> list[dict[str, Any]]:
     degraded_sources: list[str] = []
     degraded_count = 0
     claims = profile.get("effect_claims") or []
-    for claim in claims:
-        if final_grade(claim, evidence, vendor_domains, noise_floors) in {"D", "E"}:
+    for claim, assessment in claim_assessments:
+        if assessment.final_grade in {"D", "E"}:
             degraded_count += 1
             degraded_sources.extend(_claim_source_ids(claim))
     if claims and (scores["verifiability"] < 2 or degraded_count / len(claims) > 0.5):
@@ -129,6 +141,10 @@ def derive_auto_risk_flags(profile: dict[str, Any]) -> list[dict[str, Any]]:
     suspected_reports = [record for record in report_evidence if bool(record.get("paid_placement_suspected"))]
     if report_evidence and len(suspected_reports) / len(report_evidence) > 0.5:
         add_flag("第三方证据主要来自疑似投放内容", "orange", [record["id"] for record in suspected_reports if "id" in record])
+
+    fingerprints = _distinct_nonempty_strings((profile.get("tactics") or {}).get("poisoning_fingerprints"))
+    if len(fingerprints) >= 3:
+        add_flag("投毒指纹命中 ≥3 项", "orange")
 
     if bool(oss_health.get("license_absent")) or oss_health.get("license_spdx") == "NOASSERTION":
         add_flag("无 license 或 NOASSERTION", "yellow")
@@ -381,3 +397,15 @@ def _normalize_domain(domain: str) -> str:
     if normalized.startswith("www."):
         normalized = normalized[4:]
     return normalized.split(":", 1)[0]
+
+
+def _distinct_nonempty_strings(value: Any) -> set[str]:
+    if not isinstance(value, list):
+        return set()
+    result = set()
+    for item in value:
+        if isinstance(item, str):
+            normalized = item.strip()
+            if normalized:
+                result.add(normalized)
+    return result

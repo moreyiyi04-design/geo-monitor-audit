@@ -20,6 +20,7 @@ The `noise_floors` argument is expected to follow `tools/noise_floor.json`:
 }
 """
 
+from dataclasses import dataclass
 from typing import Any, Iterable
 from urllib.parse import urlparse
 
@@ -28,27 +29,60 @@ GRADE_WEIGHTS = {"A": 1.0, "B": 0.75, "C": 0.5, "D": 0.2, "E": 0.0}
 INDEPENDENT_A_KINDS = frozenset({"regulatory_authoritative", "academic"})
 
 
+@dataclass(frozen=True)
+class ClaimAssessment:
+    candidate_grade: str
+    final_grade: str
+    downgrade_reasons: tuple[str, ...]
+
+
 def final_grade(
     claim: dict[str, Any],
     evidence: dict[str, dict[str, Any]],
     vendor_domains: Iterable[str],
     noise_floors: dict[str, Any],
 ) -> str:
+    return assess_claim(claim, evidence, vendor_domains, noise_floors).final_grade
+
+
+def assess_claim(
+    claim: dict[str, Any],
+    evidence: dict[str, dict[str, Any]],
+    vendor_domains: Iterable[str],
+    noise_floors: dict[str, Any],
+) -> ClaimAssessment:
     source_ids = claim.get("src") or []
     records = [evidence[source_id] for source_id in source_ids if source_id in evidence]
     fallback_grade = _claim_structure_grade(claim)
     candidate = fallback_grade
+    downgrade_reasons: list[str] = []
+    report_records = [record for record in records if record.get("kind") == "third_party_report"]
+    vendor_hosted = bool(records) and _all_vendor_hosted(records, vendor_domains)
+    suspected_paid_placements = bool(report_records) and _all_suspected_paid_placements(report_records)
 
-    if _qualifies_for_a(records, vendor_domains):
+    if _is_a_candidate(records):
         candidate = "A"
-    elif _qualifies_for_b(records, vendor_domains):
+    elif report_records:
         candidate = "B"
+
+    final = candidate
+    if candidate in {"A", "B"} and vendor_hosted:
+        final = fallback_grade
+        downgrade_reasons.append("vendor_hosted")
+    elif candidate == "B" and suspected_paid_placements:
+        final = fallback_grade
+        downgrade_reasons.append("suspected_paid_placement")
 
     claimed_change_pp = _claimed_change_pp(claim)
     if _below_noise_floor(claim, claimed_change_pp, noise_floors):
-        return "D"
+        final = "D"
+        downgrade_reasons.append("below_noise_floor")
 
-    return candidate
+    return ClaimAssessment(
+        candidate_grade=candidate,
+        final_grade=final,
+        downgrade_reasons=tuple(downgrade_reasons),
+    )
 
 
 def _claim_structure_grade(claim: dict[str, Any]) -> str:
@@ -59,8 +93,8 @@ def _claim_structure_grade(claim: dict[str, Any]) -> str:
     return "D"
 
 
-def _qualifies_for_a(records: list[dict[str, Any]], vendor_domains: Iterable[str]) -> bool:
-    if not records or _all_vendor_hosted(records, vendor_domains):
+def _is_a_candidate(records: list[dict[str, Any]]) -> bool:
+    if not records:
         return False
     kinds = {record.get("kind") for record in records}
     if kinds & INDEPENDENT_A_KINDS:
@@ -68,13 +102,8 @@ def _qualifies_for_a(records: list[dict[str, Any]], vendor_domains: Iterable[str
     return "methodology_doc" in kinds and "third_party_dataset" in kinds
 
 
-def _qualifies_for_b(records: list[dict[str, Any]], vendor_domains: Iterable[str]) -> bool:
-    if not records or _all_vendor_hosted(records, vendor_domains):
-        return False
-    report_records = [record for record in records if record.get("kind") == "third_party_report"]
-    if not report_records:
-        return False
-    return not all(bool(record.get("paid_placement_suspected")) for record in report_records)
+def _all_suspected_paid_placements(records: list[dict[str, Any]]) -> bool:
+    return all(bool(record.get("paid_placement_suspected")) for record in records)
 
 
 def _claimed_change_pp(claim: dict[str, Any]) -> float | None:

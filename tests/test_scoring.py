@@ -317,6 +317,98 @@ class AutoRiskFlagTests(unittest.TestCase):
         self.assertEqual("yellow", by_name["命名易与上游模型厂商混淆"]["tier"])
         self.assertEqual("yellow", by_name["描述与其他仓库高度相似"]["tier"])
 
+    def test_derive_auto_risk_flags_does_not_mark_unknown_engine_d_claim_as_noise_floor(self):
+        # Break caught: any numeric D-grade claim is mislabeled as a noise-floor downgrade.
+        profile = self._profile()
+        profile["effect_claims"] = [
+            {
+                "claim": "Vendor page claimed a 1 point lift.",
+                "has_number": True,
+                "has_denominator": False,
+                "has_timeframe": False,
+                "engine": "UnknownEngine",
+                "claimed_change_pp": 1.0,
+                "src": ["e-home"],
+            }
+        ]
+
+        flags = derive_auto_risk_flags(profile)
+        flag_names = {flag["flag"] for flag in flags}
+
+        self.assertNotIn("效果声称幅度低于该引擎测量噪声下限", flag_names)
+
+    def test_derive_auto_risk_flags_emits_claim_level_flag_for_vendor_hosted_ab_downgrades(self):
+        # Break caught: vendor-hosted A/B candidates lose grade strength without an explicit deterministic label.
+        profile = self._profile()
+        profile["evidence"].append(
+            {
+                "id": "e-method-vendor",
+                "url": "https://vendor.example/methodology",
+                "kind": "methodology_doc",
+                "paid_placement_suspected": False,
+            }
+        )
+        profile["evidence"].append(
+            {
+                "id": "e-dataset",
+                "url": "https://vendor.example/dataset",
+                "kind": "third_party_dataset",
+                "paid_placement_suspected": False,
+            }
+        )
+        profile["effect_claims"] = [
+            {
+                "claim": "Vendor-hosted methodology and dataset reported the lift.",
+                "has_number": True,
+                "has_denominator": True,
+                "has_timeframe": True,
+                "src": ["e-method-vendor", "e-dataset"],
+            }
+        ]
+
+        flags = derive_auto_risk_flags(profile)
+        by_name = {flag["flag"]: flag for flag in flags}
+
+        self.assertEqual("orange", by_name["A/B 候选声称仅由供应商域名来源支撑"]["tier"])
+        self.assertEqual(["e-method-vendor", "e-dataset"], by_name["A/B 候选声称仅由供应商域名来源支撑"]["src"])
+
+    def test_derive_auto_risk_flags_emits_claim_level_flag_for_suspected_paid_placement_downgrades(self):
+        # Break caught: suspected-placement downgrades are silent even when every relevant report is flagged.
+        profile = self._profile()
+        profile["effect_claims"] = [
+            {
+                "claim": "Third-party review measured the lift.",
+                "has_number": True,
+                "has_denominator": True,
+                "has_timeframe": True,
+                "src": ["e-paid-1"],
+            }
+        ]
+
+        flags = derive_auto_risk_flags(profile)
+        by_name = {flag["flag"]: flag for flag in flags}
+
+        self.assertEqual(
+            "orange",
+            by_name["A/B 候选声称的第三方报告来源均标记为疑似投放内容"]["tier"],
+        )
+        self.assertEqual(
+            ["e-paid-1"],
+            by_name["A/B 候选声称的第三方报告来源均标记为疑似投放内容"]["src"],
+        )
+
+    def test_derive_auto_risk_flags_emits_poisoning_fingerprint_label_at_three_distinct_hits(self):
+        # Break caught: poisoning fingerprints do not trigger the auto label at the documented threshold.
+        profile = self._profile()
+        profile["tactics"] = {
+            "poisoning_fingerprints": ["批量内容生成", "平台铺量", "榜单伪装", "批量内容生成", ""]
+        }
+
+        flags = derive_auto_risk_flags(profile)
+        by_name = {flag["flag"]: flag for flag in flags}
+
+        self.assertEqual("orange", by_name["投毒指纹命中 ≥3 项"]["tier"])
+
 
 if __name__ == "__main__":
     unittest.main()
