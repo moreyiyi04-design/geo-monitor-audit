@@ -1,0 +1,25 @@
+{
+  "schema_version": "v1",
+  "source": {
+    "citation": "arXiv:2603.08924v2",
+    "title": "Statistical framework for AI visibility metrics"
+  },
+  "engines": {
+    "SearchGPT": {
+      "attribution_floor_pp": 3.0,
+      "notes": "Below roughly 3 percentage points, attribution to an intervention is not supported."
+    },
+    "Gemini": {
+      "queries_for_ci_95_width_0_05": {
+        "min": 40,
+        "max": 50
+      }
+    },
+    "Perplexity": {
+      "queries_for_ci_95_width_0_05": {
+        "min": 90,
+        "max": 100
+      }
+    }
+  }
+}
