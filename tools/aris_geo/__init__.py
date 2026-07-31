@@ -1,3 +1,4 @@
+from .aris import DEFAULT_ALLOWED_TOOLS, ArisResult, parse_aris_result, run_aris_phase
 from .evidence import ValidationReport, sha256_file, validate_profile
 from .grading import GRADE_WEIGHTS, final_grade
 from .schema import (
@@ -8,6 +9,7 @@ from .schema import (
     iter_envelopes,
 )
 from .scoring import calculate_scores, derive_auto_risk_flags
+from .staging import PERSONA_ALLOWLIST, stage_persona_inbox
 from .compiler import (
     COMPILED_END_MARKER,
     COMPILED_START_MARKER,
@@ -19,11 +21,14 @@ from .compiler import (
 )
 
 __all__ = [
+    "ArisResult",
     "COMPILED_END_MARKER",
     "COMPILED_START_MARKER",
+    "DEFAULT_ALLOWED_TOOLS",
     "EVIDENCE_KINDS",
     "Envelope",
     "GRADE_WEIGHTS",
+    "PERSONA_ALLOWLIST",
     "SCHEMA_VERSION",
     "VALID_CONFIDENCE",
     "ValidationReport",
@@ -34,8 +39,11 @@ __all__ = [
     "final_grade",
     "iter_envelopes",
     "load_profiles",
+    "parse_aris_result",
     "render_compiled_block",
     "replace_compiled_block",
+    "run_aris_phase",
     "sha256_file",
+    "stage_persona_inbox",
     "validate_profile",
 ]
