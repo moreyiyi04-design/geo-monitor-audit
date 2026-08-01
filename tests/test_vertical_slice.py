@@ -101,7 +101,7 @@ class PublicationDeliveryTests(unittest.TestCase):
         for snippet in (
             "112 个对象的市场地图",
             "19 个深度档案",
-            "国内 GEO 厂商专项分析",
+            "最终决策报告",
             "Python 3.11+",
             "ARIS-Code v0.4.21+",
             "python3 tools/build_publication.py",
@@ -128,20 +128,29 @@ class PublicationDeliveryTests(unittest.TestCase):
         ):
             self.assertIn(snippet, methodology)
 
-        china_report = (REPO_ROOT / "docs" / "CHINA_MARKET.md").read_text(encoding="utf-8")
+        final_report_path = REPO_ROOT / "docs" / "FINAL_REPORT.md"
+        self.assertTrue(final_report_path.is_file())
+        self.assertFalse((REPO_ROOT / "docs" / "CHINA_MARKET.md").exists())
+        final_report = final_report_path.read_text(encoding="utf-8")
         for snippet in (
+            "## 一页结论",
+            "## 什么是GEO监测",
+            "## AI搜索的六阶段可观测链路",
+            "## 八个采购问题的直接答案",
+            "## 国内GEO监测平台比较",
+            "## 数据可信度与利益冲突",
+            "## 固定问题集如何建立",
+            "## 从监测到优化实验",
+            "## 谁能突破事后统计的天花板",
             "透镜GEO",
             "平台覆盖不等于终端覆盖",
-            "移动端与 PC 端为什么会不同",
-            "国内厂商能力分层",
-            "按品牌类型选型",
             "browser / web",
             "iOS App",
             "Android App",
             "小程序",
             "API",
         ):
-            self.assertIn(snippet, china_report)
+            self.assertIn(snippet, final_report)
 
     def _assert_matching_tree(self, expected_dir: Path, actual_dir: Path) -> None:
         expected_files = sorted(

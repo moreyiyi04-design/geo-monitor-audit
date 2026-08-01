@@ -303,7 +303,9 @@ class LivePhasePipelineTests(unittest.TestCase):
         self.assertTrue((self.repo_root / "wiki" / "review" / "demo" / "vendor.json").is_file())
         self.assertTrue((self.repo_root / "wiki" / "review" / "demo" / "skeptic.json").is_file())
         self.assertIn("/geo-plan-queries --slug demo", seen_prompts)
-        self.assertIn("Demo Product", (self.repo_root / "README.md").read_text(encoding="utf-8"))
+        readme = (self.repo_root / "README.md").read_text(encoding="utf-8")
+        self.assertNotIn("Demo Product", readme)
+        self.assertNotIn("### 产品档案表", readme)
 
     def test_build_live_phase_handlers_rejects_apply_patch_outside_allowlist(self):
         # Break caught: arbiter patches can overwrite computed fields or arbitrary roots.

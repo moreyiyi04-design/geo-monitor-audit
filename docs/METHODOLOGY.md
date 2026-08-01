@@ -11,7 +11,7 @@ is a 112-object dated discovery snapshot spanning dedicated GEO vendors, incumbe
 SEO-suite modules, domestic China products, self-hosted projects, agent-skill
 packs, and academic testbeds. Nineteen representative products, including eight
 domestic or Greater China products, also have evidence-gated deep profiles. The
-domestic-first decision analysis is published in `docs/CHINA_MARKET.md`; overseas
+domestic-first decision analysis is published in `docs/FINAL_REPORT.md`; overseas
 products remain in the map as capability references. The synthetic Profound fixture under
 `tests/fixtures/` exists only for regression tests and is excluded from publication.
 

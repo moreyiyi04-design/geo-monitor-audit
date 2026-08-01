@@ -17,16 +17,16 @@ def render_compiled_block(
     profiles: Iterable[dict[str, Any]],
     market_map: Iterable[dict[str, Any]] | None = None,
 ) -> str:
-    ordered = sorted(profiles, key=_profile_sort_key)
+    profile_list = list(profiles)
     lines = [
-        f"> 数据截至 {_data_cutoff(ordered)}",
-        "> 「未披露」≠「没有」；下表仅呈现已公开且有证据的字段。",
+        f"> 数据截至 {_data_cutoff(profile_list)}",
+        "> 「未披露」≠「没有」；产品级证据、分数和风险字段保留在 wiki/products/。",
         "",
     ]
     if market_map:
         lines.extend(
             [
-                "### 市场地图",
+                "### 附录：全球市场地图",
                 "| 产品 | 市场 | 类别 | 形态 | 开放性 | 覆盖级别 | 官网 |",
                 "| --- | --- | --- | --- | --- | --- | --- |",
             ]
@@ -43,77 +43,6 @@ def render_compiled_block(
                     homepage=_as_text(entry.get("homepage")),
                 )
             )
-        lines.append("")
-
-    lines.extend(
-        [
-            "### 选型矩阵",
-            "| 产品 | slug | 市场 | 形态 | 开放性 | 核心类别 |",
-            "| --- | --- | --- | --- | --- | --- |",
-        ]
-    )
-    for profile in ordered:
-        lines.append(
-            "| {name} | {slug} | {market} | {delivery_form} | {openness} | {category} |".format(
-                name=_display_name(profile),
-                slug=_as_text(profile.get("slug")),
-                market=_as_text(profile.get("market")),
-                delivery_form=_field_value(profile, "delivery_form"),
-                openness=_as_text(profile.get("openness")),
-                category=_primary_category(profile),
-            )
-        )
-
-    lines.extend(
-        [
-            "",
-            "### 分数",
-            "| 产品 | transparency | verifiability | lock_in_risk | measurement_rigor | oss_health |",
-            "| --- | --- | --- | --- | --- | --- |",
-        ]
-    )
-    for profile in ordered:
-        scores = profile.get("scores", {})
-        lines.append(
-            "| {name} | {transparency} | {verifiability} | {lock_in_risk} | {measurement_rigor} | {oss_health} |".format(
-                name=_display_name(profile),
-                transparency=_score_value(scores, "transparency"),
-                verifiability=_score_value(scores, "verifiability"),
-                lock_in_risk=_score_value(scores, "lock_in_risk"),
-                measurement_rigor=_score_value(scores, "measurement_rigor"),
-                oss_health=_score_value(scores, "oss_health"),
-            )
-        )
-
-    lines.extend(
-        [
-            "",
-            "### 产品档案表",
-            "| 产品 | 官网 | 类别 | 公开定价 |",
-            "| --- | --- | --- | --- |",
-        ]
-    )
-    for profile in ordered:
-        lines.append(
-            "| {name} | {homepage} | {categories} | {pricing} |".format(
-                name=_display_name(profile),
-                homepage=_field_value(profile, "homepage"),
-                categories=_category_list(profile),
-                pricing=_pricing_label(profile),
-            )
-        )
-
-    lines.append("")
-    lines.append("### 标签清单")
-    for profile in ordered:
-        lines.append(f"#### {_display_name(profile)}")
-        flags = _sorted_flags(profile.get("risk_flags", []))
-        if not flags:
-            lines.append("- 无")
-            lines.append("")
-            continue
-        for flag in flags:
-            lines.append(f"- {_flag_prefix(flag.get('tier'))} {_as_text(flag.get('flag'))}")
         lines.append("")
 
     return "\n".join(lines)
@@ -213,34 +142,8 @@ def find_repo_root(start: Path | None = None) -> Path:
     raise FileNotFoundError(f"could not find repository root from {current}")
 
 
-def _profile_sort_key(profile: dict[str, Any]) -> tuple[str, str]:
-    return (_as_text(profile.get("slug")), _display_name(profile))
-
-
-def _display_name(profile: dict[str, Any]) -> str:
-    name_cn = _field_value(profile, "name_cn")
-    name_en = _field_value(profile, "name_en")
-    if name_cn != "—" and name_en != "—":
-        return f"{name_cn} / {name_en}"
-    if name_cn != "—":
-        return name_cn
-    if name_en != "—":
-        return name_en
-    return _as_text(profile.get("slug"))
-
-
 def _market_map_sort_key(entry: dict[str, Any]) -> tuple[str, str]:
     return (_as_text(entry.get("slug")), _as_text(entry.get("name")))
-
-
-def _field_value(profile: dict[str, Any], field: str) -> str:
-    return _as_text(_unwrap(profile.get(field)))
-
-
-def _unwrap(value: Any) -> Any:
-    if isinstance(value, dict) and {"v", "src", "conf"} <= set(value):
-        return value.get("v")
-    return value
 
 
 def _as_text(value: Any) -> str:
@@ -252,74 +155,10 @@ def _as_text(value: Any) -> str:
     return text or "—"
 
 
-def _primary_category(profile: dict[str, Any]) -> str:
-    categories = profile.get("category")
-    if isinstance(categories, list) and categories:
-        return ", ".join(_as_text(item) for item in categories[:1])
-    return "—"
-
-
-def _category_list(profile: dict[str, Any]) -> str:
-    categories = profile.get("category")
-    if isinstance(categories, list) and categories:
-        return ", ".join(_as_text(item) for item in categories)
-    return "—"
-
-
 def _category_values(categories: Any) -> str:
     if isinstance(categories, list) and categories:
         return ", ".join(_as_text(item) for item in categories)
     return "—"
-
-
-def _pricing_label(profile: dict[str, Any]) -> str:
-    if "学术参考实现" in (profile.get("category") or []):
-        return "不适用"
-    if profile.get("openness") == "open-source":
-        return "开源 / 自托管"
-    pricing = profile.get("pricing")
-    if not isinstance(pricing, dict):
-        return "—"
-    has_public_pricing = _unwrap(pricing.get("has_public_pricing"))
-    if has_public_pricing is True:
-        return "已公开"
-    if has_public_pricing is False:
-        return "未公开"
-    return "—"
-
-
-def _score_value(scores: dict[str, Any], key: str) -> str:
-    return _as_text(scores.get(key))
-
-
-def _sorted_flags(flags: Any) -> list[dict[str, Any]]:
-    if not isinstance(flags, list):
-        return []
-    items = [flag for flag in flags if isinstance(flag, dict)]
-    return sorted(
-        items,
-        key=lambda flag: (
-            _tier_rank(flag.get("tier")),
-            _as_text(flag.get("flag")),
-            _as_text(flag.get("origin")),
-        ),
-    )
-
-
-def _tier_rank(tier: Any) -> int:
-    if tier == "yellow":
-        return 0
-    if tier == "orange":
-        return 1
-    return 2
-
-
-def _flag_prefix(tier: Any) -> str:
-    if tier == "yellow":
-        return "🟡"
-    if tier == "orange":
-        return "🟠"
-    return "•"
 
 
 def _data_cutoff(profiles: list[dict[str, Any]]) -> str:

@@ -1,49 +1,40 @@
 <!-- ARIS-GEO:HANDWRITTEN:START -->
 # ARIS-GEO
 
-一份以国内选型为主、海外产品为参照，带来源、证据等级、未知项和可复算分数的
-GEO / AEO 工具横向报告。
+一份以中国市场为主、海外产品为参照的 GEO 监测采购与实施研究。
 
 本版截至 **2026-07-31**，由两层结果组成：
 
-- **112 个对象的市场地图**：覆盖 85 个海外对象、27 个国内对象，包括商业平台、
-  传统 SEO 厂商 AI 模块、开源工具、Agent Skill 与学术基准；
-- **19 个深度档案**：其中 8 个国内对象，对有足够公开材料的代表产品进行字段级
-  证据、评分和风险审查。
+- **最终决策报告**：先回答什么是 GEO 监测、国内有哪些平台、适合谁、移动/PC
+  是否覆盖、数据如何验证、免费入口、利益冲突和监测驱动优化；
+- **112 个对象的市场地图**：85 个海外、27 个国内，作为采购搜索面和海外能力参照；
+- **19 个深度档案**：其中 8 个国内对象，对公开材料做字段级来源和未知项审查。
 
 市场地图回答“有哪些”；深度档案回答“公开证据到底支持什么”。没有进入深度档案
 不等于产品较差，只表示本轮尚未完成字段级核验。这不是总榜，不把不同形态压成一个
 “第一名”。测试所用的合成 Profound 样本仍保留在 `tests/fixtures/`，但不参与报告。
 
-## 国内 GEO 厂商专项分析
+## 最终决策报告
 
-国内市场、移动端/PC端差异、厂商能力分层和品牌类型适配，见
-**[国内 GEO 厂商专项分析与选型指南](docs/CHINA_MARKET.md)**。该文档是本版主要
-决策入口；下方全球市场地图用于补充广度和海外能力参照。
+主要交付物是
+**[GEO 监测平台决策报告：中国市场、数据可信度与优化闭环](docs/FINAL_REPORT.md)**。
+它给出结论、六阶段 AI 搜索可观测链路、国内厂商比较、移动/PC 能力边界、免费入口、
+数据复核、利益冲突控制、固定问题集和“内容 × 渠道”实验方法。下方全球地图只作附录。
 
 ## 结论先行
 
-1. **国内市场不是海外产品的缩小版。** 本轮识别 27 个国内/大中华区对象，覆盖
-   可见度监测、诊断、内容/分发闭环、代运营服务和跨境电商数据平台；应先按产品形态
-   分组，再比较能力。
-2. **平台覆盖不等于终端覆盖。** “支持豆包/DeepSeek/元宝”不能证明同时采集 Web、
-   PC 客户端、iOS/Android App、小程序和 API。公开终端矩阵缺失，是国内采购最突出
-   的测量风险。
-3. **移动端与 PC 端需要分层采样。** 登录历史、地区/定位、搜索和深度思考开关、
-   App 专属商品卡/本地入口、引用呈现都可能改变可观察答案；不同终端不能混在同一
-   SoV 分母中。
-4. **透镜GEO已进入重点深档。** 官网公开支持 5 个国内主流模型、中立账号模拟、
-   日级追踪和完整屏幕录制，适合重视审计与品牌安全的候选；但逐模型 Web/App 采集
-   矩阵仍未公开，移动端能力需要采购试点验证。
-5. **品牌类型决定选型。** 国内消费/本地品牌优先手机端和中文模型；B2B优先长问题、
-   引用和原始证据；电商/DTC优先 SKU、商品卡、价格与 Feed；受监管行业优先录屏/
-   快照、固定口径、权限和留存。
-6. **公开定价不等于可横向比价。** 有的平台按 prompt，有的按问题/关键词，有的按
-   credit 和引擎次数计费；报告保留原始单位，不用伪精确换算制造可比性。
-7. **第一方效果数字不能当独立证据。** Scrunch 的 4x 与 GTark 的 32%→94.81%
-   均按 D 级处理；GEO 论文的“最高 40%”有公开论文与实验基准，但仍只代表其设定。
-8. **开源不自动等于成熟。** 本版把许可证、贡献者、近期提交、发布和业务测试分开
-   记录；星标不进入总分，也不作为产品质量代理。
+1. **监测是测量系统，不是优化本身。** 最终答案统计不能直接回答“写什么、发哪里”；
+   需要把候选、引用、提及、推荐拆成漏斗，再做内容与渠道对照实验。
+2. **国内已有可采购产品，没有通用第一名。** 透镜、独角兽、GTark、GEO工具、
+   南云、GEO可见度诊断、百原和 GEOly 进入本轮证据化比较。
+3. **没有公开证据证明任何一家看见国内消费端引擎的完整内部候选池。** 录屏、
+   原始回答和引用提升可复核性，但不等于破解检索与生成黑盒。
+4. **移动端与 PC 端必须分层。** 核心 8 家均未公开完整的 Web、桌面、iOS、
+   Android、小程序、API 逐引擎矩阵；平台 Logo 不能作为终端覆盖证明。
+5. **同一家做监测和优化可以合作，但不能自证。** 问题集、原始数据和 holdout
+   必须由采购方控制，重大效果应独立抽检。
+6. **先做 4–6 周 PoC。** 用同一问题集比较证据返还、跨端结果、重复采样波动和一次
+   “内容 × 渠道”实验，再签长期合同。
 
 ## Requirements
 
@@ -103,9 +94,9 @@ score definitions and known limitations.
 
 <!-- ARIS-GEO:COMPILED:START -->
 > 数据截至 2026-07-31
-> 「未披露」≠「没有」；下表仅呈现已公开且有证据的字段。
+> 「未披露」≠「没有」；产品级证据、分数和风险字段保留在 wiki/products/。
 
-### 市场地图
+### 附录：全球市场地图
 | 产品 | 市场 | 类别 | 形态 | 开放性 | 覆盖级别 | 官网 |
 | --- | --- | --- | --- | --- | --- | --- |
 | Adobe LLM Optimizer | overseas | 企业级一体化平台, 内容优化 | SaaS | closed | market-map-only | https://business.adobe.com/products/llm-optimizer.html |
@@ -220,282 +211,4 @@ score definitions and known limitations.
 | 嬴政GEO | domestic | 一体化平台, 监测/可见性追踪 | 平台 / 服务 | closed | market-map-only | https://www.geoc.cc/ |
 | 中科信枢GEO | domestic | 品牌诊断, 监测/可见性追踪 | SaaS | closed | market-map-only | https://zkxinshu.com/ |
 | ZipTie.dev | overseas | 监测/可见性追踪 | SaaS | closed | market-map-only | https://ziptie.dev/ |
-
-### 选型矩阵
-| 产品 | slug | 市场 | 形态 | 开放性 | 核心类别 |
-| --- | --- | --- | --- | --- | --- |
-| Aperture / Aperture | aperture | overseas | Self-hosted web application | open-source | 监测/可见性追踪 |
-| 百原GEO / BaiYuan GEO | baiyuan_geo | domestic | SaaS | closed | 一体化平台 |
-| E-GEO 电商测试床 / E-GEO: A Testbed for Generative Engine Optimization in E-Commerce | e_geo_testbed | overseas | Research paper and testbed | source-available | 学术参考实现 |
-| GEO/AEO Tracker / GEO/AEO Tracker | geo_aeo_tracker | overseas | Self-hosted web application | open-source | 监测/可见性追踪 |
-| 生成式引擎优化（GEO） / GEO: Generative Engine Optimization | geo_generative_engine_optimization | overseas | Research paper and benchmark | source-available | 学术参考实现 |
-| GEO Optimizer Skill / GEO Optimizer Skill | geo_optimizer_skill | overseas | Agent skill and audit toolkit | open-source | agent-skill/prompt-pack |
-| GEO AI搜索优化 / GEO AI Search Optimization | geo_tool_cn | domestic | SaaS | closed | 一体化平台 |
-| GEOly / GEOly | geoly_ai | domestic | SaaS / API / MCP | closed | 电商/DTC |
-| GEO可见度诊断 / GEO Visibility Diagnosis | geolyze | domestic | Web Tool / service-provider workflow | closed | 品牌诊断 |
-| GEO Skills / GEO Skills | geoskills | overseas | Agent skill suite | open-source | agent-skill/prompt-pack |
-| GTark / GTark | gtark | domestic | SaaS | closed | 一体化平台 |
-| 南云GEO / NumSeek | numseek | domestic | SaaS | closed | 监测/可见性追踪 |
-| OtterlyAI / OtterlyAI | otterlyai | overseas | SaaS | closed | 监测/可见性追踪 |
-| Profound / Profound | profound | overseas | SaaS | closed | 一体化平台 |
-| Rankscale / Rankscale | rankscale | overseas | SaaS | closed | 监测/可见性追踪 |
-| Scrunch AI / Scrunch AI | scrunch_ai | overseas | SaaS | closed | 一体化平台 |
-| SEO & GEO Skills Library / SEO & GEO Skills Library | seo_geo_claude_skills | overseas | Agent skill library | open-source | agent-skill/prompt-pack |
-| 透镜GEO / TIMUS GEO | timus_geo | domestic | SaaS | closed | 一体化平台 |
-| 独角兽GEO / Unicorn GEO | unicorn_geo | domestic | SaaS | closed | 一体化平台 |
-
-### 分数
-| 产品 | transparency | verifiability | lock_in_risk | measurement_rigor | oss_health |
-| --- | --- | --- | --- | --- | --- |
-| Aperture / Aperture | 2 | 0 | 0 | 0 | 3 |
-| 百原GEO / BaiYuan GEO | 2 | 0 | 0 | 1 | 0 |
-| E-GEO 电商测试床 / E-GEO: A Testbed for Generative Engine Optimization in E-Commerce | 2 | 0 | 0 | 0 | 3 |
-| GEO/AEO Tracker / GEO/AEO Tracker | 2 | 0 | 0 | 0 | 2 |
-| 生成式引擎优化（GEO） / GEO: Generative Engine Optimization | 2 | 5 | 0 | 0 | 5 |
-| GEO Optimizer Skill / GEO Optimizer Skill | 2 | 0 | 0 | 0 | 3 |
-| GEO AI搜索优化 / GEO AI Search Optimization | 2 | 0 | 0 | 0 | 0 |
-| GEOly / GEOly | 2 | 0 | 0 | 0 | 0 |
-| GEO可见度诊断 / GEO Visibility Diagnosis | 2 | 0 | 0 | 0 | 0 |
-| GEO Skills / GEO Skills | 2 | 0 | 0 | 0 | 3 |
-| GTark / GTark | 4 | 1 | 0 | 1 | 0 |
-| 南云GEO / NumSeek | 2 | 0 | 0 | 0 | 0 |
-| OtterlyAI / OtterlyAI | 2 | 0 | 0 | 0 | 0 |
-| Profound / Profound | 3 | 0 | 2 | 2 | 0 |
-| Rankscale / Rankscale | 2 | 0 | 0 | 0 | 0 |
-| Scrunch AI / Scrunch AI | 1 | 1 | 0 | 0 | 0 |
-| SEO & GEO Skills Library / SEO & GEO Skills Library | 2 | 0 | 0 | 0 | 4 |
-| 透镜GEO / TIMUS GEO | 2 | 0 | 0 | 0 | 0 |
-| 独角兽GEO / Unicorn GEO | 3 | 0 | 0 | 1 | 0 |
-
-### 产品档案表
-| 产品 | 官网 | 类别 | 公开定价 |
-| --- | --- | --- | --- |
-| Aperture / Aperture | https://github.com/anyin-ai/aperture | 监测/可见性追踪 | 开源 / 自托管 |
-| 百原GEO / BaiYuan GEO | https://geo.baiyuan.io/ | 一体化平台, 监测/可见性追踪, 幻觉检测 | — |
-| E-GEO 电商测试床 / E-GEO: A Testbed for Generative Engine Optimization in E-Commerce | https://arxiv.org/abs/2511.20867 | 学术参考实现 | 不适用 |
-| GEO/AEO Tracker / GEO/AEO Tracker | https://github.com/danishashko/geo-aeo-tracker | 监测/可见性追踪 | 开源 / 自托管 |
-| 生成式引擎优化（GEO） / GEO: Generative Engine Optimization | https://arxiv.org/abs/2311.09735 | 学术参考实现 | 不适用 |
-| GEO Optimizer Skill / GEO Optimizer Skill | https://github.com/Auriti-Labs/geo-optimizer-skill | agent-skill/prompt-pack | 开源 / 自托管 |
-| GEO AI搜索优化 / GEO AI Search Optimization | https://www.geo-tool.cn/ | 一体化平台, 监测/可见性追踪 | 已公开 |
-| GEOly / GEOly | https://www.geoly.ai/zh | 电商/DTC, 监测/可见性追踪, AI Shopping | — |
-| GEO可见度诊断 / GEO Visibility Diagnosis | https://geolyze.cn/ | 品牌诊断, 监测/可见性追踪 | 未公开 |
-| GEO Skills / GEO Skills | https://github.com/Cognitic-Labs/geoskills | agent-skill/prompt-pack | 开源 / 自托管 |
-| GTark / GTark | https://www.gtark.com/ | 一体化平台, 监测/可见性追踪 | 已公开 |
-| 南云GEO / NumSeek | https://www.numseek.com/ | 监测/可见性追踪, 竞品分析 | 已公开 |
-| OtterlyAI / OtterlyAI | https://otterly.ai/ | 监测/可见性追踪 | 已公开 |
-| Profound / Profound | https://www.tryprofound.com/ | 一体化平台, 监测/可见性追踪 | 已公开 |
-| Rankscale / Rankscale | https://rankscale.ai/ | 监测/可见性追踪 | 已公开 |
-| Scrunch AI / Scrunch AI | https://scrunch.com/ | 一体化平台, 监测/可见性追踪 | — |
-| SEO & GEO Skills Library / SEO & GEO Skills Library | https://github.com/aaron-he-zhu/seo-geo-claude-skills | agent-skill/prompt-pack | 开源 / 自托管 |
-| 透镜GEO / TIMUS GEO | https://geo.timus.cn/ | 一体化平台, 监测/可见性追踪, 品牌口碑 | — |
-| 独角兽GEO / Unicorn GEO | https://geo.yueyuezi.com/ | 一体化平台, 监测/可见性追踪 | 已公开 |
-
-### 标签清单
-#### Aperture / Aperture
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 入门档引擎数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 无覆盖自身逻辑的测试
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-
-#### 百原GEO / BaiYuan GEO
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 入门档引擎数未披露
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 采集通道未披露
-
-#### E-GEO 电商测试床 / E-GEO: A Testbed for Generative Engine Optimization in E-Commerce
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 入门档引擎数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 采集通道未披露
-
-#### GEO/AEO Tracker / GEO/AEO Tracker
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 入门档引擎数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 无覆盖自身逻辑的测试
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 贡献者集中于单人
-
-#### 生成式引擎优化（GEO） / GEO: Generative Engine Optimization
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 入门档引擎数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 采集通道未披露
-
-#### GEO Optimizer Skill / GEO Optimizer Skill
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 入门档引擎数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 无覆盖自身逻辑的测试
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 采集通道未披露
-
-#### GEO AI搜索优化 / GEO AI Search Optimization
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 采集通道未披露
-
-#### GEOly / GEOly
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 入门档引擎数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 采集通道未披露
-
-#### GEO可见度诊断 / GEO Visibility Diagnosis
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 入门档引擎数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 无公开定价 / 仅年付 / 无试用 / 退款条款未公开
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 采集通道未披露
-
-#### GEO Skills / GEO Skills
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 入门档引擎数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 无覆盖自身逻辑的测试
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 贡献者集中于单人
-- 🟡 采集通道未披露
-
-#### GTark / GTark
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟠 效果声称以 D/E 级为主
-
-#### 南云GEO / NumSeek
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 采集通道未披露
-
-#### OtterlyAI / OtterlyAI
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 采集通道未披露
-
-#### Profound / Profound
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档仅覆盖单一引擎
-- 🟡 入门档席位数未披露
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 无公开定价 / 仅年付 / 无试用 / 退款条款未公开
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟠 无数据导出 / 最低合约期 > 6 个月
-
-#### Rankscale / Rankscale
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 入门档引擎数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 采集通道未披露
-- 🟠 计价单位随监测范围膨胀
-
-#### Scrunch AI / Scrunch AI
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 入门档引擎数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 采集通道未披露
-- 🟠 效果声称以 D/E 级为主
-
-#### SEO & GEO Skills Library / SEO & GEO Skills Library
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 入门档引擎数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 无覆盖自身逻辑的测试
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-- 🟡 采集通道未披露
-
-#### 透镜GEO / TIMUS GEO
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 入门档引擎数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
-
-#### 独角兽GEO / Unicorn GEO
-- 🟡 不报告置信区间或误差范围
-- 🟡 入门档席位数未披露
-- 🟡 可见性份额口径未公开
-- 🟡 团队信息未公开 / 客户案例未能交叉验证
-- 🟡 未声明测量噪声下限
-- 🟡 未披露每 prompt 采样次数
-- 🟡 模型版本未钉定,时间序列可能断裂
 <!-- ARIS-GEO:COMPILED:END -->

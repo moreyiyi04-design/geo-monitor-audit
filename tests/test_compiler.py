@@ -69,7 +69,7 @@ class CompilerRenderingTests(unittest.TestCase):
 
         block = render_compiled_block(profiles, market_map)
 
-        self.assertIn("### 市场地图", block)
+        self.assertIn("### 附录：全球市场地图", block)
         self.assertIn("| 产品 | 市场 | 类别 | 形态 | 开放性 | 覆盖级别 | 官网 |", block)
         self.assertIn(
             "| 阿尔法 / Alpha | domestic | 监测/可见性追踪, 品牌监测 | SaaS 面板 | closed | deep-profile | https://alpha.example |",
@@ -80,8 +80,8 @@ class CompilerRenderingTests(unittest.TestCase):
             block,
         )
 
-    def test_render_compiled_block_sorts_profiles_and_flags_deterministically(self):
-        # Break caught: README bytes depend on input order instead of stable profile/flag sorting.
+    def test_render_compiled_block_omits_low_signal_profile_tables(self):
+        # Break caught: raw scores and repeated risk labels overwhelm the decision report.
         profiles = [
             {
                 "slug": "beta",
@@ -138,36 +138,17 @@ class CompilerRenderingTests(unittest.TestCase):
         self.assertEqual(
             """\
 > 数据截至 2026-07-30
-> 「未披露」≠「没有」；下表仅呈现已公开且有证据的字段。
-
-### 选型矩阵
-| 产品 | slug | 市场 | 形态 | 开放性 | 核心类别 |
-| --- | --- | --- | --- | --- | --- |
-| 阿尔法 / Alpha | alpha | domestic | SaaS 面板 | closed | 监测/可见性追踪 |
-| 贝塔 / Beta | beta | overseas | API | open-source | agent-skill/prompt-pack |
-
-### 分数
-| 产品 | transparency | verifiability | lock_in_risk | measurement_rigor | oss_health |
-| --- | --- | --- | --- | --- | --- |
-| 阿尔法 / Alpha | 5 | 4 | 2 | 3 | 1 |
-| 贝塔 / Beta | 3 | 5 | 4 | 2 | 5 |
-
-### 产品档案表
-| 产品 | 官网 | 类别 | 公开定价 |
-| --- | --- | --- | --- |
-| 阿尔法 / Alpha | https://alpha.example | 监测/可见性追踪, 品牌监测 | 未公开 |
-| 贝塔 / Beta | https://beta.example | agent-skill/prompt-pack | 开源 / 自托管 |
-
-### 标签清单
-#### 阿尔法 / Alpha
-- 🟡 未披露每 prompt 采样次数
-- 🟠 年付起购
-
-#### 贝塔 / Beta
-- 无
+> 「未披露」≠「没有」；产品级证据、分数和风险字段保留在 wiki/products/。
 """,
             block,
         )
+        for removed_heading in (
+            "### 选型矩阵",
+            "### 分数",
+            "### 产品档案表",
+            "### 标签清单",
+        ):
+            self.assertNotIn(removed_heading, block)
 
 
 class CompiledBlockReplacementTests(unittest.TestCase):
@@ -385,7 +366,7 @@ stale bytes
         self.assertEqual(original, self.readme_path.read_text(encoding="utf-8"))
 
     def test_compile_readme_allows_missing_market_map_file(self):
-        # Break caught: adding the market-map layer makes deep-profile-only test repos uncompilable.
+        # Break caught: making the market map the only appendix breaks repos without one.
         self.readme_path.write_text(
             """\
 <!-- ARIS-GEO:COMPILED:START -->
@@ -397,8 +378,8 @@ stale bytes
 
         _, compiled = compile_readme(self.repo_root)
 
-        self.assertNotIn("### 市场地图", compiled)
-        self.assertIn("### 产品档案表", compiled)
+        self.assertNotIn("### 附录：全球市场地图", compiled)
+        self.assertIn("产品级证据、分数和风险字段保留在 wiki/products/", compiled)
 
     def test_compile_readme_rejects_duplicate_market_map_slug(self):
         # Break caught: the market-map layer silently accepts ambiguous duplicate slugs.
