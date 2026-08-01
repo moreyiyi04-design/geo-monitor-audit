@@ -27,6 +27,8 @@ def valid_entry(
         "evidence_basis": [f"wiki/products/{slug}.json#e1"],
         "limitations": ["逐端矩阵未公开"],
         "replacement_gap": "现有候选中少有完整录屏",
+        "professional_assessment": "原始交互证据突出，适合品牌审计。",
+        "enterprise_assessment": "API等企业能力尚未公开。",
     }
 
 
@@ -102,6 +104,23 @@ class ShortlistValidationTests(unittest.TestCase):
             "replacement_gap",
         ):
             self.assertIn(f"timus_geo: {field} must be non-empty", errors)
+
+    def test_rejects_missing_professional_and_enterprise_assessments(self):
+        payload = valid_payload()
+        entry = payload["entries"][0]
+        del entry["professional_assessment"]
+        del entry["enterprise_assessment"]
+
+        errors = validate_shortlist(payload, {"timus_geo"})
+
+        self.assertIn(
+            "timus_geo: professional_assessment must be non-empty",
+            errors,
+        )
+        self.assertIn(
+            "timus_geo: enterprise_assessment must be non-empty",
+            errors,
+        )
 
     def test_rejects_selected_open_source_without_all_production_gates(self):
         payload = valid_payload()

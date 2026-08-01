@@ -60,9 +60,19 @@ references rather than monitoring products.
 
 Every shortlisted record states the problem it solves, applicable scenarios, why
 it was selected, its evidence basis, material limitations, and the gap that prevents
-an existing selection from replacing it. Statuses are `selected_poc`, `watch`, and
-`research_reference`. `selected_poc` means that public evidence justifies a
-controlled trial, not that outcomes have been independently validated.
+an existing selection from replacing it. It also records separate
+`professional_assessment` and `enterprise_assessment` conclusions.
+
+Professional assessment covers collection authenticity, evidence retention,
+measurement controls, diagnostic depth, experiment support, and transparent
+boundaries. Enterprise assessment covers multi-brand scale, permissions and audit,
+API/export and integration, security and data governance, SLA and operational
+support, and exit portability. A strength on one axis never fills an unknown on the
+other.
+
+Statuses are `selected_poc`, `watch`, and `research_reference`. `selected_poc`
+means that public evidence justifies a controlled trial, not that outcomes have
+been independently validated.
 
 ## Evidence capture
 

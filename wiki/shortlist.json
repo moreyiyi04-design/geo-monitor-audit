@@ -24,11 +24,11 @@
         "wiki/products/timus_geo.json#e1"
       ],
       "limitations": [
-        "逐引擎Web、桌面端、iOS和Android矩阵未公开",
-        "每问题重复次数、置信区间和模型版本控制未公开",
-        "原始数据导出、API和企业治理条款未公开"
+        "API等企业能力尚未公开"
       ],
-      "replacement_gap": "本轮国内候选中，公开强调中立账号并返还完整交互录屏的产品很少；这直接解决审计和争议复核问题。"
+      "replacement_gap": "本轮国内候选中，公开强调中立账号并返还完整交互录屏的产品很少；这直接解决审计和争议复核问题。",
+      "professional_assessment": "中立账号、国内主流平台和完整交互录屏构成突出的专业证据链，适合品牌审计和事实复核。",
+      "enterprise_assessment": "API等企业能力尚未公开。"
     },
     {
       "slug": "numseek",
@@ -53,7 +53,9 @@
         "原始回答返还粒度和重复采样方法未公开",
         "专业版价格在快照时仍待定"
       ],
-      "replacement_gap": "它用公开免费配额降低了建立持续基线的门槛，适合尚未证明GEO预算合理性的中小企业和代理商。"
+      "replacement_gap": "它用公开免费配额降低了建立持续基线的门槛，适合尚未证明GEO预算合理性的中小企业和代理商。",
+      "professional_assessment": "具备持续提问、提及、排序、情感和竞品监测的实用工作流，方法细节仍需PoC验证。",
+      "enterprise_assessment": "多账号和白标方向适合代理商运营，但集团治理与深度集成能力尚未充分公开。"
     },
     {
       "slug": "baiyuan_geo",
@@ -81,7 +83,9 @@
         "厂商同时提供监测与内容或RAG优化，需独立holdout",
         "采样次数、置信区间和公开价格仍不充分"
       ],
-      "replacement_gap": "它把证据快照、错误事实和集团治理组合在一个产品方向中，适合受监管和多品牌场景的PoC。"
+      "replacement_gap": "它把证据快照、错误事实和集团治理组合在一个产品方向中，适合受监管和多品牌场景的PoC。",
+      "professional_assessment": "原文、截图、时间戳、版本快照、SoV口径和错误事实检测形成较完整的专业测量链。",
+      "enterprise_assessment": "集团模式和API方向使其最接近专业度与企业级能力兼具的综合PoC候选。"
     },
     {
       "slug": "geoly_ai",
@@ -108,7 +112,9 @@
         "采样统计与公开价格不充分",
         "监测和商品优化在同一平台，需要外部业务指标复核"
       ],
-      "replacement_gap": "其他国内深档大多停留在品牌级SoV，GEOly补上了跨境电商的商品级和购买入口问题。"
+      "replacement_gap": "其他国内深档大多停留在品牌级SoV，GEOly补上了跨境电商的商品级和购买入口问题。",
+      "professional_assessment": "SKU、商品卡、价格与AI Shopping数据使其在电商专业场景中具有明确差异化。",
+      "enterprise_assessment": "API和MCP方向适合成熟数据团队集成，但采样方法和国内终端能力仍需验收。"
     },
     {
       "slug": "geolyze",
@@ -133,7 +139,9 @@
         "采集通道、重复次数、价格和企业治理未公开",
         "更接近透明诊断工具而非已验证的长期监测平台"
       ],
-      "replacement_gap": "它提供了反黑箱的方法基线，但在持续监测和企业运维证据补齐前不进入优先PoC。"
+      "replacement_gap": "它提供了反黑箱的方法基线，但在持续监测和企业运维证据补齐前不进入优先PoC。",
+      "professional_assessment": "固定问题和原始回答体现方法透明度，适合作为反黑箱诊断基线。",
+      "enterprise_assessment": "持续规模、权限、集成和企业运维能力尚未充分公开。"
     },
     {
       "slug": "aperture",
@@ -161,6 +169,8 @@
         "尚不足以作为生产级独立监测系统"
       ],
       "replacement_gap": "它是本轮少数具有自托管形态和明确许可证的监测项目，但未通过生产级开源测试门槛。",
+      "professional_assessment": "可用于API口径的独立抽检原型，但缺少测试、重复测量和误差治理证据。",
+      "enterprise_assessment": "自托管提供一定数据控制力，但不构成已验证的企业级可用性。",
       "open_source_gates": {
         "runnable_code": true,
         "license": true,
@@ -194,7 +204,9 @@
         "实验设定不能直接外推到当前国内消费端引擎",
         "不能替代真实终端采集、企业治理或持续运营"
       ],
-      "replacement_gap": "它是研究和实验设计参考，不与生产工具竞争；其价值在于防止把厂商营销建议当成因果结论。"
+      "replacement_gap": "它是研究和实验设计参考，不与生产工具竞争；其价值在于防止把厂商营销建议当成因果结论。",
+      "professional_assessment": "同行评审、公开基准和可复现实验使其成为专业研究参考。",
+      "enterprise_assessment": "不是企业监测产品，不评价其企业级部署能力。"
     }
   ]
 }

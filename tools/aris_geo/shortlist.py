@@ -20,7 +20,12 @@ REQUIRED_LIST_FIELDS = (
     "evidence_basis",
     "limitations",
 )
-REQUIRED_TEXT_FIELDS = ("solves", "replacement_gap")
+REQUIRED_TEXT_FIELDS = (
+    "solves",
+    "replacement_gap",
+    "professional_assessment",
+    "enterprise_assessment",
+)
 
 
 def validate_shortlist(
