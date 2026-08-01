@@ -144,6 +144,7 @@ class PublicationDeliveryTests(unittest.TestCase):
         self.assertTrue(final_report_path.is_file())
         self.assertFalse((REPO_ROOT / "docs" / "CHINA_MARKET.md").exists())
         final_report = final_report_path.read_text(encoding="utf-8")
+        self.assertIn("完整报告现已直接发布在 [README.md](../README.md)", final_report)
         for snippet in (
             "我觉得在精不在多",
             "研究长名单不等于推荐",
@@ -169,8 +170,8 @@ class PublicationDeliveryTests(unittest.TestCase):
             "小程序",
             "API",
         ):
-            self.assertIn(snippet, final_report)
-        self.assertNotIn("国内 27 个公开可识别对象", final_report)
+            self.assertIn(snippet, readme)
+        self.assertNotIn("国内 27 个公开可识别对象", readme)
         self.assertNotIn("### 附录：全球市场地图", readme)
 
     def _assert_matching_tree(self, expected_dir: Path, actual_dir: Path) -> None:
