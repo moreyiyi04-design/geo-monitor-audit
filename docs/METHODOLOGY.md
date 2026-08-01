@@ -6,13 +6,14 @@ ARIS-GEO evaluates public evidence about GEO/AIO/AEO software, open-source tools
 agent skills, and reference research. It does not perform GEO on a brand and does
 not test whether a vendor can change live answer-engine rankings.
 
-The 2026-07-31 publication separates breadth from depth. `wiki/market-map.json`
+The 2026-07-31 research layer separates breadth from depth. `wiki/market-map.json`
 is a 112-object dated discovery snapshot spanning dedicated GEO vendors, incumbent
 SEO-suite modules, domestic China products, self-hosted projects, agent-skill
 packs, and academic testbeds. Nineteen representative products, including eight
 domestic or Greater China products, also have evidence-gated deep profiles. The
-domestic-first decision analysis is published in `docs/FINAL_REPORT.md`; overseas
-products remain in the map as capability references. The synthetic Profound fixture under
+public recommendation layer is `wiki/shortlist.json`, and the decision analysis is
+published in `docs/FINAL_REPORT.md`. The full map is not rendered for ordinary
+readers. The synthetic Profound fixture under
 `tests/fixtures/` exists only for regression tests and is excluded from publication.
 
 ## Selection
@@ -33,6 +34,35 @@ case. Consultancies without a distinct product, generic crawling infrastructure,
 dead domains, and conventional SEO tools without a specific AI-search module are
 excluded. A `market-map-only` entry has not passed the field-level evidence gate
 and must not be interpreted as an endorsement or full evaluation.
+
+## Recommendation layer
+
+研究长名单不等于推荐. Discoverability, extensive marketing copy, feature count,
+GitHub stars, and deep-profile eligibility do not establish user value.
+
+The public shortlist is capped at eight unique products or projects. One qualified
+product may serve several scenarios; scenarios are not quotas for adding different
+products. A scenario with no qualifying candidate is reported as an explicit
+capability gap.
+
+Commercial products must have a distinct monitoring product, at least one real
+AI-search entry point, reviewable raw evidence, repeatable questions or runs, a
+specific user scenario, and public material sufficient to state limitations. A
+black-box total cannot be the only deliverable.
+
+Production open-source recommendations require runnable code, a clear license,
+project-owned collection or analysis logic, retained raw results and configuration,
+a reproducible setup, and tests of core logic or a reproducible benchmark. Stars
+do not substitute for these gates. The current snapshot has no open-source
+monitoring project with enough evidence to receive a production recommendation;
+Aperture remains a watch candidate, while the GEO paper and benchmark are research
+references rather than monitoring products.
+
+Every shortlisted record states the problem it solves, applicable scenarios, why
+it was selected, its evidence basis, material limitations, and the gap that prevents
+an existing selection from replacing it. Statuses are `selected_poc`, `watch`, and
+`research_reference`. `selected_poc` means that public evidence justifies a
+controlled trial, not that outcomes have been independently validated.
 
 ## Evidence capture
 
@@ -138,6 +168,8 @@ committed.
 6. 第一方页面大量缺少样本数、误差范围和噪声下限，因而不能支持效果比较。
 7. 未登录产品、销售合同、真实导出质量、企业安全控制和售后体验均未实测。
 8. 无综合总分排名。
+9. 精选层是基于公开证据的 PoC 优先级，尚不是付费实测后的采购终局。
+10. 当前没有开源监测项目通过生产推荐的全部硬门槛。
 
 ## Label sunset
 

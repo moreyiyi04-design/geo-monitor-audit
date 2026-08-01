@@ -6,6 +6,7 @@ from pathlib import Path
 
 from tools.aris_geo.compiler import compile_readme, replace_compiled_block
 from tools.aris_geo.publication import build_publication
+from tools.aris_geo.shortlist import validate_shortlist
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -18,6 +19,17 @@ class PublicationDeliveryTests(unittest.TestCase):
         self.addCleanup(lambda: shutil.rmtree(self.tempdir))
         self.repo_root = self.tempdir / "repo"
         (self.repo_root / ".git").mkdir(parents=True)
+
+    def test_committed_shortlist_is_valid_and_references_profiles(self):
+        payload = json.loads(
+            (REPO_ROOT / "wiki" / "shortlist.json").read_text(encoding="utf-8")
+        )
+        profile_slugs = {
+            path.stem
+            for path in (REPO_ROOT / "wiki" / "products").glob("*.json")
+        }
+
+        self.assertEqual([], validate_shortlist(payload, profile_slugs))
 
     def test_catalog_reproduces_committed_profiles_evidence_and_readme(self):
         catalog = json.loads((REPO_ROOT / "wiki" / "catalog.json").read_text(encoding="utf-8"))

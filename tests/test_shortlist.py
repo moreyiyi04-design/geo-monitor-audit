@@ -1,8 +1,12 @@
 from __future__ import annotations
 
 import copy
+import json
+import tempfile
 import unittest
+from pathlib import Path
 
+from tools.build_publication import validate_committed_shortlist
 from tools.aris_geo.shortlist import validate_shortlist
 
 
@@ -131,6 +135,25 @@ class ShortlistValidationTests(unittest.TestCase):
         payload["entries"] = [entry]
 
         self.assertEqual([], validate_shortlist(payload, {"aperture"}))
+
+
+class ShortlistBuildGateTests(unittest.TestCase):
+    def test_build_gate_rejects_shortlist_slug_without_profile(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo_root = Path(temp_dir)
+            products_dir = repo_root / "wiki" / "products"
+            products_dir.mkdir(parents=True)
+            (products_dir / "timus_geo.json").write_text("{}", encoding="utf-8")
+            shortlist_path = repo_root / "wiki" / "shortlist.json"
+            payload = valid_payload()
+            payload["entries"][0]["slug"] = "missing_product"
+            shortlist_path.write_text(
+                json.dumps(payload, ensure_ascii=False),
+                encoding="utf-8",
+            )
+
+            with self.assertRaisesRegex(ValueError, "unknown profile slug: missing_product"):
+                validate_committed_shortlist(repo_root, shortlist_path)
 
 
 if __name__ == "__main__":
