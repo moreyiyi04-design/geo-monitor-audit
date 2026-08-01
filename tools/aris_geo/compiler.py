@@ -18,34 +18,12 @@ def render_compiled_block(
     market_map: Iterable[dict[str, Any]] | None = None,
 ) -> str:
     profile_list = list(profiles)
-    lines = [
-        f"> 数据截至 {_data_cutoff(profile_list)}",
-        "> 「未披露」≠「没有」；产品级证据、分数和风险字段保留在 wiki/products/。",
-        "",
-    ]
-    if market_map:
-        lines.extend(
-            [
-                "### 附录：全球市场地图",
-                "| 产品 | 市场 | 类别 | 形态 | 开放性 | 覆盖级别 | 官网 |",
-                "| --- | --- | --- | --- | --- | --- | --- |",
-            ]
-        )
-        for entry in sorted(market_map, key=_market_map_sort_key):
-            lines.append(
-                "| {name} | {market} | {category} | {delivery_form} | {openness} | {coverage} | {homepage} |".format(
-                    name=_as_text(entry.get("name")),
-                    market=_as_text(entry.get("market")),
-                    category=_category_values(entry.get("category")),
-                    delivery_form=_as_text(entry.get("delivery_form")),
-                    openness=_as_text(entry.get("openness")),
-                    coverage=_as_text(entry.get("coverage")),
-                    homepage=_as_text(entry.get("homepage")),
-                )
-            )
-        lines.append("")
-
-    return "\n".join(lines)
+    return "\n".join(
+        [
+            f"> 数据截至 {_data_cutoff(profile_list)}",
+            "> 完整候选池保留在 wiki/market-map.json，仅供研究与审计，不构成公开推荐。",
+        ]
+    )
 
 
 def replace_compiled_block(readme: str, block: str) -> str:
@@ -142,10 +120,6 @@ def find_repo_root(start: Path | None = None) -> Path:
     raise FileNotFoundError(f"could not find repository root from {current}")
 
 
-def _market_map_sort_key(entry: dict[str, Any]) -> tuple[str, str]:
-    return (_as_text(entry.get("slug")), _as_text(entry.get("name")))
-
-
 def _as_text(value: Any) -> str:
     if value is None:
         return "—"
@@ -153,12 +127,6 @@ def _as_text(value: Any) -> str:
         return "true" if value else "false"
     text = str(value).strip()
     return text or "—"
-
-
-def _category_values(categories: Any) -> str:
-    if isinstance(categories, list) and categories:
-        return ", ".join(_as_text(item) for item in categories)
-    return "—"
 
 
 def _data_cutoff(profiles: list[dict[str, Any]]) -> str:

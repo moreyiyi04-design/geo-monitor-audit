@@ -99,7 +99,7 @@ class PublicationDeliveryTests(unittest.TestCase):
         methodology = (REPO_ROOT / "docs" / "METHODOLOGY.md").read_text(encoding="utf-8")
 
         for snippet in (
-            "112 个对象的市场地图",
+            "完整候选池",
             "19 个深度档案",
             "最终决策报告",
             "Python 3.11+",
@@ -133,6 +133,13 @@ class PublicationDeliveryTests(unittest.TestCase):
         self.assertFalse((REPO_ROOT / "docs" / "CHINA_MARKET.md").exists())
         final_report = final_report_path.read_text(encoding="utf-8")
         for snippet in (
+            "我觉得在精不在多",
+            "研究长名单不等于推荐",
+            "商业产品硬门槛",
+            "开源项目硬门槛",
+            "同一个优秀产品可以覆盖多个场景",
+            "当前没有足够证据的生产级开源推荐",
+            "优先 PoC",
             "## 一页结论",
             "## 什么是GEO监测",
             "## AI搜索的六阶段可观测链路",
@@ -151,6 +158,8 @@ class PublicationDeliveryTests(unittest.TestCase):
             "API",
         ):
             self.assertIn(snippet, final_report)
+        self.assertNotIn("国内 27 个公开可识别对象", final_report)
+        self.assertNotIn("### 附录：全球市场地图", readme)
 
     def _assert_matching_tree(self, expected_dir: Path, actual_dir: Path) -> None:
         expected_files = sorted(

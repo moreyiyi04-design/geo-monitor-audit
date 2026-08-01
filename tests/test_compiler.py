@@ -20,7 +20,8 @@ def envelope(value):
 
 
 class CompilerRenderingTests(unittest.TestCase):
-    def test_render_compiled_block_includes_market_map_when_present(self):
+    def test_render_compiled_block_keeps_discovery_pool_out_of_public_readme(self):
+        # Break caught: the internal discovery pool is mistaken for a recommendation list.
         # Break caught: README omits the broad market-map layer even when a map file exists.
         profiles = [
             {
@@ -69,16 +70,10 @@ class CompilerRenderingTests(unittest.TestCase):
 
         block = render_compiled_block(profiles, market_map)
 
-        self.assertIn("### 附录：全球市场地图", block)
-        self.assertIn("| 产品 | 市场 | 类别 | 形态 | 开放性 | 覆盖级别 | 官网 |", block)
-        self.assertIn(
-            "| 阿尔法 / Alpha | domestic | 监测/可见性追踪, 品牌监测 | SaaS 面板 | closed | deep-profile | https://alpha.example |",
-            block,
-        )
-        self.assertIn(
-            "| 贝塔 / Beta | overseas | agent-skill/prompt-pack | API | open-source | market-map-only | https://beta.example |",
-            block,
-        )
+        self.assertIn("完整候选池保留在 wiki/market-map.json", block)
+        self.assertNotIn("### 附录：全球市场地图", block)
+        self.assertNotIn("| 阿尔法 / Alpha |", block)
+        self.assertNotIn("| 贝塔 / Beta |", block)
 
     def test_render_compiled_block_omits_low_signal_profile_tables(self):
         # Break caught: raw scores and repeated risk labels overwhelm the decision report.
@@ -138,8 +133,7 @@ class CompilerRenderingTests(unittest.TestCase):
         self.assertEqual(
             """\
 > 数据截至 2026-07-30
-> 「未披露」≠「没有」；产品级证据、分数和风险字段保留在 wiki/products/。
-""",
+> 完整候选池保留在 wiki/market-map.json，仅供研究与审计，不构成公开推荐。""",
             block,
         )
         for removed_heading in (
@@ -379,7 +373,7 @@ stale bytes
         _, compiled = compile_readme(self.repo_root)
 
         self.assertNotIn("### 附录：全球市场地图", compiled)
-        self.assertIn("产品级证据、分数和风险字段保留在 wiki/products/", compiled)
+        self.assertIn("完整候选池保留在 wiki/market-map.json", compiled)
 
     def test_compile_readme_rejects_duplicate_market_map_slug(self):
         # Break caught: the market-map layer silently accepts ambiguous duplicate slugs.
