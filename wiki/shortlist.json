@@ -1,0 +1,200 @@
+{
+  "schema_version": "v1",
+  "principle": "我觉得在精不在多，列出来了100个甚至一千个烂产品不如精选出来真正的有效的能帮助各类用户在各种场景下解决问题的产品。",
+  "max_unique": 8,
+  "entries": [
+    {
+      "slug": "timus_geo",
+      "name": "透镜GEO",
+      "kind": "commercial",
+      "status": "selected_poc",
+      "scenarios": [
+        "domestic_audit",
+        "b2b_fact_verification",
+        "regulated_evidence"
+      ],
+      "solves": "用国内主流AI平台的真实交互过程和录屏证据复核品牌排名、口碑与错误事实。",
+      "why_selected": [
+        "公开声称使用中立账号模拟陌生访客",
+        "保存从提问到回答的完整屏幕录制",
+        "覆盖DeepSeek、豆包、文心一言、通义千问和元宝",
+        "按日跟踪品牌排名、口碑和错误事实"
+      ],
+      "evidence_basis": [
+        "wiki/products/timus_geo.json#e1"
+      ],
+      "limitations": [
+        "逐引擎Web、桌面端、iOS和Android矩阵未公开",
+        "每问题重复次数、置信区间和模型版本控制未公开",
+        "原始数据导出、API和企业治理条款未公开"
+      ],
+      "replacement_gap": "本轮国内候选中，公开强调中立账号并返还完整交互录屏的产品很少；这直接解决审计和争议复核问题。"
+    },
+    {
+      "slug": "numseek",
+      "name": "南云GEO",
+      "kind": "commercial",
+      "status": "selected_poc",
+      "scenarios": [
+        "smb_baseline",
+        "agency_reporting"
+      ],
+      "solves": "以低成本持续监测豆包、千问、Kimi和DeepSeek中的品牌提及、排序、情感和竞品变化。",
+      "why_selected": [
+        "明确披露定时向四个国内引擎提问",
+        "公开免费档包含1个项目、每日50次查询和2个引擎",
+        "提供告警、PDF报告以及企业多账号和白标方向"
+      ],
+      "evidence_basis": [
+        "wiki/products/numseek.json#e1"
+      ],
+      "limitations": [
+        "Web、App或API采集通道未公开",
+        "原始回答返还粒度和重复采样方法未公开",
+        "专业版价格在快照时仍待定"
+      ],
+      "replacement_gap": "它用公开免费配额降低了建立持续基线的门槛，适合尚未证明GEO预算合理性的中小企业和代理商。"
+    },
+    {
+      "slug": "baiyuan_geo",
+      "name": "百原GEO",
+      "kind": "commercial",
+      "status": "selected_poc",
+      "scenarios": [
+        "regulated_evidence",
+        "multi_brand_governance",
+        "cross_border_monitoring"
+      ],
+      "solves": "为多平台、多品牌和高事实风险场景保留原文、截图、时间戳与平台版本证据，并检测错误事实。",
+      "why_selected": [
+        "公开覆盖中国与全球共14个平台",
+        "保存原文、截图、时间戳和平台版本快照",
+        "公开五种SoV口径及其计算思路",
+        "提供幻觉检测、集团模式和API方向"
+      ],
+      "evidence_basis": [
+        "wiki/products/baiyuan_geo.json#e1",
+        "wiki/products/baiyuan_geo.json#e2"
+      ],
+      "limitations": [
+        "截图不等于已证明真机App采集",
+        "厂商同时提供监测与内容或RAG优化，需独立holdout",
+        "采样次数、置信区间和公开价格仍不充分"
+      ],
+      "replacement_gap": "它把证据快照、错误事实和集团治理组合在一个产品方向中，适合受监管和多品牌场景的PoC。"
+    },
+    {
+      "slug": "geoly_ai",
+      "name": "GEOly",
+      "kind": "commercial",
+      "status": "selected_poc",
+      "scenarios": [
+        "cross_border_dtc",
+        "ai_shopping"
+      ],
+      "solves": "将GEO从品牌提及下沉到SKU、商品卡、价格、Catalog和AI Shopping可购买性。",
+      "why_selected": [
+        "公开定位全球AI搜索与AI Shopping日级数据",
+        "覆盖SKU、商品卡、价格和广告等电商决策单元",
+        "提供API和MCP方向，便于成熟数据团队集成",
+        "公开3天试用入口"
+      ],
+      "evidence_basis": [
+        "wiki/products/geoly_ai.json#e1",
+        "wiki/products/geoly_ai.json#e2"
+      ],
+      "limitations": [
+        "国内消费端引擎和逐终端覆盖未充分披露",
+        "采样统计与公开价格不充分",
+        "监测和商品优化在同一平台，需要外部业务指标复核"
+      ],
+      "replacement_gap": "其他国内深档大多停留在品牌级SoV，GEOly补上了跨境电商的商品级和购买入口问题。"
+    },
+    {
+      "slug": "geolyze",
+      "name": "GEO可见度诊断",
+      "kind": "commercial",
+      "status": "watch",
+      "scenarios": [
+        "transparent_diagnosis",
+        "consulting_baseline"
+      ],
+      "solves": "用固定问题、平台和原始回答替代不可解释的单一黑箱总分。",
+      "why_selected": [
+        "公开强调保留问题、平台和原始回答",
+        "明确拒绝用一个不可复核的总分代替诊断",
+        "适合作为咨询售前或方法透明性的对照基线"
+      ],
+      "evidence_basis": [
+        "wiki/products/geolyze.json#e1"
+      ],
+      "limitations": [
+        "尚无公开证据证明大规模持续运行能力",
+        "采集通道、重复次数、价格和企业治理未公开",
+        "更接近透明诊断工具而非已验证的长期监测平台"
+      ],
+      "replacement_gap": "它提供了反黑箱的方法基线，但在持续监测和企业运维证据补齐前不进入优先PoC。"
+    },
+    {
+      "slug": "aperture",
+      "name": "Aperture",
+      "kind": "open-source",
+      "status": "watch",
+      "scenarios": [
+        "self_hosted_baseline",
+        "independent_spot_check"
+      ],
+      "solves": "用自托管方式调用用户自己的模型API，保存可见度监测结果并降低对商业平台总分的依赖。",
+      "why_selected": [
+        "提供可运行的自托管Web应用",
+        "采用MIT许可证",
+        "数据来源明确为用户提供的模型API",
+        "适合做API口径的独立基线和抽检原型"
+      ],
+      "evidence_basis": [
+        "wiki/products/aperture.json#e1"
+      ],
+      "limitations": [
+        "API结果不能代表真实消费端Web或App界面",
+        "本轮证据未确认覆盖项目自身逻辑的测试",
+        "重复采样、置信区间、噪声和版本控制未公开",
+        "尚不足以作为生产级独立监测系统"
+      ],
+      "replacement_gap": "它是本轮少数具有自托管形态和明确许可证的监测项目，但未通过生产级开源测试门槛。",
+      "open_source_gates": {
+        "runnable_code": true,
+        "license": true,
+        "raw_results": true,
+        "reproducible_setup": true,
+        "tests_or_benchmark": false
+      }
+    },
+    {
+      "slug": "geo_generative_engine_optimization",
+      "name": "生成式引擎优化（GEO）论文与GEO-Bench",
+      "kind": "research",
+      "status": "research_reference",
+      "scenarios": [
+        "content_experiment_design",
+        "research_benchmark"
+      ],
+      "solves": "为内容策略实验提供同行评审的研究框架、公开基准和可复现实验，而不是承担生产监测。",
+      "why_selected": [
+        "论文经过同行评审",
+        "公开GEO-Bench和可复现实验",
+        "提供内容优化策略的研究基线",
+        "Apache-2.0许可证支持方法复用"
+      ],
+      "evidence_basis": [
+        "wiki/products/geo_generative_engine_optimization.json#e1",
+        "wiki/products/geo_generative_engine_optimization.json#e2"
+      ],
+      "limitations": [
+        "不是商业监测平台",
+        "实验设定不能直接外推到当前国内消费端引擎",
+        "不能替代真实终端采集、企业治理或持续运营"
+      ],
+      "replacement_gap": "它是研究和实验设计参考，不与生产工具竞争；其价值在于防止把厂商营销建议当成因果结论。"
+    }
+  ]
+}

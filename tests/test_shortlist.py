@@ -1,0 +1,137 @@
+from __future__ import annotations
+
+import copy
+import unittest
+
+from tools.aris_geo.shortlist import validate_shortlist
+
+
+def valid_entry(
+    slug: str = "timus_geo",
+    *,
+    kind: str = "commercial",
+    status: str = "selected_poc",
+) -> dict:
+    return {
+        "slug": slug,
+        "name": "透镜GEO",
+        "kind": kind,
+        "status": status,
+        "scenarios": ["domestic_audit", "regulated"],
+        "solves": "保存真实交互证据",
+        "why_selected": ["中立账号", "完整录屏"],
+        "evidence_basis": [f"wiki/products/{slug}.json#e1"],
+        "limitations": ["逐端矩阵未公开"],
+        "replacement_gap": "现有候选中少有完整录屏",
+    }
+
+
+def valid_payload() -> dict:
+    return {
+        "schema_version": "v1",
+        "max_unique": 8,
+        "entries": [valid_entry()],
+    }
+
+
+class ShortlistValidationTests(unittest.TestCase):
+    def test_accepts_complete_commercial_entry(self):
+        self.assertEqual([], validate_shortlist(valid_payload(), {"timus_geo"}))
+
+    def test_rejects_duplicate_and_unknown_profile_slugs(self):
+        payload = valid_payload()
+        payload["entries"].append(copy.deepcopy(payload["entries"][0]))
+
+        errors = validate_shortlist(payload, {"another_profile"})
+
+        self.assertIn("duplicate slug: timus_geo", errors)
+        self.assertIn("unknown profile slug: timus_geo", errors)
+
+    def test_rejects_more_than_eight_unique_entries(self):
+        payload = valid_payload()
+        payload["max_unique"] = 9
+        payload["entries"] = [
+            valid_entry(f"product_{index}")
+            for index in range(9)
+        ]
+
+        errors = validate_shortlist(
+            payload,
+            {f"product_{index}" for index in range(9)},
+        )
+
+        self.assertIn("max_unique must be between 1 and 8", errors)
+        self.assertIn("shortlist has 9 unique entries; maximum is 8", errors)
+
+    def test_rejects_invalid_kind_status_and_research_recommendation(self):
+        payload = valid_payload()
+        payload["entries"] = [
+            valid_entry("bad_kind", kind="service", status="selected_poc"),
+            valid_entry("bad_status", status="winner"),
+            valid_entry("paper", kind="research", status="selected_poc"),
+        ]
+
+        errors = validate_shortlist(payload, {"bad_kind", "bad_status", "paper"})
+
+        self.assertIn("bad_kind: invalid kind: service", errors)
+        self.assertIn("bad_status: invalid status: winner", errors)
+        self.assertIn("paper: research entries cannot be selected_poc", errors)
+
+    def test_rejects_missing_decision_fields(self):
+        payload = valid_payload()
+        entry = payload["entries"][0]
+        entry["scenarios"] = []
+        entry["solves"] = ""
+        entry["why_selected"] = []
+        entry["evidence_basis"] = []
+        entry["limitations"] = []
+        entry["replacement_gap"] = ""
+
+        errors = validate_shortlist(payload, {"timus_geo"})
+
+        for field in (
+            "scenarios",
+            "solves",
+            "why_selected",
+            "evidence_basis",
+            "limitations",
+            "replacement_gap",
+        ):
+            self.assertIn(f"timus_geo: {field} must be non-empty", errors)
+
+    def test_rejects_selected_open_source_without_all_production_gates(self):
+        payload = valid_payload()
+        entry = valid_entry("aperture", kind="open-source", status="selected_poc")
+        entry["open_source_gates"] = {
+            "runnable_code": True,
+            "license": True,
+            "raw_results": True,
+            "reproducible_setup": True,
+            "tests_or_benchmark": False,
+        }
+        payload["entries"] = [entry]
+
+        errors = validate_shortlist(payload, {"aperture"})
+
+        self.assertIn(
+            "aperture: selected open-source entry failed gate: tests_or_benchmark",
+            errors,
+        )
+
+    def test_accepts_open_source_watch_entry_with_explicit_failed_gates(self):
+        payload = valid_payload()
+        entry = valid_entry("aperture", kind="open-source", status="watch")
+        entry["open_source_gates"] = {
+            "runnable_code": True,
+            "license": True,
+            "raw_results": True,
+            "reproducible_setup": True,
+            "tests_or_benchmark": False,
+        }
+        payload["entries"] = [entry]
+
+        self.assertEqual([], validate_shortlist(payload, {"aperture"}))
+
+
+if __name__ == "__main__":
+    unittest.main()
