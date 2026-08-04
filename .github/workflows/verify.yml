@@ -22,3 +22,5 @@ jobs:
         run: python3 tools/score.py --check
       - name: Verify compiled README
         run: python3 tools/compile_readme.py --check
+      - name: Verify disclosure matrix
+        run: python3 tools/disclosure_matrix.py --check
