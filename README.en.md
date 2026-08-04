@@ -12,6 +12,13 @@ optimization loop / implementability) plus two hard gates, **112 candidates** we
 2 worth watching, 1 research reference. Engines covered: DeepSeek, Doubao, Wenxin Yiyan,
 Tongyi Qianwen, Tencent Yuanbao.
 
+**Topic pages:**
+[Platform comparison](docs/PLATFORM_COMPARISON.md) ·
+[How to check rankings](docs/RANK_TRACKING.md) ·
+[Effect metrics](docs/EFFECT_METRICS.md) ·
+[Pricing & free tiers](docs/GEO_MONITORING_PRICING.md) ·
+[Disclosure matrix](docs/DISCLOSURE_MATRIX.md)
+
 > **Evidence boundary:** public material can only support "run a PoC first". It cannot replace
 > paid trials, on-device acceptance testing, or independent effect validation.
 > "Not disclosed" does not mean "does not exist".

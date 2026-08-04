@@ -22,6 +22,7 @@
 [平台对比](docs/PLATFORM_COMPARISON.md) ·
 [排名怎么查](docs/RANK_TRACKING.md) ·
 [效果评估指标](docs/EFFECT_METRICS.md) ·
+[价格与免费额度](docs/GEO_MONITORING_PRICING.md) ·
 [披露率矩阵](docs/DISCLOSURE_MATRIX.md)
 
 > **证据边界：** 公开资料只能支持"优先进行 PoC"，不能替代付费试用、真机验收和独立
