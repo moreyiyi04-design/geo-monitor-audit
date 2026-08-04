@@ -324,8 +324,15 @@ def _vendor_domains(profile: dict[str, Any]) -> set[str]:
 
 
 def _load_noise_floors() -> dict[str, Any]:
-    path = Path(__file__).resolve().parents[1] / "noise_floor.json"
-    return json.loads(path.read_text(encoding="utf-8"))
+    # 源码检出时该文件在 tools/ 下（包目录的上一级）；打成 wheel 后随包分发到包目录内。
+    # 两处都找，否则 `pip install` 后 calculate_scores 会因找不到文件而崩。
+    here = Path(__file__).resolve().parent
+    for path in (here / "noise_floor.json", here.parent / "noise_floor.json"):
+        if path.is_file():
+            return json.loads(path.read_text(encoding="utf-8"))
+    raise FileNotFoundError(
+        f"noise_floor.json not found next to {here} or {here.parent}"
+    )
 
 
 def _value(node: Any) -> Any:

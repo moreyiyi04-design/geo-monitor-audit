@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling>=1.21"]
+build-backend = "hatchling.build"
+
+[project]
+name = "geo-monitor-audit"
+version = "1.0.0"
+description = "选 GEO 监测平台前先验证它给的数据是不是真的：19 家厂商逐字段披露率审计，9 个关键字段全行业 0/19 公开。GEO monitoring platform selection audit for DeepSeek / Doubao / Wenxin / Qwen / Yuanbao."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "moreyiyi04-design" }]
+keywords = [
+    "geo",
+    "generative-engine-optimization",
+    "answer-engine-optimization",
+    "aeo",
+    "llm-seo",
+    "ai-search",
+    "ai-visibility",
+    "brand-monitoring",
+    "brand-visibility",
+    "rank-tracking",
+    "vendor-evaluation",
+    "deepseek",
+    "doubao",
+    "audit",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: Chinese (Simplified)",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://moreyiyi04-design.github.io/geo-monitor-audit/"
+Repository = "https://github.com/moreyiyi04-design/geo-monitor-audit"
+Documentation = "https://github.com/moreyiyi04-design/geo-monitor-audit/blob/main/docs/DISCLOSURE_MATRIX.md"
+Issues = "https://github.com/moreyiyi04-design/geo-monitor-audit/issues"
+
+[project.scripts]
+geo-monitor-audit = "aris_geo.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["tools/aris_geo"]
+
+# 19 份证据化档案与证据快照随包分发，使 `pip install` 之后无需克隆仓库即可运行
+# `geo-monitor-audit disclosure` 并复现同一张矩阵。
+[tool.hatch.build.targets.wheel.force-include]
+"wiki" = "aris_geo/_bundled/wiki"
+"tools/noise_floor.json" = "aris_geo/noise_floor.json"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "tools/",
+    "wiki/",
+    "docs/",
+    "tests/",
+    "README.md",
+    "README.en.md",
+    "LICENSE",
+]
