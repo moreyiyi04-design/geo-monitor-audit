@@ -15,3 +15,6 @@ wiki/review/*/inbox-*/
 dist/
 build/
 *.egg-info/
+js/_bundled/
+js/node_modules/
+js/*.tgz

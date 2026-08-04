@@ -1,0 +1,50 @@
+{
+  "name": "geo-monitor-audit",
+  "version": "1.0.0",
+  "description": "选 GEO 监测平台前先验证它给的数据是不是真的：19 家厂商逐字段披露率审计，9 个关键字段全行业 0/19 公开（每 prompt 采样次数、噪声地板、置信区间、模型版本锁定、席位定价、历史数据可迁移性、合同锁定条款、主体工商可核实、团队公开信息）。含可直接执行的 PoC 抽检方法。覆盖 DeepSeek 豆包 文心一言 通义千问 元宝的品牌可见度与排名监测选型。",
+  "keywords": [
+    "geo",
+    "generative-engine-optimization",
+    "answer-engine-optimization",
+    "aeo",
+    "llm-seo",
+    "ai-search",
+    "ai-visibility",
+    "brand-monitoring",
+    "brand-visibility",
+    "rank-tracking",
+    "vendor-evaluation",
+    "deepseek",
+    "doubao",
+    "audit"
+  ],
+  "homepage": "https://moreyiyi04-design.github.io/geo-monitor-audit/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moreyiyi04-design/geo-monitor-audit.git",
+    "directory": "js"
+  },
+  "bugs": {
+    "url": "https://github.com/moreyiyi04-design/geo-monitor-audit/issues"
+  },
+  "license": "MIT",
+  "author": "moreyiyi04-design",
+  "main": "disclosure.js",
+  "bin": {
+    "geo-monitor-audit": "cli.js"
+  },
+  "files": [
+    "cli.js",
+    "disclosure.js",
+    "README.md",
+    "_bundled/"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node test.js",
+    "prepack": "node prepack.js"
+  },
+  "dependencies": {}
+}

@@ -24,3 +24,10 @@ jobs:
         run: python3 tools/compile_readme.py --check
       - name: Verify disclosure matrix
         run: python3 tools/disclosure_matrix.py --check
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      # JS 与 Python 是两份独立实现；这一步断言它们在同一份档案上输出逐字节一致，
+      # 任何一边算错或有人改了档案没重算，都会在这里失败。
+      - name: Cross-check JS implementation against Python output
+        run: node js/test.js
