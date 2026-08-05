@@ -246,7 +246,10 @@ class CompileReadmeCliTests(unittest.TestCase):
         (self.repo_root / ".git").mkdir(parents=True)
         (self.repo_root / "wiki" / "products").mkdir(parents=True)
         self.readme_path = self.repo_root / "README.md"
-        self.script_path = Path("/private/tmp/aris-geo-build/tools/compile_readme.py")
+        # 指向本仓库自己的脚本。此前这里硬编码了 /private/tmp/aris-geo-build/... —— 某次
+        # 本地构建目录的残留路径。该目录在 CI 上从不存在，于是这两个用例一直拿到
+        # "can't open file" 而不是被测的错误信息，断言失败却被当成待修的行为问题。
+        self.script_path = Path(__file__).resolve().parent.parent / "tools" / "compile_readme.py"
         self._write_profile(
             "beta",
             {
