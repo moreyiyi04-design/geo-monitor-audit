@@ -1,0 +1,20 @@
+---
+layout: null
+sitemap: false
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  站点地图索引，指向 jekyll-sitemap 生成的 sitemap.xml。
+
+  加它的原因是操作性的：Search Console 若在 sitemap 还不存在时抓过一次，会把该条
+  记为「无法抓取」且不会自动重试，而列表页上没有删除入口（要点进详情面板右上角
+  的 ⋮）。提交一个新文件名可以绕开那条卡住的记录。
+
+  用索引而不是复制一份 URL 列表，是为了不产生第二份需要同步的清单——
+  这里只引用，页面清单仍由 jekyll-sitemap 从实际文件生成。
+-->
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+    <loc>{{ site.url }}{{ site.baseurl }}/sitemap.xml</loc>
+  </sitemap>
+</sitemapindex>
