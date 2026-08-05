@@ -33,6 +33,7 @@ exclude:
   - superpowers
   - DESIGN.md
   - METHODOLOGY.md
+  - SEO_INDEXING.md
 
 defaults:
   - scope:
