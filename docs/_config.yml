@@ -15,13 +15,18 @@ lang: zh-CN
 
 theme: jekyll-theme-primer
 
-# Google Search Console 所有权验证。jekyll-seo-tag 会据此在每页 <head> 渲染
-# <meta name="google-site-verification">。用配置项而不是改模板，是因为 seo-tag
-# 已随主题启用，改模板反而多一处需要跟着主题升级维护的地方。
+# 各搜索引擎的所有权验证。jekyll-seo-tag 会据此在每页 <head> 渲染对应的 meta 标签。
+# 用配置项而不是改模板，是因为 seo-tag 已随主题启用，改模板反而多一处需要跟着
+# 主题升级维护的地方。
 #
 # github.com 不属于我们，无法验证；github.io 这个 Pages 站是唯一能提交 sitemap
 # 和请求编入索引的表面。
-google_site_verification: EEzi7zp_D5ihJo_gkhxZTEdUTl9YF-FrS1AYukQTq2o
+#
+# Bing 另有一条 XML 文件验证（docs/BingSiteAuth.xml），与这里的 meta 用同一个校验码，
+# 两条都放着——哪条先被识别都行，Bing 的两种方式对子路径站点的支持情况不完全一致。
+webmaster_verifications:
+  google: EEzi7zp_D5ihJo_gkhxZTEdUTl9YF-FrS1AYukQTq2o
+  bing: 5B46832C5F65E9A923C57F40338B30FA
 
 # jekyll-sitemap 在 GitHub Pages 的插件白名单里，无需自建构建流程即可生成 sitemap.xml
 plugins:
