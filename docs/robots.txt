@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://moreyiyi04-design.github.io/geo-monitor-audit/sitemap.xml

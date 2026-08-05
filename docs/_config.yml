@@ -1,0 +1,33 @@
+# GitHub Pages（Jekyll）配置。Pages 源为 main 分支 /docs。
+#
+# 加这个文件的原因：站点此前没有 sitemap.xml 也没有 robots.txt（两者都 404），
+# 而 github.com 本身不提供 sitemap，爬虫发现新仓库只能靠外链。Pages 站是我们
+# 唯一能自己挂 sitemap 的表面，也是唯一能在 Search Console / Bing 站长工具里
+# 验证所有权的域名（github.com 不是我们的域名，验证不了）。
+
+title: 国内 GEO 监测工具清单与免费档对比
+description: >-
+  逐家核对免费额度、覆盖引擎与采购风险。19 家厂商的逐字段披露率统计，
+  9 个关键字段全行业 0/19 公开。覆盖 DeepSeek、豆包、文心一言、通义千问、腾讯元宝。
+url: https://moreyiyi04-design.github.io
+baseurl: /geo-monitor-audit
+lang: zh-CN
+
+theme: jekyll-theme-primer
+
+# jekyll-sitemap 在 GitHub Pages 的插件白名单里，无需自建构建流程即可生成 sitemap.xml
+plugins:
+  - jekyll-sitemap
+
+# 这些是仓库文档，不是站点页面；放进站点只会稀释主题相关性
+exclude:
+  - research
+  - superpowers
+  - DESIGN.md
+  - METHODOLOGY.md
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
