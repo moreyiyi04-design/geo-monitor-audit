@@ -1,6 +1,9 @@
-# GEO Monitoring Platform Selection & Data Verification Standard — China Market Procurement Report
+# GEO (Generative Engine Optimization) Monitoring Platform Selection & Data Verification Standard — China Market Procurement Report
 
 [中文](README.md) ｜ Version 2026-07-31
+
+> Here **GEO** means *Generative Engine Optimization*（生成式引擎优化）— brand visibility
+> in AI-generated answers. Not Geographic Information System.
 
 This is a **selection and data-verification** report for GEO monitoring platforms in the China
 market. It gives a reproducible verification method: a fixed question set, **3–5 repeated
