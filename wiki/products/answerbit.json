@@ -1,0 +1,342 @@
+{
+  "schema_version": "v1",
+  "slug": "answerbit",
+  "name_cn": {
+    "v": "Answerbit",
+    "src": [
+      "e2"
+    ],
+    "conf": "stated"
+  },
+  "name_en": {
+    "v": "Answerbit",
+    "src": [
+      "e1"
+    ],
+    "conf": "stated"
+  },
+  "homepage": {
+    "v": "https://answerbit.qq.com/",
+    "src": [
+      "e1"
+    ],
+    "conf": "stated"
+  },
+  "vendor_domains": [
+    "answerbit.qq.com"
+  ],
+  "market": "domestic",
+  "category": [
+    "一体化平台",
+    "监测/可见性追踪",
+    "内容管理"
+  ],
+  "delivery_form": {
+    "v": "SaaS",
+    "src": [
+      "e1"
+    ],
+    "conf": "stated"
+  },
+  "openness": "closed",
+  "measurement": {
+    "capture_channel": {
+      "v": "未公开；官网仅称 daily monitoring across five leading AI platforms，未说明走产品前端还是 API",
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    },
+    "samples_per_prompt": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "reports_confidence_interval": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "declares_noise_floor": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "model_version_pinning": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "sov_formula_public": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "sampling_frequency": {
+      "v": "daily",
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    }
+  },
+  "mechanism": {
+    "data_source": {
+      "v": "五个主流 AI 平台，官网未逐一列名",
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    }
+  },
+  "pricing": {
+    "has_public_pricing": {
+      "v": false,
+      "src": [
+        "e1",
+        "e2"
+      ],
+      "conf": "stated"
+    },
+    "entry_engines": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "entry_seats": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "entry_prompts": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "min_commit": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "annual_only": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "trial": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "refund_terms": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "unit_inflation_risk": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    }
+  },
+  "entity": {
+    "registry_verifiable": {
+      "v": "腾讯体系产品，官网标注 Tencent TDS Alliance；运营主体未在官网披露",
+      "src": [
+        "e1"
+      ],
+      "conf": "stated"
+    },
+    "team_public": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    }
+  },
+  "exit": {
+    "data_export": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "history_portable": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "content_hosted_by_vendor": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "contract_lock": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    }
+  },
+  "academic_anchor": {
+    "peer_reviewed": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "reproducible_experiments": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    },
+    "benchmark": {
+      "v": null,
+      "src": [],
+      "conf": "unknown"
+    }
+  },
+  "evidence": [
+    {
+      "id": "e1",
+      "url": "https://answerbit.qq.com/en-US",
+      "kind": "vendor_marketing",
+      "fetched_at": "2026-09-06",
+      "sha256": "863de5a8a75764760961a73def2d82e6331af4662259af909c5aafcf2bca113a",
+      "excerpt_path": "wiki/raw/answerbit/e1.txt",
+      "paid_placement_suspected": false
+    },
+    {
+      "id": "e2",
+      "url": "https://answerbit.qq.com/",
+      "kind": "vendor_marketing",
+      "fetched_at": "2026-09-06",
+      "sha256": "072bf54a717fd1923963b2767d34937a5e9a9d825c776a940b735e3f61a1a146",
+      "excerpt_path": "wiki/raw/answerbit/e2.txt",
+      "paid_placement_suspected": false
+    }
+  ],
+  "effect_claims": [],
+  "case_studies": [],
+  "oss_health": {
+    "is_oss": false
+  },
+  "unknowns": [
+    "measurement.samples_per_prompt",
+    "measurement.reports_confidence_interval",
+    "measurement.declares_noise_floor",
+    "measurement.model_version_pinning",
+    "measurement.sov_formula_public",
+    "pricing.entry_engines",
+    "pricing.entry_seats",
+    "pricing.entry_prompts",
+    "pricing.min_commit",
+    "pricing.annual_only",
+    "pricing.trial",
+    "pricing.refund_terms",
+    "pricing.unit_inflation_risk",
+    "entity.team_public",
+    "exit.data_export",
+    "exit.history_portable",
+    "exit.content_hosted_by_vendor",
+    "exit.contract_lock",
+    "academic_anchor.peer_reviewed",
+    "academic_anchor.reproducible_experiments",
+    "academic_anchor.benchmark"
+  ],
+  "unresolved": [],
+  "observations": [
+    {
+      "note": "公开站未列出任何价格、档位或配额。全站可见正文 7,125 字中，price/pricing/¥/$/plan 出现次数均为 0（快照 e1，sha256 见 evidence）。买方在接触销售之前无法估算成本。",
+      "src": [
+        "e1"
+      ],
+      "date": "2026-09-06"
+    },
+    {
+      "note": "官网标注归属 Tencent TDS Alliance，全站提及 Tencent 25 次。大厂背景是本条目与其余 19 家的主要差异。",
+      "src": [
+        "e1"
+      ],
+      "date": "2026-09-06"
+    },
+    {
+      "note": "9 个决定「数据能不能信」的关键字段（每 prompt 采样次数、噪声地板、置信区间、模型版本锁定、席位定价、历史可迁移、合同锁定、主体工商可核实、团队公开信息）——公开材料中 0 项可核。与既有 19 家的 0/19 结论一致，未因大厂背景而更透明。",
+      "src": [
+        "e1",
+        "e2"
+      ],
+      "date": "2026-09-06"
+    }
+  ],
+  "risk_flags": [
+    {
+      "flag": "未披露每 prompt 采样次数",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "不报告置信区间或误差范围",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "未声明测量噪声下限",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "可见性份额口径未公开",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "模型版本未钉定,时间序列可能断裂",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "无公开定价 / 仅年付 / 无试用 / 退款条款未公开",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": [
+        "e1",
+        "e2"
+      ]
+    },
+    {
+      "flag": "入门档引擎数未披露",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "入门档席位数未披露",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    },
+    {
+      "flag": "团队信息未公开 / 客户案例未能交叉验证",
+      "tier": "yellow",
+      "origin": "auto",
+      "src": []
+    }
+  ],
+  "scores": {
+    "transparency": 1,
+    "verifiability": 0,
+    "lock_in_risk": 0,
+    "measurement_rigor": 0,
+    "oss_health": 0
+  },
+  "audit": {
+    "rounds": 0,
+    "personas": [
+      "human-curated-public-source-catalog"
+    ],
+    "usage_tokens": {},
+    "generated_at": "2026-09-06"
+  }
+}
